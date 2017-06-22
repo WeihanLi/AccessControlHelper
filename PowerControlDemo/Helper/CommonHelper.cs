@@ -46,7 +46,7 @@ namespace PowerControlDemo.Helper
                 {
                     var accessList = new List<long>();
                     // 此处权限列表应从缓存中获取，从缓存中获取不到再查询数据库
-                    var roleInfo = BusinessHelper.ShopUserRoleMappingHelper.Fetch(s => !s.IsDeleted && ((s.UserId == user.PKID && s.MappingRule == 0) || (user.Email.StartsWith(s.UserName) && s.MappingRule == 1)));
+                    var roleInfo = BusinessHelper.ShopUserRoleMappingHelper.Fetch(s => !s.IsDeleted && ((s.UserId == user.UserGuid && s.MappingRule == 0) || (user.Email.StartsWith(s.UserName) && s.MappingRule == 1)));
                     if (roleInfo != null)
                     {
                         var roleAccess = BusinessHelper.ShopUserRoleAccessHelper.GetAll(r => r.RoleId == roleInfo.PKID && !r.IsDeleted).Select(s => s.AccessId);
@@ -56,7 +56,7 @@ namespace PowerControlDemo.Helper
                         }
                     }
                     //
-                    var userAccess = BusinessHelper.ShopUserAccessHelper.GetAll(s => s.UserId == user.PKID && !s.IsDeleted).Select(s => s.AccessId);
+                    var userAccess = BusinessHelper.ShopUserAccessHelper.GetAll(s => s.UserId == user.UserGuid && !s.IsDeleted).Select(s => s.AccessId);
                     if (userAccess != null)
                     {
                         //
@@ -89,7 +89,7 @@ namespace PowerControlDemo.Helper
             var user = BusinessHelper.ShopUserHelper.Fetch(u => !u.IsDeleted && (u.Email == userName || u.UserName == userName || u.Mobile == userName));
             if(user!=null)
             {
-                var mapping = BusinessHelper.ShopUserRoleMappingHelper.Fetch(s => !s.IsDeleted && ((s.UserId == user.PKID && s.MappingRule == 0) || (user.Email.StartsWith(s.UserName) && s.MappingRule == 1)));
+                var mapping = BusinessHelper.ShopUserRoleMappingHelper.Fetch(s => !s.IsDeleted && ((s.UserId == user.UserGuid && s.MappingRule == 0) || (user.Email.StartsWith(s.UserName) && s.MappingRule == 1)));
                 if (mapping != null)
                 {
                     return BusinessHelper.ShopUserRoleHelper.Fetch(r => r.PKID == mapping.RoleId && !r.IsDeleted);

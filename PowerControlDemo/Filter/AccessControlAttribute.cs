@@ -1,10 +1,15 @@
 ﻿using PowerControlDemo.Helper;
+using System;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace PowerControlDemo.Filter
 {
+    /// <summary>
+    /// 权限控制
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class|AttributeTargets.Method,AllowMultiple =true,Inherited =true)]
     public class AccessControlAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -23,7 +28,7 @@ namespace PowerControlDemo.Filter
             {
                 ActionResult result = new ContentResult
                 {
-                    Content = "You do not have the key to the entrance.",
+                    Content = "<h3 style=\"color:red;\">You do not have the key to the entrance.</h3>",
                     ContentEncoding = System.Text.Encoding.UTF8,
                     ContentType = "text/html"
                 };

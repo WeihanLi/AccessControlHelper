@@ -1,17 +1,19 @@
-﻿namespace PowerControlDemo.Models
+﻿using System;
+
+namespace PowerControlDemo.Models
 {
     public class ShopUserRoleMappingModel : BaseModel
     {
-        private int? userId;
-
-        public int? UserId
+        private Guid? userId;
+        [ColumnDescription("用户Guid")]
+        public Guid? UserId
         {
             get { return userId; }
             set { userId = value; }
         }
 
         private int roleId;
-
+        [ColumnDescription("角色id")]
         public int RoleId
         {
             get { return roleId; }
@@ -19,7 +21,7 @@
         }
 
         private string userName;
-
+        [ColumnDescription("用户名")]
         public string UserName
         {
             get { return userName; }
@@ -27,7 +29,7 @@
         }
 
         private int mappingRule;
-
+        [ColumnDescription("用户角色映射策略")]
         public int MappingRule
         {
             get { return mappingRule; }

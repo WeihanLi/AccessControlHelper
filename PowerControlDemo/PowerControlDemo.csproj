@@ -165,10 +165,11 @@
       <DependentUpon>DALCollection.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\DatabaseContextProvider.cs" />
-    <Compile Include="Filter\PowerControlAttribute.cs" />
+    <Compile Include="Filter\AccessControlAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\DbDescriptionAttribute.cs" />
     <Compile Include="Helper\CommonHelper.cs" />
     <Compile Include="Helper\ConverterHelper.cs" />
     <Compile Include="Helper\HtmlHelperExtension.cs" />

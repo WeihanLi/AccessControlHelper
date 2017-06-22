@@ -24,7 +24,8 @@ namespace PowerControlDemo.Models
             modelBuilder.Entity<ShopUserRoleModel>().HasKey(s => s.PKID);
             modelBuilder.Entity<ShopUserRoleAccessModel>().HasKey(s => s.PKID);
             modelBuilder.Entity<ShopUserRoleMappingModel>().HasKey(s => s.PKID);
-            modelBuilder.Entity<ShopAccessConfigModel>().HasKey(s => s.PKID);
+            modelBuilder.Entity<ShopAccessConfigModel>().HasKey(s => s.PKID); 
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -73,12 +74,13 @@ namespace PowerControlDemo.Models
         {
             // 数据初始化
             // user
+            var uuid = Guid.NewGuid();
             var users = new ShopUserModel[]
             {
-                new ShopUserModel{  UserName = "dm00038",Email="dm00038@tuhu.cn", Mobile = "18300609893",PasswordHash = Helper.Utility.GetHashedString(Helper.HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
-                new ShopUserModel{  UserName = "liweihan",Email="liweihan@tuhu.cn", Mobile = "13298393395",PasswordHash = Helper.Utility.GetHashedString(Helper.HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
-                new ShopUserModel{  UserName = "liweihan1",Email="liweihan1@tuhu.cn", Mobile = "13298393396",PasswordHash = Helper.Utility.GetHashedString(Helper.HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
-                new ShopUserModel{  UserName = "gs00015",Email="gs00015@tuhu.cn", Mobile = "12345678901",PasswordHash = Helper.Utility.GetHashedString(Helper.HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now }
+                new ShopUserModel{  UserName = "dm00038",UserGuid=Guid.NewGuid(),Email="dm00038@tuhu.cn", Mobile = "18300609893",PasswordHash = Helper.Utility.GetHashedString(Helper.HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
+                new ShopUserModel{  UserName = "liweihan",UserGuid=uuid,Email="liweihan@tuhu.cn", Mobile = "13298393395",PasswordHash = Helper.Utility.GetHashedString(Helper.HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
+                new ShopUserModel{  UserName = "liweihan1",Email="liweihan1@tuhu.cn",UserGuid=Guid.NewGuid(), Mobile = "13298393396",PasswordHash = Helper.Utility.GetHashedString(Helper.HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
+                new ShopUserModel{  UserName = "gs00015",Email="gs00015@tuhu.cn",UserGuid=Guid.NewGuid(),  Mobile = "12345678901",PasswordHash = Helper.Utility.GetHashedString(Helper.HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now }
             };
             context.ShopUsers.AddRange(users);
             // user role
@@ -94,13 +96,13 @@ namespace PowerControlDemo.Models
             {
                 new ShopUserRoleMappingModel{ UserName = "dm",MappingRule =1,RoleId = 1 , CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now},
                 new ShopUserRoleMappingModel{ UserName = "gs",MappingRule =1,RoleId = 2 , CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now},
-                new ShopUserRoleMappingModel{  UserId = 2,UserName = "liweihan",MappingRule =0,RoleId = 3 , CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now},
+                new ShopUserRoleMappingModel{  UserId = uuid,UserName = "liweihan",MappingRule =0,RoleId = 3 , CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now},
             };
             context.ShopUserRoleMapping.AddRange(mappings);
             // accessConfig
             var accessConfigs = new ShopAccessConfigModel[]
             {
-                new ShopAccessConfigModel{ ParentId = 0, ActionName = "Contact",ControllerName = "Home", AreaName = "", DisplayType = 1,ControlType=0, MenuName="Contact", CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now }
+                new ShopAccessConfigModel{ ParentId = 0, ActionName = "Contact",ControllerName = "Home", AreaName = "", AccessKey = Guid.NewGuid(), DisplayType = 1,ControlType=0, MenuName="Contact", CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now }
             };
             context.ShopAccessConfigs.AddRange(accessConfigs);
             // role config
@@ -112,9 +114,9 @@ namespace PowerControlDemo.Models
             // user config
             var userConfigs = new ShopUserAccessModel[]
             {
-                new ShopUserAccessModel{ AccessId = 1, UserId = 2, CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now}
+                new ShopUserAccessModel{ AccessId = 1, UserId = uuid, CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now}
             };
-            context.ShopUserAccesses.AddRange(userConfigs);
+            context.ShopUserAccesses.AddRange(userConfigs);            
         }
     }
 }

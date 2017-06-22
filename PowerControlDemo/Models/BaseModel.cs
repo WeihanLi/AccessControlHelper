@@ -6,6 +6,10 @@ namespace PowerControlDemo.Models
     {
         private int pkid;
 
+        /// <summary>
+        /// 主键
+        /// </summary>
+        [ColumnDescription("主键")]
         public int PKID
         {
             get { return pkid; }
@@ -13,7 +17,10 @@ namespace PowerControlDemo.Models
         }
 
         private bool isDeleted;
-
+        /// <summary>
+        /// 是否删除
+        /// </summary>
+        [ColumnDescription("是否删除")]
         public bool IsDeleted
         {
             get { return isDeleted; }
@@ -21,7 +28,10 @@ namespace PowerControlDemo.Models
         }
 
         private string createdBy;
-
+        /// <summary>
+        /// 创建人
+        /// </summary>
+        [ColumnDescription("创建人")]
         public string CreatedBy
         {
             get { return createdBy; }
@@ -29,7 +39,10 @@ namespace PowerControlDemo.Models
         }
 
         private DateTime createdTime;
-
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        [ColumnDescription("创建时间")]
         public DateTime CreatedTime
         {
             get { return createdTime; }
@@ -37,7 +50,10 @@ namespace PowerControlDemo.Models
         }
 
         private string updatedBy;
-
+        /// <summary>
+        /// 更新人
+        /// </summary>
+        [ColumnDescription("更新人")]
         public string UpdatedBy
         {
             get { return updatedBy; }
@@ -45,7 +61,10 @@ namespace PowerControlDemo.Models
         }
 
         private DateTime updatedTime;
-
+        /// <summary>
+        /// 更新时间
+        /// </summary>
+        [ColumnDescription("更新时间")]
         public DateTime UpdatedTime
         {
             get { return updatedTime; }

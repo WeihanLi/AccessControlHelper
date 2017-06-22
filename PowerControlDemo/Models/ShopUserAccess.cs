@@ -1,17 +1,25 @@
-﻿namespace PowerControlDemo.Models
+﻿using System;
+
+namespace PowerControlDemo.Models
 {
     public class ShopUserAccessModel : BaseModel
     {
-        private int userId;
-
-        public int UserId
+        private Guid userId;
+        /// <summary>
+        /// 用户Guid
+        /// </summary>
+        [ColumnDescription("用户Guid")]
+        public Guid UserId
         {
             get { return userId; }
             set { userId = value; }
         }
 
         private long accessId;
-
+        /// <summary>
+        /// 权限控制id
+        /// </summary>
+        [ColumnDescription("权限控制id")]
         public long AccessId
         {
             get { return accessId; }
