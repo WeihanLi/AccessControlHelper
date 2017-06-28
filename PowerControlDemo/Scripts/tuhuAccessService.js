@@ -1,4 +1,4 @@
-﻿function initAccess() {
+﻿$(function(){
     //
     $(".tuhu-hidden").remove();
-}
+});

@@ -45,6 +45,7 @@ namespace PowerControlDemo.Controllers
         public ActionResult LogOut()
         {
             Helper.RedisHelper.Remove(Helper.CommonHelper.accessConfigCachePrefix + User.Identity.Name);
+            Helper.RedisHelper.Remove(Helper.CommonHelper.roleConfigCachePrefix + User.Identity.Name);
             FormsAuthentication.SignOut();
             return Redirect("Login");
         }

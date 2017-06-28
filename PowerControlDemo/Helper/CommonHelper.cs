@@ -10,6 +10,7 @@ namespace PowerControlDemo.Helper
         private static Business.IBusinessHelper businessHelper;
         private static object locker = new object();
         public static readonly string accessConfigCachePrefix = "accessKeyConfig#";
+        public static readonly string roleConfigCachePrefix = "roleConfig#";
         /// <summary>
         /// BusinessHelper
         /// </summary>
@@ -46,18 +47,20 @@ namespace PowerControlDemo.Helper
                 {
                     var accessList = new List<long>();
                     // 此处权限列表应从缓存中获取，从缓存中获取不到再查询数据库
-                    var roleInfoList = BusinessHelper.ShopUserRoleMappingHelper.GetAll(s => !s.IsDeleted && ((s.UserId == user.UserGuid && s.MappingRule == 0) || (user.Email.StartsWith(s.UserName) && s.MappingRule == 1)));
-
-                    if (roleInfoList != null)
+                    var roleInfoList = GetUserRoleInfo(userName);
+                    if (roleInfoList.Any(r=>r.RoleName.Contains("超级管理员")))
                     {
-                        roleInfoList = roleInfoList.Where(r => r != null).ToList();
-                        foreach (var roleInfo in roleInfoList)
+                        //超级管理员拥有所有权限
+                        accessConfig = BusinessHelper.ShopAccessConfigHelper.GetAll(c => !c.IsDeleted);
+                        return accessConfig;
+                    }
+                    roleInfoList = roleInfoList.Where(r => r != null).ToList();
+                    foreach (var roleInfo in roleInfoList)
+                    {
+                        var roleAccess = BusinessHelper.ShopUserRoleAccessHelper.GetAll(r => r.RoleId == roleInfo.PKID && !r.IsDeleted).Select(s => s.AccessId);
+                        if (roleAccess != null && roleAccess.Any())
                         {
-                            var roleAccess = BusinessHelper.ShopUserRoleAccessHelper.GetAll(r => r.RoleId == roleInfo.PKID && !r.IsDeleted).Select(s => s.AccessId);
-                            if (roleAccess != null && roleAccess.Any())
-                            {
-                                accessList.AddRange(roleAccess);
-                            }
+                            accessList.AddRange(roleAccess);
                         }
                     }
                     // user access
@@ -81,26 +84,42 @@ namespace PowerControlDemo.Helper
                 return null;
             }
             return accessConfig;
-        }        
+        }
 
         /// <summary>
         /// 获取用户角色信息
         /// </summary>
-        /// <param name="user">用户信息</param>
+        /// <param name="userName">用户信息</param>
         /// <returns></returns>
         public static List<Models.ShopUserRoleModel> GetUserRoleInfo(string userName)
         {
-            var user = BusinessHelper.ShopUserHelper.Fetch(u => !u.IsDeleted && (u.Email == userName || u.UserName == userName || u.Mobile == userName));
-            if(user!=null)
+            //先从redis中获取
+            var roleInfo = RedisHelper.Get<List<Models.ShopUserRoleModel>>(roleConfigCachePrefix + userName);
+            if (roleInfo == null)
             {
-                var mapping = BusinessHelper.ShopUserRoleMappingHelper.Fetch(s => !s.IsDeleted && ((s.UserId == user.UserGuid && s.MappingRule == 0) || (user.Email.StartsWith(s.UserName) && s.MappingRule == 1)));
-                if (mapping != null)
+                var user = BusinessHelper.ShopUserHelper.Fetch(u => !u.IsDeleted && (u.Email == userName || u.UserName == userName || u.Mobile == userName));
+                if (user != null)
                 {
-                    var roleIds = mapping.RoleId.Split(',').Select(s=>Convert.ToInt32(s)).ToList();
-                    return BusinessHelper.ShopUserRoleHelper.GetAll(r => roleIds.Contains(r.PKID) && !r.IsDeleted);
+                    var mapping = BusinessHelper.ShopUserRoleMappingHelper.Fetch(s => !s.IsDeleted && ((s.UserId == user.UserGuid && s.MappingRule == 0) || (user.Email.StartsWith(s.UserName) && s.MappingRule == 1)));
+                    if (mapping != null)
+                    {
+                        var roleIds = mapping.RoleId.Split(',').Select(s => Convert.ToInt32(s)).ToList();
+                        roleInfo = BusinessHelper.ShopUserRoleHelper.GetAll(r => roleIds.Contains(r.PKID) && !r.IsDeleted);
+                        RedisHelper.Set(roleConfigCachePrefix + userName, roleInfo, TimeSpan.FromDays(1));
+                    }
                 }
             }
-            return null;
+            return roleInfo;
+        }
+
+        /// <summary>
+        /// 判断用户是不是超级管理员
+        /// </summary>
+        /// <param name="userName">用户信息</param>
+        /// <returns>true是，false不是</returns>
+        public bool IsUserSupperAdmin(string userName)
+        {
+            return GetUserRoleInfo(userName).Any(s => s.RoleName.Contains("超级管理员"));
         }
     }
 }

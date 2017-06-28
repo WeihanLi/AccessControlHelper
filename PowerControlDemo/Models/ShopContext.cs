@@ -75,29 +75,35 @@ namespace PowerControlDemo.Models
         {
             // 数据初始化
             // user
-            var uuid = Guid.NewGuid();
+            Guid uuid = Guid.NewGuid(),uuid1=Guid.NewGuid();
             var users = new ShopUserModel[]
             {
                 new ShopUserModel{  UserName = "dm00038",UserGuid=Guid.NewGuid(),Email="dm00038@tuhu.cn", Mobile = "18300609893",PasswordHash = HashHelper.GetHashedString(HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
                 new ShopUserModel{  UserName = "liweihan",UserGuid=uuid,Email="liweihan@tuhu.cn", Mobile = "13298393395",PasswordHash = HashHelper.GetHashedString(HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
                 new ShopUserModel{  UserName = "liweihan1",Email="liweihan1@tuhu.cn",UserGuid=Guid.NewGuid(), Mobile = "13298393396",PasswordHash = HashHelper.GetHashedString(HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
-                new ShopUserModel{  UserName = "gs00015",Email="gs00015@tuhu.cn",UserGuid=Guid.NewGuid(),  Mobile = "12345678901",PasswordHash = HashHelper.GetHashedString(HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now }
+                new ShopUserModel{  UserName = "gs00015",Email="gs00015@tuhu.cn",UserGuid=Guid.NewGuid(),  Mobile = "12345678901",PasswordHash = HashHelper.GetHashedString(HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
+                new ShopUserModel{  UserName = "root",Email="root@tuhu.cn",UserGuid=uuid1, Mobile = "13000000000",PasswordHash = HashHelper.GetHashedString(HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
             };
             context.ShopUsers.AddRange(users);
             // user role
             var roles = new ShopUserRoleModel[]
             {
+                new ShopUserRoleModel{ RoleName = "门店超级管理员", RoleDesc = "管理员 ###@tuhu.cn", CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
                 new ShopUserRoleModel{ RoleName = "门店店主", RoleDesc = "门店店主账号 dm###@tuhu.cn", CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
                 new ShopUserRoleModel{ RoleName = "公司", RoleDesc = "公司账号 gs###@tuhu.cn", CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
-                new ShopUserRoleModel{ RoleName = "管理员", RoleDesc = "管理员 ###@tuhu.cn", CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now }
+                new ShopUserRoleModel{ RoleName = "研发管理员", RoleDesc = "研发 ###@tuhu.cn", CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },               
             };
             context.ShopUserRoles.AddRange(roles);
             // user role mapping
             var mappings = new ShopUserRoleMappingModel[]
             {
-                new ShopUserRoleMappingModel{ UserName = "dm",MappingRule =1,RoleId = "1" , CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now},
-                new ShopUserRoleMappingModel{ UserName = "gs",MappingRule =1,RoleId = "2" , CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now},
-                new ShopUserRoleMappingModel{  UserId = uuid,UserName = "liweihan",MappingRule =0,RoleId = "3" , CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now},
+                new ShopUserRoleMappingModel{ UserName = "dm",MappingRule =1,RoleId = "2" , CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now},
+                new ShopUserRoleMappingModel{ UserName = "gs",MappingRule =1,RoleId = "3" , CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now},
+                new ShopUserRoleMappingModel{  UserId = uuid,UserName = "liweihan",MappingRule =0,RoleId = "4" , CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now},
+                new ShopUserRoleMappingModel
+                {
+                    UserId = uuid1,UserName = "root",MappingRule =0,RoleId = "1" , CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now
+                }
             };
             context.ShopUserRoleMapping.AddRange(mappings);
             // accessConfig
