@@ -4,7 +4,7 @@ namespace PowerControlDemo.DataAccess
 {
     public class DatabaseContextProvider
     {
-        private static object _contextLock = new object();
+        private static readonly object _contextLock = new object();
         private static DbContext _dbContext;
 
         public static DbContext GetDbContext()

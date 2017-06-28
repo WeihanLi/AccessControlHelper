@@ -1,8 +1,4 @@
-﻿function initAccess(accessKey) {
+﻿function initAccess() {
     //
-    $.post('/Home/Access', { "accessKey": accessKey }, function (data) {
-        if (!data) {
-            $("button,input,a[tuhu-accessKey]='" + accessKey + "'").remove();
-        }
-    });
+    $(".tuhu-hidden").remove();
 }

@@ -12,9 +12,9 @@ namespace PowerControlDemo.Models
             set { userId = value; }
         }
 
-        private int roleId;
+        private string roleId;
         [ColumnDescription("角色id")]
-        public int RoleId
+        public string RoleId
         {
             get { return roleId; }
             set { roleId = value; }

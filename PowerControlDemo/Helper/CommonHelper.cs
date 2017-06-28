@@ -46,20 +46,24 @@ namespace PowerControlDemo.Helper
                 {
                     var accessList = new List<long>();
                     // 此处权限列表应从缓存中获取，从缓存中获取不到再查询数据库
-                    var roleInfo = BusinessHelper.ShopUserRoleMappingHelper.Fetch(s => !s.IsDeleted && ((s.UserId == user.UserGuid && s.MappingRule == 0) || (user.Email.StartsWith(s.UserName) && s.MappingRule == 1)));
-                    if (roleInfo != null)
+                    var roleInfoList = BusinessHelper.ShopUserRoleMappingHelper.GetAll(s => !s.IsDeleted && ((s.UserId == user.UserGuid && s.MappingRule == 0) || (user.Email.StartsWith(s.UserName) && s.MappingRule == 1)));
+
+                    if (roleInfoList != null)
                     {
-                        var roleAccess = BusinessHelper.ShopUserRoleAccessHelper.GetAll(r => r.RoleId == roleInfo.PKID && !r.IsDeleted).Select(s => s.AccessId);
-                        if (roleAccess != null)
+                        roleInfoList = roleInfoList.Where(r => r != null).ToList();
+                        foreach (var roleInfo in roleInfoList)
                         {
-                            accessList.AddRange(roleAccess);
+                            var roleAccess = BusinessHelper.ShopUserRoleAccessHelper.GetAll(r => r.RoleId == roleInfo.PKID && !r.IsDeleted).Select(s => s.AccessId);
+                            if (roleAccess != null && roleAccess.Any())
+                            {
+                                accessList.AddRange(roleAccess);
+                            }
                         }
                     }
-                    //
+                    // user access
                     var userAccess = BusinessHelper.ShopUserAccessHelper.GetAll(s => s.UserId == user.UserGuid && !s.IsDeleted).Select(s => s.AccessId);
-                    if (userAccess != null)
+                    if (userAccess != null && userAccess.Any())
                     {
-                        //
                         accessList.AddRange(userAccess);
                     }
                     var accessIds = accessList.Distinct().ToList();
@@ -84,7 +88,7 @@ namespace PowerControlDemo.Helper
         /// </summary>
         /// <param name="user">用户信息</param>
         /// <returns></returns>
-        public static Models.ShopUserRoleModel GetUserRoleInfo(string userName)
+        public static List<Models.ShopUserRoleModel> GetUserRoleInfo(string userName)
         {
             var user = BusinessHelper.ShopUserHelper.Fetch(u => !u.IsDeleted && (u.Email == userName || u.UserName == userName || u.Mobile == userName));
             if(user!=null)
@@ -92,7 +96,8 @@ namespace PowerControlDemo.Helper
                 var mapping = BusinessHelper.ShopUserRoleMappingHelper.Fetch(s => !s.IsDeleted && ((s.UserId == user.UserGuid && s.MappingRule == 0) || (user.Email.StartsWith(s.UserName) && s.MappingRule == 1)));
                 if (mapping != null)
                 {
-                    return BusinessHelper.ShopUserRoleHelper.Fetch(r => r.PKID == mapping.RoleId && !r.IsDeleted);
+                    var roleIds = mapping.RoleId.Split(',').Select(s=>Convert.ToInt32(s)).ToList();
+                    return BusinessHelper.ShopUserRoleHelper.GetAll(r => roleIds.Contains(r.PKID) && !r.IsDeleted);
                 }
             }
             return null;

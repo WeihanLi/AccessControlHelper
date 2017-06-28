@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using WeihanLi.Common.Helpers;
 
 namespace PowerControlDemo.Controllers
 {
@@ -26,7 +27,7 @@ namespace PowerControlDemo.Controllers
         {
             bool result = false;
             var user = Helper.CommonHelper.BusinessHelper.ShopUserHelper.Fetch(s => s.IsDeleted == false && s.UserName == model.UserName);
-            if (user!=null && user.PasswordHash.Equals(Helper.Utility.GetHashedString(Helper.HashType.SHA256, model.Password)))
+            if (user!=null && user.PasswordHash.Equals(HashHelper.GetHashedString(HashType.SHA256, model.Password)))
             {
                 result = true;
                 FormsAuthentication.SetAuthCookie(user.UserName, model.RememberMe);

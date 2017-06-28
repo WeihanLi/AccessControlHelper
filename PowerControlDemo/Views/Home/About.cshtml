@@ -6,4 +6,125 @@
     @Html.ShopButton("12234", "btn btn-primary")    
 </h3>
 
-<p>Use this area to provide additional information.</p>
+<table class="table-striped table-responsive" style="width:100%;text-align:center;">
+<thead>
+<tr>
+    @*<th>商品PID</th>*@
+    @using (Html.ShopContainer("th"))
+    {
+        @Html.Raw("商品PID")
+    }
+    <th>商品名称</th>
+    <th>商品描述</th>
+    <th>推荐车型</th>
+    <th>适配车型</th>
+    <th>服务品类</th>
+    <th>每日限量</th>
+    <th>最近更新时间</th>
+    <th>审核状态</th>
+    <th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    @using (Html.ShopContainer("td"))
+    {
+        <span>FU-MD-GCDQCDL-F|1</span>;
+    }
+    <td>
+        深度打蜡
+    </td>
+    <td>
+        标准洗车、全车打蜡
+    </td>
+    <td>
+        无推荐车型
+    </td>
+    <td>五座轿车</td>
+    <td>
+        工场店全车打蜡
+    </td>
+    <td>
+        100
+    </td>
+    <td>
+        2017-06-15 17:49
+    </td>
+    <td>
+        <label class="text-success">审核通过</label>
+    </td>
+    <td>
+        <a href="/ShopTuangou/ShopSaleItemDetails/222975" target="_blank" class="btn btn-default" role="button">详情</a> &nbsp;
+        <a href="/ShopTuangou/ShopSaleItemOperLogList/222975" target="_blank" class="btn btn-default" role="button">操作日志</a>       
+    </td>
+</tr>
+<tr>
+    @using (Html.ShopContainer("td"))
+    {
+        @Html.Raw("FU-MD-GCDQCDL-F|1")
+    }
+    <td>
+        品牌发动机镀膜
+    </td>
+    <td>
+        发动机舱清洁、发动机舱镀膜
+    </td>
+    <td>
+        无推荐车型
+    </td>
+    <td>无适配车型</td>
+    <td>
+        发动机舱镀膜
+    </td>
+    <td>
+        100
+    </td>
+    <td>
+        2017-06-15 17:45
+    </td>
+    <td>
+        <label class="text-success">审核通过</label>
+    </td>
+    <td>
+        <a href="/ShopTuangou/ShopSaleItemDetails/222976" target="_blank" class="btn btn-default" role="button">详情</a> &nbsp;
+        <a href="/ShopTuangou/ShopSaleItemOperLogList/222976" target="_blank" class="btn btn-default" role="button">操作日志</a>
+                                
+                                
+    </td>
+</tr>
+<tr>
+    @using (Html.ShopContainer("td"))
+    {
+        <span>FU-MD-GCDQCDL-F|1</span>
+    }
+    <td>
+        全车高级镀膜
+    </td>
+    <td>
+        车辆清洗、漆面去污、抛光镜面、......
+    </td>
+    <td>
+        低端车
+    </td>
+    <td>五座轿车</td>
+    <td>
+        漆面镀膜
+    </td>
+    <td>
+        100
+    </td>
+    <td>
+        2017-06-15 17:44
+    </td>
+    <td>
+        <label class="text-success">审核通过</label>
+    </td>
+    <td>
+        <a href="/ShopTuangou/ShopSaleItemDetails/223126" target="_blank" class="btn btn-default" role="button">详情</a> &nbsp;
+        <a href="/ShopTuangou/ShopSaleItemOperLogList/223126" target="_blank" class="btn btn-default" role="button">操作日志</a>
+                                
+                                
+    </td>
+</tr>
+</tbody>
+</table>

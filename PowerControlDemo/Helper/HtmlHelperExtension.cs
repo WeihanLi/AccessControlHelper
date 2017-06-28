@@ -18,34 +18,23 @@ namespace PowerControlDemo
         /// <param name="classNames">class名称</param>
         /// <param name="attributes">attribute</param>
         /// <returns></returns>
-        public static MvcHtmlString ShopButton(this HtmlHelper helper,string buttonText,string classNames = null,Dictionary<string,string> attributes = null,string accessKey = "")
+        public static MvcHtmlString ShopButton(this HtmlHelper helper,string buttonText, string classNames = null, Dictionary<string,object> attributes = null,string accessKey = "")
         {
             var user = HttpContext.Current.User.Identity.Name;
             var role = CommonHelper.GetUserRoleInfo(user);
-
-            StringBuilder sbText = new StringBuilder();
+            TagBuilder tagBuilder = new TagBuilder("button");
             if (String.IsNullOrEmpty(accessKey))
             {
-                if (role.RoleName.StartsWith("门店"))
+                if (role.Any(r=>r.RoleName.StartsWith("门店")))
                 {
-                    sbText.Append("<button type=\"button\" ");
-                    if (classNames != null && classNames.Length > 0)
+                    tagBuilder.MergeAttributes(attributes);
+                    tagBuilder.MergeAttribute("type","button");
+                    if (!String.IsNullOrEmpty(classNames))
                     {
-                        sbText.Append(" class=\"");
-                        var classNames1 = classNames.Split(' ');
-                        foreach (var item in classNames1)
-                        {
-                            sbText.Append(item + " ");
-                        }
-                        sbText.Append("\"");
+                        tagBuilder.MergeAttribute("class",classNames);
                     }
-                    if (attributes != null && attributes.Keys.Count > 0)
-                    {
-                        foreach (var item in attributes)
-                        {
-                            sbText.AppendFormat(" {0}=\"{1}\"", item.Key, item.Value);
-                        }
-                    }
+                    tagBuilder.InnerHtml = buttonText;
+                    return MvcHtmlString.Create(tagBuilder.ToString(TagRenderMode.Normal));
                 }
             }
             else
@@ -53,27 +42,17 @@ namespace PowerControlDemo
                 var accessList = Helper.CommonHelper.GetPowerList(HttpContext.Current.User.Identity.Name);
                 if (accessList != null && accessList.Any(a=>a.AccessKey == Guid.Parse(accessKey)))
                 {
-                    sbText.Append("<button type=\"button\" ");
-                    if (classNames != null && classNames.Length > 0)
+                    tagBuilder.MergeAttributes(attributes);
+                    tagBuilder.MergeAttribute("type", "button");
+                    if (!String.IsNullOrEmpty(classNames))
                     {
-                        sbText.Append(" class=\"");
-                        var classNames1 = classNames.Split(' ');
-                        foreach (var item in classNames1)
-                        {
-                            sbText.Append(item + " ");
-                        }
-                        sbText.Append("\"");
+                        tagBuilder.MergeAttribute("class", classNames);
                     }
-                    if (attributes != null && attributes.Keys.Count > 0)
-                    {
-                        foreach (var item in attributes)
-                        {
-                            sbText.AppendFormat(" {0}=\"{1}\"", item.Key, item.Value);
-                        }
-                    }
+                    tagBuilder.SetInnerText(buttonText);
+                    return MvcHtmlString.Create(tagBuilder.ToString(TagRenderMode.Normal));
                 }
             }
-            return MvcHtmlString.Create(sbText.ToString());
+            return MvcHtmlString.Empty;
         }
 
         /// <summary>
@@ -88,33 +67,136 @@ namespace PowerControlDemo
         public static MvcHtmlString ShopLink(this HtmlHelper helper,string innerHtml,string linkUrl,string classNames = null, Dictionary<string, string> attributes = null)
         {
             var user = HttpContext.Current.User.Identity.Name;
-            var role = CommonHelper.GetUserRoleInfo(user);
-
-            StringBuilder sbText = new StringBuilder();
-            if (role.RoleName.StartsWith("门店"))
+            var role = CommonHelper.GetUserRoleInfo(user);            
+            if (role.Any(r => r.RoleName.StartsWith("门店")))
             {
-                sbText.Append("<a ");
-                sbText.AppendFormat(" href=\"{0}\" ", linkUrl);
-                if (classNames != null && classNames.Length>0)
+                TagBuilder tagBuilder = new TagBuilder("a");
+                tagBuilder.MergeAttributes(attributes);
+                tagBuilder.MergeAttribute("href",linkUrl);
+                if (!String.IsNullOrEmpty(classNames))
                 {
-                    sbText.Append(" class=\"");
-                    var classNames1 = classNames.Split(' ');
-                    foreach (var item in classNames1)
-                    {
-                        sbText.Append(item + " ");
-                    }
-                    sbText.Append("\"");
+                    tagBuilder.MergeAttribute("class", classNames);
                 }
-                if (attributes != null && attributes.Keys.Count > 0)
-                {
-                    foreach (var item in attributes)
-                    {
-                        sbText.AppendFormat(" {0}=\"{1}\"", item.Key, item.Value);
-                    }
-                }
-                sbText.AppendFormat(">{0}</a>",innerHtml);
+                tagBuilder.InnerHtml = innerHtml;
+                return MvcHtmlString.Create(tagBuilder.ToString(TagRenderMode.Normal));
             }
-            return MvcHtmlString.Create(sbText.ToString());
+            return MvcHtmlString.Empty;
+        }
+    }
+
+    public static class ShopContainerExtensions
+    {
+        public static ShopContainer ShopContainer(this HtmlHelper helper, string tagName,string id="", Dictionary<string, object> attributes = null, string accessKey = "")
+        {
+            if (String.IsNullOrEmpty(accessKey))
+            {
+                var user = HttpContext.Current.User.Identity.Name;
+                var role = CommonHelper.GetUserRoleInfo(user);
+                if (role.Any(r => r.RoleName.StartsWith("门店")))
+                {
+                    return ShopContainerHelper(helper, tagName, id, attributes);
+                }
+            }
+            else
+            {
+                var accessList = Helper.CommonHelper.GetPowerList(HttpContext.Current.User.Identity.Name);
+                if (accessList != null && accessList.Any(a => a.AccessKey == Guid.Parse(accessKey)))
+                {
+                    return ShopContainerHelper(helper, tagName, id, attributes);
+                }
+            }
+            return ShopContainerHelper(helper, tagName,id, attributes,false);
+        }
+
+        private static ShopContainer ShopContainerHelper(this HtmlHelper helper, string tagName, string id,
+            Dictionary<string, object> attributes = null,bool canAccess= true)
+        {
+            TagBuilder tagBuilder = new TagBuilder(tagName);
+            if (canAccess)
+            {
+                tagBuilder.MergeAttributes(attributes);
+                if (!String.IsNullOrEmpty(id))
+                {
+                    tagBuilder.MergeAttribute("id", id);
+                }
+                helper.ViewContext.Writer.Write(tagBuilder.ToString(TagRenderMode.StartTag));
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(id))
+                {
+                    tagBuilder.MergeAttribute("id", id);
+                }
+                tagBuilder.MergeAttribute("style","display:none;");
+                tagBuilder.MergeAttribute("class","tuhu-hidden");
+                //注释开始，注释会被转义
+                //helper.ViewContext.Writer.Write("@*");
+                helper.ViewContext.Writer.Write(tagBuilder.ToString(TagRenderMode.StartTag));                
+            }
+            ShopContainer container = new ShopContainer(helper.ViewContext, tagName,canAccess);
+            return container;
+        }
+
+        public static void EndShopContainer(this HtmlHelper helper,string tagName, bool canAccess = true)
+        {
+            EndShopContainer(helper.ViewContext, tagName, canAccess);
+        }
+
+        public static void EndShopContainer(ViewContext viewContext, string tagName,bool canAccess)
+        {
+            if (canAccess)
+            {
+                viewContext.Writer.Write("</{0}>", tagName);
+            }
+            else
+            {
+                viewContext.Writer.Write("</{0}>", tagName);
+
+            }
+        }
+    }
+
+    public class ShopContainer : IDisposable
+    {
+        private readonly string _tagName;
+        private readonly ViewContext _viewContext;
+        private readonly bool _canAccess;
+        private bool _disposed;
+
+        public ShopContainer(ViewContext viewContext,string tagName,bool canAccess =true)
+        {
+            _viewContext = viewContext;
+            _tagName = tagName;
+            _canAccess = canAccess;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                _disposed = true;
+                EndShopContainer();
+            }
+        }
+
+        public void EndShopContainer()
+        {
+            if (_canAccess)
+            {
+                _viewContext.Writer.Write("</{0}>", _tagName);
+            }
+            else
+            {
+                _viewContext.Writer.Write("</{0}>", _tagName);
+                // 注释结束，会被转义
+                // _viewContext.Writer.Write("*@");
+            }
         }
     }
 }

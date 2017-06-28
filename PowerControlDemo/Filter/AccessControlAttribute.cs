@@ -18,7 +18,7 @@ namespace PowerControlDemo.Filter
             var controller = filterContext.RouteData.Values["controller"].ToString().ToLower();
             var action = filterContext.RouteData.Values["action"].ToString().ToLower();
 
-            var accessKey = CommonHelper.BusinessHelper.ShopAccessConfigHelper.Fetch(a => a.AreaName.ToLower() == area && a.ControllerName.ToLower() == controller && a.ActionName.ToLower() == action && !a.IsDeleted);
+            var accessKey = CommonHelper.BusinessHelper.ShopAccessConfigHelper.Fetch(a => a.AreaName.ToLower() == area && a.ControllerName.ToLower() == controller && a.ActionName.ToLower() == action && a.ControlType == 0 && !a.IsDeleted);
             var accessList = CommonHelper.GetPowerList(HttpContext.Current.User.Identity.Name);
             if (accessList != null && accessList.Any(a=>a.PKID == accessKey.PKID))
             {
