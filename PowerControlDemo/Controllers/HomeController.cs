@@ -1,8 +1,6 @@
 ﻿using PowerControlDemo.Filter;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace PowerControlDemo.Controllers
@@ -30,7 +28,6 @@ namespace PowerControlDemo.Controllers
             return View();
         }
 
-        
         public JsonResult Access(string accessKey)
         {
             var result = false;
@@ -42,7 +39,7 @@ namespace PowerControlDemo.Controllers
                     result = true;
                 }
             }
-            return Json(result,JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

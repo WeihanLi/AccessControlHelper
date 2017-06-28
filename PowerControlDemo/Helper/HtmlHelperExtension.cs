@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -18,7 +17,7 @@ namespace PowerControlDemo
         /// <param name="classNames">class名称</param>
         /// <param name="attributes">attribute</param>
         /// <returns></returns>
-        public static MvcHtmlString ShopButton(this HtmlHelper helper,string buttonText, string classNames = null, Dictionary<string,object> attributes = null,string accessKey = "")
+        public static MvcHtmlString ShopButton(this HtmlHelper helper, string buttonText, string classNames = null, Dictionary<string, object> attributes = null, string accessKey = "")
         {
             var user = HttpContext.Current.User.Identity.Name;
             var role = CommonHelper.GetUserRoleInfo(user);
@@ -36,13 +35,13 @@ namespace PowerControlDemo
             }
             if (String.IsNullOrEmpty(accessKey))
             {
-                if (role.Any(r=>r.RoleName.StartsWith("门店")))
+                if (role.Any(r => r.RoleName.StartsWith("门店")))
                 {
                     tagBuilder.MergeAttributes(attributes);
-                    tagBuilder.MergeAttribute("type","button");
+                    tagBuilder.MergeAttribute("type", "button");
                     if (!String.IsNullOrEmpty(classNames))
                     {
-                        tagBuilder.MergeAttribute("class",classNames);
+                        tagBuilder.MergeAttribute("class", classNames);
                     }
                     tagBuilder.InnerHtml = buttonText;
                     return MvcHtmlString.Create(tagBuilder.ToString(TagRenderMode.Normal));
@@ -51,7 +50,7 @@ namespace PowerControlDemo
             else
             {
                 var accessList = Helper.CommonHelper.GetPowerList(HttpContext.Current.User.Identity.Name);
-                if (accessList != null && accessList.Any(a=>a.AccessKey == Guid.Parse(accessKey)))
+                if (accessList != null && accessList.Any(a => a.AccessKey == Guid.Parse(accessKey)))
                 {
                     tagBuilder.MergeAttributes(attributes);
                     tagBuilder.MergeAttribute("type", "button");
@@ -75,7 +74,7 @@ namespace PowerControlDemo
         /// <param name="classNames">class名称</param>
         /// <param name="attributes">attribute</param>
         /// <returns></returns>
-        public static MvcHtmlString ShopLink(this HtmlHelper helper,string innerHtml,string linkUrl,string classNames = null, Dictionary<string, string> attributes = null)
+        public static MvcHtmlString ShopLink(this HtmlHelper helper, string innerHtml, string linkUrl, string classNames = null, Dictionary<string, string> attributes = null)
         {
             var user = HttpContext.Current.User.Identity.Name;
             var role = CommonHelper.GetUserRoleInfo(user);
@@ -95,7 +94,7 @@ namespace PowerControlDemo
             {
                 TagBuilder tagBuilder = new TagBuilder("a");
                 tagBuilder.MergeAttributes(attributes);
-                tagBuilder.MergeAttribute("href",linkUrl);
+                tagBuilder.MergeAttribute("href", linkUrl);
                 if (!String.IsNullOrEmpty(classNames))
                 {
                     tagBuilder.MergeAttribute("class", classNames);
@@ -109,7 +108,7 @@ namespace PowerControlDemo
 
     public static class ShopContainerExtensions
     {
-        public static ShopContainer ShopContainer(this HtmlHelper helper, string tagName,string id="", Dictionary<string, object> attributes = null, string accessKey = "")
+        public static ShopContainer ShopContainer(this HtmlHelper helper, string tagName, string id = "", Dictionary<string, object> attributes = null, string accessKey = "")
         {
             var user = HttpContext.Current.User.Identity.Name;
             var role = CommonHelper.GetUserRoleInfo(user);
@@ -132,11 +131,11 @@ namespace PowerControlDemo
                     return ShopContainerHelper(helper, tagName, id, attributes);
                 }
             }
-            return ShopContainerHelper(helper, tagName,id, attributes,false);
+            return ShopContainerHelper(helper, tagName, id, attributes, false);
         }
 
         private static ShopContainer ShopContainerHelper(this HtmlHelper helper, string tagName, string id,
-            Dictionary<string, object> attributes = null,bool canAccess= true)
+            Dictionary<string, object> attributes = null, bool canAccess = true)
         {
             TagBuilder tagBuilder = new TagBuilder(tagName);
             if (canAccess)
@@ -154,22 +153,22 @@ namespace PowerControlDemo
                 {
                     tagBuilder.MergeAttribute("id", id);
                 }
-                tagBuilder.MergeAttribute("style","display:none;");
-                tagBuilder.MergeAttribute("class","tuhu-hidden");
+                tagBuilder.MergeAttribute("style", "display:none;");
+                tagBuilder.MergeAttribute("class", "tuhu-hidden");
                 //注释开始，注释会被转义
                 //helper.ViewContext.Writer.Write("@*");
-                helper.ViewContext.Writer.Write(tagBuilder.ToString(TagRenderMode.StartTag));                
+                helper.ViewContext.Writer.Write(tagBuilder.ToString(TagRenderMode.StartTag));
             }
-            ShopContainer container = new ShopContainer(helper.ViewContext, tagName,canAccess);
+            ShopContainer container = new ShopContainer(helper.ViewContext, tagName, canAccess);
             return container;
         }
 
-        public static void EndShopContainer(this HtmlHelper helper,string tagName, bool canAccess = true)
+        public static void EndShopContainer(this HtmlHelper helper, string tagName, bool canAccess = true)
         {
             EndShopContainer(helper.ViewContext, tagName, canAccess);
         }
 
-        public static void EndShopContainer(ViewContext viewContext, string tagName,bool canAccess)
+        public static void EndShopContainer(ViewContext viewContext, string tagName, bool canAccess)
         {
             if (canAccess)
             {
@@ -178,7 +177,6 @@ namespace PowerControlDemo
             else
             {
                 viewContext.Writer.Write("</{0}>", tagName);
-
             }
         }
     }
@@ -190,7 +188,7 @@ namespace PowerControlDemo
         private readonly bool _canAccess;
         private bool _disposed;
 
-        public ShopContainer(ViewContext viewContext,string tagName,bool canAccess =true)
+        public ShopContainer(ViewContext viewContext, string tagName, bool canAccess = true)
         {
             _viewContext = viewContext;
             _tagName = tagName;

@@ -17,6 +17,7 @@ namespace PowerControlDemo.Models
         }
 
         private bool isDeleted;
+
         /// <summary>
         /// 是否删除
         /// </summary>
@@ -28,6 +29,7 @@ namespace PowerControlDemo.Models
         }
 
         private string createdBy;
+
         /// <summary>
         /// 创建人
         /// </summary>
@@ -39,6 +41,7 @@ namespace PowerControlDemo.Models
         }
 
         private DateTime createdTime;
+
         /// <summary>
         /// 创建时间
         /// </summary>
@@ -50,6 +53,7 @@ namespace PowerControlDemo.Models
         }
 
         private string updatedBy;
+
         /// <summary>
         /// 更新人
         /// </summary>
@@ -61,6 +65,7 @@ namespace PowerControlDemo.Models
         }
 
         private DateTime updatedTime;
+
         /// <summary>
         /// 更新时间
         /// </summary>

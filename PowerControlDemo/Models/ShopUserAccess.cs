@@ -5,6 +5,7 @@ namespace PowerControlDemo.Models
     public class ShopUserAccessModel : BaseModel
     {
         private Guid userId;
+
         /// <summary>
         /// 用户Guid
         /// </summary>
@@ -16,6 +17,7 @@ namespace PowerControlDemo.Models
         }
 
         private long accessId;
+
         /// <summary>
         /// 权限控制id
         /// </summary>

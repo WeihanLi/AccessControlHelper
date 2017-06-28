@@ -25,7 +25,7 @@ namespace PowerControlDemo.Models
             modelBuilder.Entity<ShopUserRoleModel>().HasKey(s => s.PKID);
             modelBuilder.Entity<ShopUserRoleAccessModel>().HasKey(s => s.PKID);
             modelBuilder.Entity<ShopUserRoleMappingModel>().HasKey(s => s.PKID);
-            modelBuilder.Entity<ShopAccessConfigModel>().HasKey(s => s.PKID); 
+            modelBuilder.Entity<ShopAccessConfigModel>().HasKey(s => s.PKID);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -60,7 +60,7 @@ namespace PowerControlDemo.Models
             {
                 base.InitializeDatabase(context);
             }
-        }        
+        }
 
         protected override void Seed(ShopContext context)
         {
@@ -75,7 +75,7 @@ namespace PowerControlDemo.Models
         {
             // 数据初始化
             // user
-            Guid uuid = Guid.NewGuid(),uuid1=Guid.NewGuid();
+            Guid uuid = Guid.NewGuid(), uuid1 = Guid.NewGuid();
             var users = new ShopUserModel[]
             {
                 new ShopUserModel{  UserName = "dm00038",UserGuid=Guid.NewGuid(),Email="dm00038@tuhu.cn", Mobile = "18300609893",PasswordHash = HashHelper.GetHashedString(HashType.SHA256,"12345678"), CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
@@ -91,7 +91,7 @@ namespace PowerControlDemo.Models
                 new ShopUserRoleModel{ RoleName = "门店超级管理员", RoleDesc = "管理员 ###@tuhu.cn", CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
                 new ShopUserRoleModel{ RoleName = "门店店主", RoleDesc = "门店店主账号 dm###@tuhu.cn", CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
                 new ShopUserRoleModel{ RoleName = "公司", RoleDesc = "公司账号 gs###@tuhu.cn", CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
-                new ShopUserRoleModel{ RoleName = "研发管理员", RoleDesc = "研发 ###@tuhu.cn", CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },               
+                new ShopUserRoleModel{ RoleName = "研发管理员", RoleDesc = "研发 ###@tuhu.cn", CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now },
             };
             context.ShopUserRoles.AddRange(roles);
             // user role mapping
@@ -123,7 +123,7 @@ namespace PowerControlDemo.Models
             {
                 new ShopUserAccessModel{ AccessId = 1, UserId = uuid, CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now}
             };
-            context.ShopUserAccesses.AddRange(userConfigs);            
+            context.ShopUserAccesses.AddRange(userConfigs);
         }
     }
 }

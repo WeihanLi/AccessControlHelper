@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace PowerControlDemo.Helper
 {
@@ -11,6 +10,7 @@ namespace PowerControlDemo.Helper
         private static object locker = new object();
         public static readonly string accessConfigCachePrefix = "accessKeyConfig#";
         public static readonly string roleConfigCachePrefix = "roleConfig#";
+
         /// <summary>
         /// BusinessHelper
         /// </summary>
@@ -39,7 +39,7 @@ namespace PowerControlDemo.Helper
         /// <returns></returns>
         public static List<Models.ShopAccessConfigModel> GetPowerList(string userName)
         {
-            var accessConfig = RedisHelper.Get<List<Models.ShopAccessConfigModel>>(accessConfigCachePrefix+userName);
+            var accessConfig = RedisHelper.Get<List<Models.ShopAccessConfigModel>>(accessConfigCachePrefix + userName);
             if (accessConfig == null)
             {
                 var user = BusinessHelper.ShopUserHelper.Fetch(u => !u.IsDeleted && (u.Email == userName || u.Mobile == userName || u.UserName == userName));
@@ -48,7 +48,7 @@ namespace PowerControlDemo.Helper
                     var accessList = new List<long>();
                     // 此处权限列表应从缓存中获取，从缓存中获取不到再查询数据库
                     var roleInfoList = GetUserRoleInfo(userName);
-                    if (roleInfoList.Any(r=>r.RoleName.Contains("超级管理员")))
+                    if (roleInfoList.Any(r => r.RoleName.Contains("超级管理员")))
                     {
                         //超级管理员拥有所有权限
                         accessConfig = BusinessHelper.ShopAccessConfigHelper.GetAll(c => !c.IsDeleted);
@@ -73,7 +73,7 @@ namespace PowerControlDemo.Helper
                     accessConfig = BusinessHelper.ShopAccessConfigHelper.GetAll(c => accessIds.Contains(c.PKID) && !c.IsDeleted);
                     if (accessConfig != null || accessConfig.Any())
                     {
-                        RedisHelper.Set(accessConfigCachePrefix + userName, accessConfig,TimeSpan.FromDays(1));
+                        RedisHelper.Set(accessConfigCachePrefix + userName, accessConfig, TimeSpan.FromDays(1));
                     }
                     else
                     {

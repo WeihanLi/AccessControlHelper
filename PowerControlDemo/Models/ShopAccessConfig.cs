@@ -6,9 +6,10 @@ namespace PowerControlDemo.Models
     public class ShopAccessConfigModel : BaseModel
     {
         [ColumnDescription("主键")]
-         public new long PKID { get; set; }
+        public new long PKID { get; set; }
 
         private string menuName;
+
         [ColumnDescription("菜单名称")]
         public string MenuName
         {
@@ -17,6 +18,7 @@ namespace PowerControlDemo.Models
         }
 
         private string elementSelector;
+
         [ColumnDescription("元素选择器")]
         public string ElementSelector
         {
@@ -25,6 +27,7 @@ namespace PowerControlDemo.Models
         }
 
         private int parentId;
+
         [ColumnDescription("父级id")]
         public int ParentId
         {
@@ -33,6 +36,7 @@ namespace PowerControlDemo.Models
         }
 
         private string areaName;
+
         [ColumnDescription("Area名称")]
         public string AreaName
         {
@@ -41,6 +45,7 @@ namespace PowerControlDemo.Models
         }
 
         private string controllerName;
+
         [ColumnDescription("Controller名称")]
         public string ControllerName
         {
@@ -49,6 +54,7 @@ namespace PowerControlDemo.Models
         }
 
         private string actionName;
+
         [ColumnDescription("Action名称")]
         public string ActionName
         {
@@ -57,6 +63,7 @@ namespace PowerControlDemo.Models
         }
 
         private int controlType;
+
         [ColumnDescription("控制类型,0:页面View,1:页面元素Element")]
         public int ControlType
         {
@@ -65,6 +72,7 @@ namespace PowerControlDemo.Models
         }
 
         private int displayType;
+
         [ColumnDescription("显示类型,0:显示,1:不显示,2:显示但禁用")]
         public int DisplayType
         {
@@ -73,6 +81,7 @@ namespace PowerControlDemo.Models
         }
 
         private Guid accessKey;
+
         [ColumnDescription("权限访问Key")]
         public Guid AccessKey
         {
@@ -81,12 +90,12 @@ namespace PowerControlDemo.Models
         }
 
         private int shopType;
+
         [ColumnDescription("允许的门店类型")]
         public int ShopType
         {
             get { return shopType; }
             set { shopType = value; }
         }
-
     }
 }

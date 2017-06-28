@@ -5,6 +5,7 @@ namespace PowerControlDemo.Models
     public class ShopUserRoleModel : BaseModel
     {
         private string roleName;
+
         [ColumnDescription("角色名称")]
         public string RoleName
         {
@@ -13,6 +14,7 @@ namespace PowerControlDemo.Models
         }
 
         private string roleDesc;
+
         [ColumnDescription("角色描述")]
         public string RoleDesc
         {

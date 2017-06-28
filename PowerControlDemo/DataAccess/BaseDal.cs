@@ -5,7 +5,6 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
 
 namespace PowerControlDemo.DataAccess
 {
@@ -225,12 +224,10 @@ namespace PowerControlDemo.DataAccess
                 {
                     if (isAsc1)
                     {
-
                         return db.Set<T>().Where(whereLambda).AsNoTracking().OrderBy(orderBy).ThenBy(orderby1).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
                     }
                     else
                     {
-
                         return db.Set<T>().Where(whereLambda).AsNoTracking().OrderBy(orderBy).ThenByDescending(orderby1).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
                     }
                 }
@@ -238,12 +235,10 @@ namespace PowerControlDemo.DataAccess
                 {
                     if (isAsc1)
                     {
-
                         return db.Set<T>().Where(whereLambda).AsNoTracking().OrderByDescending(orderBy).ThenBy(orderby1).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
                     }
                     else
                     {
-
                         return db.Set<T>().Where(whereLambda).AsNoTracking().OrderByDescending(orderBy).ThenByDescending(orderby1).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
                     }
                 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
 using WeihanLi.Common.Helpers;
 
@@ -27,13 +22,12 @@ namespace PowerControlDemo.Controllers
         {
             bool result = false;
             var user = Helper.CommonHelper.BusinessHelper.ShopUserHelper.Fetch(s => s.IsDeleted == false && s.UserName == model.UserName);
-            if (user!=null && user.PasswordHash.Equals(HashHelper.GetHashedString(HashType.SHA256, model.Password)))
+            if (user != null && user.PasswordHash.Equals(HashHelper.GetHashedString(HashType.SHA256, model.Password)))
             {
                 result = true;
                 FormsAuthentication.SetAuthCookie(user.UserName, model.RememberMe);
                 //请求权限数据
                 var userPower = Helper.CommonHelper.GetPowerList(user.UserName);
-
             }
             return Json(result);
         }

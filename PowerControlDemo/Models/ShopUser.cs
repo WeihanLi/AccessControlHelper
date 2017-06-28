@@ -6,6 +6,7 @@ namespace PowerControlDemo.Models
     public class ShopUserModel : BaseModel
     {
         private Guid userGuid;
+
         /// <summary>
         /// 用户Guid
         /// </summary>
@@ -15,9 +16,9 @@ namespace PowerControlDemo.Models
             get { return userGuid; }
             set { userGuid = value; }
         }
-        
 
         private string userName;
+
         /// <summary>
         /// 用户名
         /// </summary>
@@ -29,6 +30,7 @@ namespace PowerControlDemo.Models
         }
 
         private string passwordHash;
+
         /// <summary>
         /// 密码哈希值
         /// </summary>
@@ -40,6 +42,7 @@ namespace PowerControlDemo.Models
         }
 
         private string mobile;
+
         /// <summary>
         /// 手机号
         /// </summary>
@@ -51,6 +54,7 @@ namespace PowerControlDemo.Models
         }
 
         private string email;
+
         /// <summary>
         /// 邮箱
         /// </summary>

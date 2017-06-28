@@ -15,7 +15,7 @@ namespace PowerControlDemo.DataAccess
                 {
                     if (_dbContext == null)
                     {
-                        _dbContext = new Models.ShopContext();                       
+                        _dbContext = new Models.ShopContext();
                     }
                     return _dbContext;
                 }

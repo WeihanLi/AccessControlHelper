@@ -5,6 +5,7 @@ namespace PowerControlDemo.Models
     public class ShopUserRoleAccessModel : BaseModel
     {
         private int roleId;
+
         [ColumnDescription("角色id")]
         public int RoleId
         {
@@ -13,6 +14,7 @@ namespace PowerControlDemo.Models
         }
 
         private long accessId;
+
         [ColumnDescription("权限控制id")]
         public long AccessId
         {
