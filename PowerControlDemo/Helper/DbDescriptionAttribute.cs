@@ -165,7 +165,7 @@ END";
                     if (!String.IsNullOrEmpty(tableDesc))
                     {
                         //生成表描述sql
-                        sbSqlDescText.AppendFormat("EXECUTE sp_addextendedproperty N'MS_Description', N'{1}', N'SCHEMA', N'dbo',  N'TABLE', N'{0}';", tableName, tableDesc);
+                        sbSqlDescText.AppendFormat(tableDescFormat, tableName, tableDesc);
                         sbSqlDescText.AppendLine();
                     }
                     var properties = type.GetProperties();
@@ -184,7 +184,7 @@ END";
                                 columnName = property.Name;
                             }
                             // 生成字段描述
-                            sbSqlDescText.AppendFormat("EXECUTE sp_addextendedproperty N'MS_Description', N'{2}', N'SCHEMA', N'dbo',  N'TABLE', N'{0}', N'COLUMN', N'{1}'; ", tableName, columnName, columnDesc);
+                            sbSqlDescText.AppendFormat(columnDescFormat, tableName, columnName, columnDesc);
                             sbSqlDescText.AppendLine();
                         }
                     }
