@@ -274,7 +274,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AccessControlControls\AccessControlHelper.csproj">
+    <ProjectReference Include="..\AccessControlHelper\AccessControlHelper.csproj">
       <Project>{28d9ee9c-53f9-468d-af75-ea71b9d433b4}</Project>
       <Name>AccessControlHelper</Name>
     </ProjectReference>
