@@ -2,6 +2,7 @@
 
 namespace PowerControlDemo.Models
 {
+    [TableDescription("ShopUserAccess","用户访问权限")]
     public class ShopUserAccessModel : BaseModel
     {
         private Guid userId;

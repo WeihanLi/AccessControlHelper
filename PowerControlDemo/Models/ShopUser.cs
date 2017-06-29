@@ -2,7 +2,7 @@
 
 namespace PowerControlDemo.Models
 {
-    [TableDescription("用户表")]
+    [TableDescription("ShopUser","用户表")]
     public class ShopUserModel : BaseModel
     {
         private Guid userGuid;

@@ -2,6 +2,7 @@
 
 namespace PowerControlDemo.Models
 {
+    [TableDescription("ShopUserRoleAccess", "用户角色访问权限")]
     public class ShopUserRoleAccessModel : BaseModel
     {
         private int roleId;

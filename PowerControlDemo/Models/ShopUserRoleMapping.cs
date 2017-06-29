@@ -2,6 +2,7 @@
 
 namespace PowerControlDemo.Models
 {
+    [TableDescription("ShopUserRoleMapping", "用户角色映射表")]
     public class ShopUserRoleMappingModel : BaseModel
     {
         private Guid? userId;

@@ -8,7 +8,7 @@ namespace PowerControlDemo.Models
     /// <summary>
     /// 路由信息表
     /// </summary>
-    [TableDescription("路由信息表")]
+    [TableDescription("ShopRouteInfo", "路由信息表")]
     public class ShopRouteInfoModel:BaseModel
     {
         /// <summary>

@@ -2,7 +2,10 @@
 
 namespace PowerControlDemo.Models
 {
-    [TableDescription("权限访问表")]
+    /// <summary>
+    /// 权限访问设置表
+    /// </summary>
+    [TableDescription("ShopAccessConfig", "权限访问设置表")]
     public class ShopAccessConfigModel : BaseModel
     {
         [ColumnDescription("主键")]

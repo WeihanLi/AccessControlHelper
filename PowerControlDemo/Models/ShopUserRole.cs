@@ -2,6 +2,10 @@
 
 namespace PowerControlDemo.Models
 {
+    /// <summary>
+    /// 用户角色表
+    /// </summary>
+    [TableDescription("ShopUserRole", "用户角色表")]
     public class ShopUserRoleModel : BaseModel
     {
         private string roleName;
