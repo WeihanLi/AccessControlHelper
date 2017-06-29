@@ -1,7 +1,7 @@
-﻿using PowerControlDemo.Filter;
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using AccessControlHelper;
 
 namespace PowerControlDemo.Controllers
 {

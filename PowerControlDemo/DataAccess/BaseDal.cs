@@ -76,7 +76,7 @@ namespace PowerControlDemo.DataAccess
                 T t = db.Set<T>().Where(whereLambda).FirstOrDefault();
                 return t;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -192,7 +192,7 @@ namespace PowerControlDemo.DataAccess
                     return db.Set<T>().Where(whereLambda).AsNoTracking().OrderByDescending(orderBy).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 rowsCount = -1;
                 return null;
@@ -243,7 +243,7 @@ namespace PowerControlDemo.DataAccess
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 rowsCount = -1;
                 return null;
