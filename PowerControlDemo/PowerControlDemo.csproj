@@ -174,7 +174,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helper\DbDescriptionAttribute.cs" />
     <Compile Include="Helper\CommonHelper.cs" />
     <Compile Include="Helper\AccessControlDisplayStrategy.cs" />
     <Compile Include="Helper\RedisHelper.cs" />
@@ -182,6 +181,7 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\ShopAccessConfig.cs" />
     <Compile Include="Models\ShopContext.cs" />
+    <Compile Include="Models\ShopPowerDbInitializer.cs" />
     <Compile Include="Models\ShopRouteInfo.cs" />
     <Compile Include="Models\ShopUser.cs" />
     <Compile Include="Models\ShopUserAccess.cs" />
@@ -277,6 +277,10 @@
     <ProjectReference Include="..\AccessControlHelper\AccessControlHelper.csproj">
       <Project>{28d9ee9c-53f9-468d-af75-ea71b9d433b4}</Project>
       <Name>AccessControlHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DbDescriptionHelper\EntityFramework.DbDescriptionHelper.csproj">
+      <Project>{7016bedb-fd9f-4513-b84c-9939d66bf974}</Project>
+      <Name>EntityFramework.DbDescriptionHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

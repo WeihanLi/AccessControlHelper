@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EntityFramework.DbDescriptionHelper;
+using System;
 
 namespace PowerControlDemo.Models
 {
