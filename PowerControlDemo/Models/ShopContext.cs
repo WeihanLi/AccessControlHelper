@@ -1,8 +1,4 @@
-﻿using System;
-using System.Data.Entity;
-using System.Reflection;
-using System.Text;
-using WeihanLi.Common.Helpers;
+﻿using System.Data.Entity;
 
 namespace PowerControlDemo.Models
 {
@@ -46,6 +42,6 @@ namespace PowerControlDemo.Models
 
         public virtual DbSet<ShopAccessConfigModel> ShopAccessConfigs { get; set; }
 
-        public virtual  DbSet<ShopRouteInfoModel> ShopRouteInfo { get; set; }
+        public virtual DbSet<ShopRouteInfoModel> ShopRouteInfo { get; set; }
     }
 }

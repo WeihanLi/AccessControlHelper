@@ -89,9 +89,13 @@ namespace PowerControlDemo.Models
                 new ShopUserAccessModel{ AccessId = 1, UserId = uuid, CreatedBy = "liweihan",CreatedTime = DateTime.Now, UpdatedBy="liweihan",UpdatedTime=DateTime.Now}
             };
             context.ShopUserAccesses.AddRange(userConfigs);
-            //生成数据库描述信息
-            string dbDescSql = new DbDescriptionInitializer().GenerateDbDescriptionSqlText(typeof(ShopContext));
-            context.Database.ExecuteSqlCommand(dbDescSql);
+            //// M1:生成数据库描述sql语句，自执行
+            ////生成数据库描述信息
+            //string dbDescSql = new SqlServerDbDescriptionInitializer().GenerateDbDescriptionSqlText(typeof(ShopContext));
+            //context.Database.ExecuteSqlCommand(dbDescSql);
+
+            // M2:直接生成数据库描述
+            new SqlServerDbDescriptionInitializer().GenerateDbDescription(context);
         }
     }
 }
