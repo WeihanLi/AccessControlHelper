@@ -11,7 +11,7 @@ namespace PowerControlDemo.Models
         /// <summary>
         /// 用户Guid
         /// </summary>
-        [ColumnDescription("用户Guid啊啊啊")]
+        [ColumnDescription("用户Guid")]
         public Guid UserGuid
         {
             get { return userGuid; }

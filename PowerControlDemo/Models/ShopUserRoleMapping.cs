@@ -33,6 +33,15 @@ namespace PowerControlDemo.Models
             set { userName = value; }
         }
 
+        private int userType;
+
+        [ColumnDescription("用户类型")]
+        public int UserType
+        {
+            get { return userType; }
+            set { userType = value; }
+        }
+
         private int mappingRule;
 
         [ColumnDescription("用户角色映射策略")]
