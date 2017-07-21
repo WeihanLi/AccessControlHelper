@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Web.Mvc;
 
 namespace AccessControlHelper
@@ -10,11 +12,17 @@ namespace AccessControlHelper
         private readonly bool _canAccess;
         private bool _disposed;
 
+        private readonly string _content;
+
         public ShopContainer(ViewContext viewContext, string tagName, bool canAccess = true)
         {
             _viewContext = viewContext;
             _tagName = tagName;
             _canAccess = canAccess;
+            if (!_canAccess)
+            {
+                _content = (_viewContext.Writer as StringWriter).GetStringBuilder().ToString();
+            }
         }
 
         public void Dispose()
@@ -34,7 +42,14 @@ namespace AccessControlHelper
 
         public void EndShopContainer()
         {
-            _viewContext.Writer.Write("</{0}>", _tagName);
+            if (!_canAccess)
+            {
+                (_viewContext.Writer as StringWriter).GetStringBuilder().Clear().Append(_content);
+            }
+            else
+            {
+                _viewContext.Writer.Write("</{0}>", _tagName);
+            }
         }
     }
 }

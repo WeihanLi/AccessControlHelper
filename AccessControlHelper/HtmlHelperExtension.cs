@@ -106,23 +106,6 @@ namespace AccessControlHelper
                 }
                 helper.ViewContext.Writer.Write(tagBuilder.ToString(TagRenderMode.StartTag));
             }
-            else
-            {
-                if (!String.IsNullOrEmpty(id))
-                {
-                    tagBuilder.MergeAttribute("id", id);
-                }
-                tagBuilder.MergeAttribute("style", "display:none;");
-                if (String.IsNullOrEmpty(displayStrategy.HiddenClassName))
-                {
-                    tagBuilder.MergeAttribute("class", "hidden");
-                }
-                else
-                {
-                    tagBuilder.MergeAttribute("class", displayStrategy.HiddenClassName);
-                }
-                helper.ViewContext.Writer.Write(tagBuilder.ToString(TagRenderMode.StartTag));
-            }
             ShopContainer container = new ShopContainer(helper.ViewContext, tagName, canAccess);
             return container;
         }

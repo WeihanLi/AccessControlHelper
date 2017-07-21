@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
+using PowerControlDemo.Helper;
 using WeihanLi.Common.Helpers;
 
 namespace PowerControlDemo.Controllers
@@ -38,8 +39,7 @@ namespace PowerControlDemo.Controllers
         /// <returns></returns>
         public ActionResult LogOut()
         {
-            Helper.RedisHelper.Remove(Helper.CommonHelper.accessConfigCachePrefix + User.Identity.Name);
-            Helper.RedisHelper.Remove(Helper.CommonHelper.roleConfigCachePrefix + User.Identity.Name);
+            CommonHelper.RemoveAccessControlCache(User.Identity.Name);
             FormsAuthentication.SignOut();
             return Redirect("Login");
         }
