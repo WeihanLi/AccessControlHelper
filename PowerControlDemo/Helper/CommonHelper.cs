@@ -112,6 +112,31 @@ namespace PowerControlDemo.Helper
             return roleInfo;
         }
 
+        public static List<Models.ShopAccessConfigModel> GetMenu(string userName)
+        {
+            var menus = GetPowerList(userName);
+            if (menus!=null)
+            {
+                menus = menus.Where(m => m.ControlType == 0 && m.DisplayType == 0).ToList();
+            }
+            return menus;
+        }
+
+        /// <summary>
+        /// 退出登录移除缓存
+        /// </summary>
+        /// <param name="userName">用户名</param>
+        /// <returns></returns>
+        public static bool RemoveAccessControlCache(string userName)
+        {
+            bool result = RedisHelper.RemoveSafely(roleConfigCachePrefix + userName);
+            if (result)
+            {
+                return RedisHelper.RemoveSafely(accessConfigCachePrefix + userName);
+            }
+            return false;
+        }
+
         /// <summary>
         /// 判断用户是不是超级管理员
         /// </summary>

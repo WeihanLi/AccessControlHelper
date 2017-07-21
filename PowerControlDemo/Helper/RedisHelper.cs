@@ -12,18 +12,12 @@ namespace PowerControlDemo.Helper
         private static readonly int dataBaseIndex = 0;
         private static IDatabase db = null;
         private static object asyncState = new object();
-        private static ISubscriber subscriber;
 
         static RedisHelper()
         {
             redisConn = System.Configuration.ConfigurationManager.AppSettings["redisConf"];
             connection = ConnectionMultiplexer.Connect(redisConn);
-            //connection.ConnectionFailed += (sender, e) => { logger.Error("redis 连接失败"); };
-            //connection.ConnectionRestored += (sender, e) => { logger.Info("redis 连接恢复"); };
-            //connection.ErrorMessage += (sender, e) => logger.Error(e.Message);
-            //connection.InternalError += (sender, e) => logger.Error(e.Origin, e.Exception);
             db = connection.GetDatabase(dataBaseIndex, asyncState);
-            subscriber = connection.GetSubscriber(asyncState);
         }
 
         #region Cache
@@ -157,6 +151,18 @@ namespace PowerControlDemo.Helper
 
         public static bool Remove(string key, CommandFlags flags) =>
             db.KeyDelete(key, flags);
+
+        public static bool RemoveSafely(string key) =>
+            RemoveSafely(key, CommandFlags.None);
+
+        public static bool RemoveSafely(string key, CommandFlags flags)
+        {
+            if (Exists(key))
+            {
+                return Remove(key, flags);
+            }
+            return true;
+        }
 
         public static Task<bool> RemoveAsync(string key) =>
             RemoveAsync(key, CommandFlags.None);

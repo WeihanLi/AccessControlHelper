@@ -10,7 +10,7 @@
 <thead>
 <tr>
     @*<th>商品PID</th>*@
-    @using (Html.ShopContainer("th"))
+    @using (Html.ShopContainer("th",attributes: new { @class = "hhh",abc = "abc" }))
     {
         @Html.Raw("商品PID")
     }

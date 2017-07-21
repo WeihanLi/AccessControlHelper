@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using AccessControlHelper;
@@ -67,13 +68,15 @@ namespace PowerControlDemo.Helper
         }
         public ActionResult DisallowedCommonResult => new ContentResult()
         {
-                
+                Content = "<h3>You have no permission!</h3>",
+                ContentEncoding = Encoding.UTF8,
+                ContentType = "text/html"
         };
 
         public JsonResult DisallowedAjaxResult => new JsonResult()
         {
             JsonRequestBehavior = JsonRequestBehavior.AllowGet,
-            Data = ""
+            Data = "You have no permission!"
         };
     }
 }

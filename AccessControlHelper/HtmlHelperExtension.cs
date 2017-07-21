@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace AccessControlHelper
 {
     public static class HtmlHelperExtension
     {
         private static IControlDisplayStrategy displayStrategy;
-        private static readonly object strategyLock = new object();
 
         public static void RegisterDisplayStrategy<TStrategy>(TStrategy strategy) where TStrategy:IControlDisplayStrategy
         {
@@ -26,7 +26,7 @@ namespace AccessControlHelper
         /// <param name="classNames">class名称</param>
         /// <param name="attributes">attribute</param>
         /// <returns></returns>
-        public static MvcHtmlString ShopButton(this HtmlHelper helper, string buttonText, string classNames = null, Dictionary<string, object> attributes = null, string accessKey = "")
+        public static MvcHtmlString ShopButton(this HtmlHelper helper, string buttonText, string classNames = null, object attributes = null, string accessKey = "")
         {
             if (displayStrategy == null)
             {
@@ -36,7 +36,7 @@ namespace AccessControlHelper
             if (displayStrategy.IsCanDisplay)
             {
                 TagBuilder tagBuilder = new TagBuilder("button");
-                tagBuilder.MergeAttributes(attributes);
+                tagBuilder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(attributes));
                 tagBuilder.MergeAttribute("type", "button");
                 if (!String.IsNullOrEmpty(classNames))
                 {
@@ -57,7 +57,7 @@ namespace AccessControlHelper
         /// <param name="classNames">class名称</param>
         /// <param name="attributes">attribute</param>
         /// <returns></returns>
-        public static MvcHtmlString ShopLink(this HtmlHelper helper, string innerHtml, string linkUrl, string classNames = null, Dictionary<string, string> attributes = null,string accessKey="")
+        public static MvcHtmlString ShopLink(this HtmlHelper helper, string innerHtml, string linkUrl, string classNames = null, object attributes = null,string accessKey="")
         {
             if (displayStrategy == null)
             {
@@ -67,7 +67,7 @@ namespace AccessControlHelper
             if (displayStrategy.IsCanDisplay)
             {
                 TagBuilder tagBuilder = new TagBuilder("a");
-                tagBuilder.MergeAttributes(attributes);
+                tagBuilder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(attributes));
                 tagBuilder.MergeAttribute("href", linkUrl);
                 if (!String.IsNullOrEmpty(classNames))
                 {
@@ -79,18 +79,18 @@ namespace AccessControlHelper
             return MvcHtmlString.Empty;
         }
 
-        public static ShopContainer ShopContainer(this HtmlHelper helper, string tagName, string id = "", Dictionary<string, object> attributes = null, string accessKey = "")
+        public static ShopContainer ShopContainer(this HtmlHelper helper, string tagName, string id = "", object attributes = null, string accessKey = "")
         {
             if (displayStrategy == null)
             {
                 throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
             }
             displayStrategy.AccessKey = accessKey;
-            return ShopContainerHelper(helper, tagName, id, attributes, displayStrategy.IsCanDisplay);
+            return ShopContainerHelper(helper, tagName, id, HtmlHelper.AnonymousObjectToHtmlAttributes(attributes), displayStrategy.IsCanDisplay);
         }
 
         private static ShopContainer ShopContainerHelper(this HtmlHelper helper, string tagName, string id,
-            Dictionary<string, object> attributes = null, bool canAccess = true)
+            IDictionary<string, object> attributes = null, bool canAccess = true)
         {
             if (displayStrategy == null)
             {
