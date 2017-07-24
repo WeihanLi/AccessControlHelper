@@ -11,11 +11,6 @@
         bool IsCanDisplay { get; }
 
         /// <summary>
-        /// 隐藏的元素class名称
-        /// </summary>
-        string HiddenClassName { get; }
-
-        /// <summary>
         /// AccessKey
         /// </summary>
         string AccessKey { get; set; }

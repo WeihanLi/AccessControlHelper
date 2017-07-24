@@ -10,11 +10,6 @@ namespace PowerControlDemo.Helper
     public class AccessControlDisplayStrategy : IControlDisplayStrategy
     {
         /// <summary>
-        /// HiddenClassName
-        /// </summary>
-        public string HiddenClassName => "tuhu-hidden";
-
-        /// <summary>
         /// AccessKey
         /// </summary>
         public string AccessKey { get; set; }
