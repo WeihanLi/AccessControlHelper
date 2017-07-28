@@ -22,7 +22,10 @@ namespace AccessControlHelper
             {
                 throw new ArgumentException("ActionResult显示策略未初始化，请使用 AccessControlAttribute.RegisterDisplayStrategy(IActionResultDisplayStrategy stragety) 方法注册显示策略", nameof(_displayStrategy));
             }
-            if (_displayStrategy.IsCanDisplay)
+            var area = filterContext.RouteData.Values["area"]?.ToString() ?? "";
+            var controller = filterContext.RouteData.Values["controller"].ToString();
+            var action = filterContext.RouteData.Values["action"].ToString();
+            if (_displayStrategy.IsActionCanAccess(area,controller,action))
             {
                 base.OnActionExecuting(filterContext);
             }

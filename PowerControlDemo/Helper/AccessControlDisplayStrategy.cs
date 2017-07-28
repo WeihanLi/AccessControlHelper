@@ -9,21 +9,7 @@ namespace PowerControlDemo.Helper
 {
     public class AccessControlDisplayStrategy : IControlDisplayStrategy
     {
-        /// <summary>
-        /// AccessKey
-        /// </summary>
-        public string AccessKey { get; set; }
-
-        /// <summary>
-        /// 是否可以显示
-        /// </summary>
-        public bool IsCanDisplay => IsControlCanDisplay();
-
-        /// <summary>
-        /// 判断是否可以显示
-        /// </summary>
-        /// <returns></returns>
-        private bool IsControlCanDisplay()
+        public bool IsControlCanAccess(string accessKey)
         {
             var user = HttpContext.Current.User.Identity.Name;
             var role = CommonHelper.GetUserRoleInfo(user);
@@ -31,7 +17,7 @@ namespace PowerControlDemo.Helper
             {
                 return true;
             }
-            if (String.IsNullOrEmpty(AccessKey))
+            if (String.IsNullOrEmpty(accessKey))
             {
                 if (role.Any(r => r.RoleName.StartsWith("门店")))
                 {
@@ -41,7 +27,7 @@ namespace PowerControlDemo.Helper
             else
             {
                 var accessList = Helper.CommonHelper.GetPowerList(HttpContext.Current.User.Identity.Name);
-                if (accessList != null && accessList.Any(a => a.AccessKey == Guid.Parse(AccessKey)))
+                if (accessList != null && accessList.Any(a => a.AccessKey == Guid.Parse(accessKey)))
                 {
                     return true;
                 }
@@ -52,15 +38,12 @@ namespace PowerControlDemo.Helper
 
     public class AccessActionResultDisplayStrategy : IActionResultDisplayStrategy
     {
-        public string AreaName { get; set; }
-        public string ControllerName { get; set; }
-        public string ActionName { get; set; }
-        public bool IsCanDisplay => IsActionResultCanDisplay();
 
-        private bool IsActionResultCanDisplay()
+        public bool IsActionCanAccess(string areaName, string controllerName, string actionName)
         {
             return false;
         }
+
         public ActionResult DisallowedCommonResult => new ContentResult()
         {
                 Content = "<h3>You have no permission!</h3>",

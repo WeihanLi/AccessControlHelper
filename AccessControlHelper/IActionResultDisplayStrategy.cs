@@ -8,24 +8,13 @@ namespace AccessControlHelper
     public interface IActionResultDisplayStrategy
     {
         /// <summary>
-        /// AreaName
-        /// </summary>
-        string AreaName { get; set; }
-
-        /// <summary>
-        /// ControllerName
-        /// </summary>
-        string ControllerName { get; set; }
-
-        /// <summary>
-        /// ActionName
-        /// </summary>
-        string ActionName { get; set; }
-
-        /// <summary>
         /// 是否可以显示
         /// </summary>
-        bool IsCanDisplay { get; }
+        /// <param name="areaName">区域名称</param>
+        /// <param name="controllerName">控制器名称</param>
+        /// <param name="actionName">action名称</param>
+        /// <returns></returns>
+        bool IsActionCanAccess(string areaName,string controllerName,string actionName);
 
         /// <summary>
         /// 默认HTTP请求不被授权时返回的结果

@@ -8,11 +8,6 @@
         /// <summary>
         /// 是否可以显示
         /// </summary>
-        bool IsCanDisplay { get; }
-
-        /// <summary>
-        /// AccessKey
-        /// </summary>
-        string AccessKey { get; set; }
+        bool IsControlCanAccess(string accessKey);
     }
 }

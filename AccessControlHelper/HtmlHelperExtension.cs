@@ -28,8 +28,7 @@ namespace AccessControlHelper
             {
                 throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
             }
-            displayStrategy.AccessKey = accessKey;
-            if (displayStrategy.IsCanDisplay)
+            if (displayStrategy.IsControlCanAccess(accessKey))
             {
                 TagBuilder tagBuilder = new TagBuilder("button");
                 tagBuilder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(attributes));
@@ -55,8 +54,7 @@ namespace AccessControlHelper
             {
                 throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
             }
-            displayStrategy.AccessKey = accessKey;
-            if (displayStrategy.IsCanDisplay)
+            if (displayStrategy.IsControlCanAccess(accessKey))
             {
                 TagBuilder tagBuilder = new TagBuilder("a");
                 tagBuilder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(attributes));
@@ -84,8 +82,7 @@ namespace AccessControlHelper
             {
                 throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
             }
-            displayStrategy.AccessKey = accessKey;
-            if (displayStrategy.IsCanDisplay)
+            if (displayStrategy.IsControlCanAccess(accessKey))
             {
                 if (String.IsNullOrEmpty(controllerName))
                 {
@@ -113,8 +110,7 @@ namespace AccessControlHelper
             {
                 throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
             }
-            displayStrategy.AccessKey = accessKey;
-            return SparkContainerHelper(helper, tagName, HtmlHelper.AnonymousObjectToHtmlAttributes(attributes), displayStrategy.IsCanDisplay);
+            return SparkContainerHelper(helper, tagName, HtmlHelper.AnonymousObjectToHtmlAttributes(attributes), displayStrategy.IsControlCanAccess(accessKey));
         }
 
         private static SparkContainer SparkContainerHelper(this HtmlHelper helper, string tagName,
