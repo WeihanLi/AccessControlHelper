@@ -67,7 +67,7 @@
     <Compile Include="IActionResultDisplayStrategy.cs" />
     <Compile Include="IControlDisplayStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShopContainer.cs" />
+    <Compile Include="SparkContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

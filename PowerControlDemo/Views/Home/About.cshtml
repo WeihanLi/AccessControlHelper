@@ -3,16 +3,16 @@
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message
-    @Html.ShopButton("12234", "btn btn-primary")
+    @Html.SparkButton("12234", new { @class= "btn btn-primary" })
 </h3>
 
 <table class="table-striped table-responsive" style="width:100%;text-align:center;">
 <thead>
 <tr>
     @*<th>商品PID</th>*@
-    @using (Html.ShopContainer("th",attributes: new { @class = "hhh",abc = "abc" }))
+    @using (Html.SparkContainer("th",attributes: new { @class = "hhh",abc = "abc" }))
     {
-        @Html.Raw("商品PID")
+        @:商品PID
     }
     <th>商品名称</th>
     <th>商品描述</th>
@@ -27,7 +27,7 @@
 </thead>
 <tbody>
 <tr>
-    @using (Html.ShopContainer("td"))
+    @using (Html.SparkContainer("td"))
     {
         <span>FU-MD-GCDQCDL-F|1</span>;
     }
@@ -59,7 +59,7 @@
     </td>
 </tr>
 <tr>
-    @using (Html.ShopContainer("td"))
+    @using (Html.SparkContainer("td"))
     {
         @Html.Raw("FU-MD-GCDQCDL-F|1")
     }
@@ -91,7 +91,7 @@
     </td>
 </tr>
 <tr>
-    @using (Html.ShopContainer("td"))
+    @using (Html.SparkContainer("td"))
     {
         <span>FU-MD-GCDQCDL-F|1</span>
     }

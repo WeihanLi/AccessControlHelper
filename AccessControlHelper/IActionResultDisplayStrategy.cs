@@ -25,7 +25,7 @@ namespace AccessControlHelper
         /// <summary>
         /// 是否可以显示
         /// </summary>
-        bool IsCanDisplay { get;}
+        bool IsCanDisplay { get; }
 
         /// <summary>
         /// 默认HTTP请求不被授权时返回的结果

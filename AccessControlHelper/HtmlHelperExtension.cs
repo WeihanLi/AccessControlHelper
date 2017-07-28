@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
+using System.Web.Mvc.Html;
 
 namespace AccessControlHelper
 {
@@ -13,7 +9,7 @@ namespace AccessControlHelper
     {
         private static IControlDisplayStrategy displayStrategy;
 
-        public static void RegisterDisplayStrategy<TStrategy>(TStrategy strategy) where TStrategy:IControlDisplayStrategy
+        public static void RegisterDisplayStrategy<TStrategy>(TStrategy strategy) where TStrategy : IControlDisplayStrategy
         {
             displayStrategy = strategy;
         }
@@ -22,11 +18,11 @@ namespace AccessControlHelper
         /// ShopButton
         /// </summary>
         /// <param name="helper">HtmlHelper</param>
-        /// <param name="buttonText">buttonText</param>
+        /// <param name="innerHtml">buttonText</param>
         /// <param name="classNames">class名称</param>
         /// <param name="attributes">attribute</param>
         /// <returns></returns>
-        public static MvcHtmlString ShopButton(this HtmlHelper helper, string buttonText, string classNames = null, object attributes = null, string accessKey = "")
+        public static MvcHtmlString SparkButton(this HtmlHelper helper, string innerHtml, object attributes = null, string accessKey = "")
         {
             if (displayStrategy == null)
             {
@@ -38,11 +34,7 @@ namespace AccessControlHelper
                 TagBuilder tagBuilder = new TagBuilder("button");
                 tagBuilder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(attributes));
                 tagBuilder.MergeAttribute("type", "button");
-                if (!String.IsNullOrEmpty(classNames))
-                {
-                    tagBuilder.MergeAttribute("class", classNames);
-                }
-                tagBuilder.InnerHtml = buttonText;
+                tagBuilder.InnerHtml = innerHtml;
                 return MvcHtmlString.Create(tagBuilder.ToString(TagRenderMode.Normal));
             }
             return MvcHtmlString.Empty;
@@ -57,7 +49,7 @@ namespace AccessControlHelper
         /// <param name="classNames">class名称</param>
         /// <param name="attributes">attribute</param>
         /// <returns></returns>
-        public static MvcHtmlString ShopLink(this HtmlHelper helper, string innerHtml, string linkUrl, string classNames = null, object attributes = null,string accessKey="")
+        public static MvcHtmlString SparkLink(this HtmlHelper helper, string innerHtml, string linkUrl, object attributes = null, string accessKey = "")
         {
             if (displayStrategy == null)
             {
@@ -69,27 +61,63 @@ namespace AccessControlHelper
                 TagBuilder tagBuilder = new TagBuilder("a");
                 tagBuilder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(attributes));
                 tagBuilder.MergeAttribute("href", linkUrl);
-                if (!String.IsNullOrEmpty(classNames))
-                {
-                    tagBuilder.MergeAttribute("class", classNames);
-                }
                 tagBuilder.InnerHtml = innerHtml;
                 return MvcHtmlString.Create(tagBuilder.ToString(TagRenderMode.Normal));
             }
             return MvcHtmlString.Empty;
         }
 
-        public static ShopContainer ShopContainer(this HtmlHelper helper, string tagName, string id = "", object attributes = null, string accessKey = "")
+        /// <summary>
+        /// SparkActionLink
+        /// </summary>
+        /// <param name="helper">HtmlHelper</param>
+        /// <param name="linkText">linkText</param>
+        /// <param name="actionName">actionName</param>
+        /// <param name="controllerName">controllerName</param>
+        /// <param name="routeValues">routeValues</param>
+        /// <param name="htmlAttributes">htmlAttributes</param>
+        /// <param name="accessKey">accessKey</param>
+        /// <returns></returns>
+        public static MvcHtmlString SparkActionLink(this HtmlHelper helper, string linkText, string actionName, string controllerName = "", object routeValues = null, object htmlAttributes = null, string accessKey = "")
         {
             if (displayStrategy == null)
             {
                 throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
             }
             displayStrategy.AccessKey = accessKey;
-            return ShopContainerHelper(helper, tagName, id, HtmlHelper.AnonymousObjectToHtmlAttributes(attributes), displayStrategy.IsCanDisplay);
+            if (displayStrategy.IsCanDisplay)
+            {
+                if (String.IsNullOrEmpty(controllerName))
+                {
+                    return helper.ActionLink(linkText, actionName, routeValues: routeValues, htmlAttributes: htmlAttributes);
+                }
+                else
+                {
+                    return helper.ActionLink(linkText, actionName, controllerName, routeValues, htmlAttributes);
+                }
+            }
+            return MvcHtmlString.Empty;
         }
 
-        private static ShopContainer ShopContainerHelper(this HtmlHelper helper, string tagName, string id,
+        /// <summary>
+        /// SparkContainer
+        /// </summary>
+        /// <param name="helper">HtmlHelper</param>
+        /// <param name="tagName">标签名称</param>
+        /// <param name="attributes">htmlAttributes</param>
+        /// <param name="accessKey">accessKey</param>
+        /// <returns></returns>
+        public static SparkContainer SparkContainer(this HtmlHelper helper, string tagName, object attributes = null, string accessKey = "")
+        {
+            if (displayStrategy == null)
+            {
+                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
+            }
+            displayStrategy.AccessKey = accessKey;
+            return SparkContainerHelper(helper, tagName, HtmlHelper.AnonymousObjectToHtmlAttributes(attributes), displayStrategy.IsCanDisplay);
+        }
+
+        private static SparkContainer SparkContainerHelper(this HtmlHelper helper, string tagName,
             IDictionary<string, object> attributes = null, bool canAccess = true)
         {
             if (displayStrategy == null)
@@ -100,22 +128,17 @@ namespace AccessControlHelper
             if (canAccess)
             {
                 tagBuilder.MergeAttributes(attributes);
-                if (!String.IsNullOrEmpty(id))
-                {
-                    tagBuilder.MergeAttribute("id", id);
-                }
                 helper.ViewContext.Writer.Write(tagBuilder.ToString(TagRenderMode.StartTag));
             }
-            ShopContainer container = new ShopContainer(helper.ViewContext, tagName, canAccess);
-            return container;
+            return new SparkContainer(helper.ViewContext, tagName, canAccess);
         }
 
-        public static void EndShopContainer(this HtmlHelper helper, string tagName, bool canAccess = true)
+        public static void EndSparkContainer(this HtmlHelper helper, string tagName, bool canAccess = true)
         {
-            EndShopContainer(helper.ViewContext, tagName, canAccess);
+            EndSparkContainer(helper.ViewContext, tagName, canAccess);
         }
 
-        public static void EndShopContainer(ViewContext viewContext, string tagName, bool canAccess)
+        public static void EndSparkContainer(ViewContext viewContext, string tagName, bool canAccess)
         {
             if (canAccess)
             {

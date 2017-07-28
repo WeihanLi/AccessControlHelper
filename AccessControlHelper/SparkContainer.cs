@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Web.Mvc;
 
 namespace AccessControlHelper
 {
-    public class ShopContainer : IDisposable
+    public class SparkContainer : IDisposable
     {
         private readonly string _tagName;
         private readonly ViewContext _viewContext;
@@ -14,7 +13,7 @@ namespace AccessControlHelper
 
         private readonly string _content;
 
-        public ShopContainer(ViewContext viewContext, string tagName, bool canAccess = true)
+        public SparkContainer(ViewContext viewContext, string tagName, bool canAccess = true)
         {
             _viewContext = viewContext;
             _tagName = tagName;
