@@ -51,11 +51,12 @@ AccessControlDemo 是一个基于 ASP.NET MVC 的权限控制系统，这个权�
     ``` csharp
     @using(HtmlHelper.SparkContainer("div",new { @class="container",custom-attribute = "abcd" }))
     {
+        @Html.Raw("1234")
     }
 
     @using (Html.SparkContainer("span",new { @class = "custom_p111" }, "F7A17FF9-3371-4667-B78E-BD11691CA852"))
     {
-        12344
+        @:12344
     }
     ```
 
