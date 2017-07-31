@@ -49,14 +49,14 @@
         @RenderBody()
         <hr />
         <footer>
-            @using (Html.ShopContainer("span","custom_p"))
+            @using (Html.SparkContainer("span",new { id= "custom_p" }))
             {
-                 <span>12344</span>
+                 @:12344
             }
-                <label>12344</label>
-            @using (Html.ShopContainer("span", "custom_p2"))
+            <label>12344</label>
+            @using (Html.SparkContainer("span",new { @class = "custom_p111" }, "F7A17FF9-3371-4667-B78E-BD11691CA852"))
             {
-                <span>12344</span>
+                @:12344
             }
             <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
         </footer>
@@ -64,7 +64,6 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @*<script src="~/Scripts/tuhuAccessService.js"></script>*@
     @RenderSection("scripts", required: false)
 </body>
 </html>
