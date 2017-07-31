@@ -42,14 +42,14 @@ AccessControlDemo 是一个基于 ASP.NET MVC 的权限控制系统，这个权�
 
     - 常用元素权限控制
         
-        - `HtmlHelper.SparkLink()`
-        - `HtmlHelper.SparkButton()`
-        - `HtmlHelper.SparkActionLink()`
+        - `Html.SparkLink()`
+        - `Html.SparkButton()`
+        - `Html.SparkActionLink()`
 
     - `SparkContainer` 使用
     
     ``` csharp
-    @using(HtmlHelper.SparkContainer("div",new { @class="container",custom-attribute = "abcd" }))
+    @using(Html.SparkContainer("div",new { @class="container",custom-attribute = "abcd" }))
     {
         @Html.Raw("1234")
     }
