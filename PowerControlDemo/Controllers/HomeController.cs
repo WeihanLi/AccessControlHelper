@@ -6,13 +6,16 @@ using AccessControlHelper;
 namespace PowerControlDemo.Controllers
 {
     [Authorize]
+    [AccessControl]
     public class HomeController : Controller
     {
+        [NoAccessControl]
         public ActionResult Index()
         {
             return View();
         }
 
+        [NoAccessControl]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -20,7 +23,6 @@ namespace PowerControlDemo.Controllers
             return View();
         }
 
-        [AccessControl]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

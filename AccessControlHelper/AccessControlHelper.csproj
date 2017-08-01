@@ -66,6 +66,7 @@
     <Compile Include="HtmlHelperExtension.cs" />
     <Compile Include="IActionResultDisplayStrategy.cs" />
     <Compile Include="IControlDisplayStrategy.cs" />
+    <Compile Include="NoAccessControlAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SparkContainer.cs" />
   </ItemGroup>
