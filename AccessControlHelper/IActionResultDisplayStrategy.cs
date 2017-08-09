@@ -1,4 +1,8 @@
-﻿using System.Web.Mvc;
+﻿#if NET45
+using System.Web.Mvc;
+#else
+using Microsoft.AspNetCore.Mvc;
+#endif
 
 namespace AccessControlHelper
 {
@@ -19,7 +23,12 @@ namespace AccessControlHelper
         /// <summary>
         /// 默认HTTP请求不被授权时返回的结果
         /// </summary>
+#if NET45
         ActionResult DisallowedCommonResult { get; }
+#else
+        IActionResult DisallowedCommonResult { get; }
+#endif
+
 
         /// <summary>
         /// Ajax请求不被授权时返回的结果

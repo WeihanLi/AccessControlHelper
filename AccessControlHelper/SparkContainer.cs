@@ -1,6 +1,10 @@
 ﻿using System;
 using System.IO;
+#if NET45
 using System.Web.Mvc;
+#else
+using Microsoft.AspNetCore.Mvc.Rendering;
+#endif
 
 namespace AccessControlHelper
 {

@@ -278,7 +278,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccessControlHelper\AccessControlHelper.csproj">
-      <Project>{28d9ee9c-53f9-468d-af75-ea71b9d433b4}</Project>
+      <Project>{93a06fc3-80a8-4b9a-bafd-185a127e40ca}</Project>
       <Name>AccessControlHelper</Name>
     </ProjectReference>
   </ItemGroup>

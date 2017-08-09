@@ -1,5 +1,12 @@
 ﻿using System;
+using System.Reflection;
+using System.Linq;
+#if NET45
 using System.Web.Mvc;
+#else
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Controllers;
+#endif
 
 namespace AccessControlHelper
 {
@@ -18,7 +25,18 @@ namespace AccessControlHelper
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+#if NET45
             if (!filterContext.ActionDescriptor.IsDefined(typeof(NoAccessControlAttribute), true))
+#else
+            bool isDefined = false;
+            var controllerActionDescriptor = filterContext.ActionDescriptor as ControllerActionDescriptor;
+            if (controllerActionDescriptor != null)
+            {
+                isDefined = controllerActionDescriptor.MethodInfo.GetCustomAttributes(inherit: true)
+                    .Any(a => a.GetType().Equals(typeof(NoAccessControlAttribute)));
+            }
+            if(!isDefined)
+#endif
             {
                 if (_displayStrategy == null)
                 {
@@ -50,4 +68,18 @@ namespace AccessControlHelper
             }
         }
     }
+#if NETSTANDARD1_6
+    public static class AjaxRequestExtensions
+    {
+        /// <summary>
+        /// 判断是否是Ajax请求
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static bool IsAjaxRequest(this Microsoft.AspNetCore.Http.HttpRequest request)
+        {
+            return (request != null && request.Headers != null && (request.Headers["X-Requested-With"] == "XMLHttpRequest"));
+        }
+    }
+#endif
 }

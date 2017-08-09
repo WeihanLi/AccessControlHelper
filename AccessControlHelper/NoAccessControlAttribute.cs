@@ -1,5 +1,9 @@
 ﻿using System;
+#if NET45
 using System.Web.Mvc;
+#else
+using Microsoft.AspNetCore.Mvc.Filters;
+#endif
 
 namespace AccessControlHelper
 {
