@@ -79,8 +79,8 @@ before_package:
   
 # scripts to run after build
 after_build:
-  - build finish
-  
+  - echo "build finish"
+
 # to run your custom scripts instead of automatic MSBuild
 build_script:
   - dotnet build ./AccessControlHelper/AccessControlHelper.csproj
