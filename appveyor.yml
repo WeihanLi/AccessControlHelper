@@ -71,7 +71,6 @@ matrix:
 
 # scripts to run before build
 before_build:
-  - nuget restore PowerControlDemo.sln
   - dotnet --info
   - dotnet restore ./AccessControlHelper/AccessControlHelper.csproj
 
@@ -81,6 +80,7 @@ before_package:
 # scripts to run after build
 after_build:
   - build finish
+  
 # to run your custom scripts instead of automatic MSBuild
 build_script:
   - dotnet build ./AccessControlHelper/AccessControlHelper.csproj
