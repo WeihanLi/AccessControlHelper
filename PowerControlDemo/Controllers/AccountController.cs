@@ -28,7 +28,7 @@ namespace PowerControlDemo.Controllers
                 result = true;
                 FormsAuthentication.SetAuthCookie(user.UserName, model.RememberMe);
                 //请求权限数据
-                var userPower = Helper.CommonHelper.GetPowerList(user.UserName);
+                Helper.CommonHelper.GetPowerList(user.UserName);
             }
             return Json(result);
         }
@@ -37,6 +37,7 @@ namespace PowerControlDemo.Controllers
         /// 退出登录
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         public ActionResult LogOut()
         {
             CommonHelper.RemoveAccessControlCache(User.Identity.Name);

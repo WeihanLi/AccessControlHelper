@@ -43,20 +43,5 @@ namespace PowerControlDemo.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
-        /// <summary>
-        /// 新增菜单
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult CreateMenu()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult AddMenu()
-        {
-            return View();
-        }
     }
 }
