@@ -7,14 +7,15 @@ using AccessControlHelper;
 
 namespace AccessControlDemo.Controllers
 {
+    [AccessControl]
     public class HomeController : Controller
     {
+        [NoAccessControl]
         public IActionResult Index()
         {
             return View();
         }
 
-        [AccessControl]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
