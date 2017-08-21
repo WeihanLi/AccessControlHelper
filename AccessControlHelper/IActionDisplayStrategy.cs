@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace AccessControlHelper
 {
     /// <summary>
-    /// ActionResult显示策略
+    /// Action显示策略
     /// </summary>
-    public interface IActionResultDisplayStrategy
+    public interface IActionDisplayStrategy
     {
         /// <summary>
         /// 是否可以显示

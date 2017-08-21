@@ -36,7 +36,7 @@ namespace PowerControlDemo.Helper
         }
     }
 
-    public class AccessActionResultDisplayStrategy : IActionResultDisplayStrategy
+    public class AccessActionResultDisplayStrategy : IActionDisplayStrategy
     {
 
         public bool IsActionCanAccess(string areaName, string controllerName, string actionName)

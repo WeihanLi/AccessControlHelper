@@ -14,9 +14,11 @@ namespace AccessControlHelper
         private readonly ViewContext _viewContext;
         private readonly bool _canAccess;
         private bool _disposed;
-
+#if NET45
         private readonly string _content;
-
+#else
+        private readonly TextWriter _writer;
+#endif
         public SparkContainer(ViewContext viewContext, string tagName, bool canAccess = true)
         {
             _viewContext = viewContext;
@@ -24,7 +26,12 @@ namespace AccessControlHelper
             _canAccess = canAccess;
             if (!_canAccess)
             {
-                _content = (_viewContext.Writer as StringWriter).GetStringBuilder().ToString();
+#if NET45
+                _content = (_viewContext.Writer as StringWriter)?.GetStringBuilder().ToString();
+#else
+                _writer = viewContext.Writer;
+                viewContext.Writer = TextWriter.Null;
+#endif
             }
         }
 
@@ -47,7 +54,11 @@ namespace AccessControlHelper
         {
             if (!_canAccess)
             {
-                (_viewContext.Writer as StringWriter).GetStringBuilder().Clear().Append(_content);
+#if NET45
+                (_viewContext.Writer as StringWriter)?.GetStringBuilder().Clear().Append(_content);
+#else
+                _viewContext.Writer = _writer;
+#endif
             }
             else
             {

@@ -14,11 +14,11 @@ namespace AccessControlHelper
 {
     public static class HtmlHelperExtension
     {
-        private static IControlDisplayStrategy displayStrategy;
+        private static IControlDisplayStrategy _displayStrategy;
 
         public static void RegisterDisplayStrategy<TStrategy>(TStrategy strategy) where TStrategy : IControlDisplayStrategy
         {
-            displayStrategy = strategy;
+            _displayStrategy = strategy;
         }
 
 #if NET45
@@ -32,11 +32,11 @@ namespace AccessControlHelper
         /// <returns></returns>
         public static MvcHtmlString SparkButton(this HtmlHelper helper, string innerHtml, object attributes = null, string accessKey = "")
         {
-            if (displayStrategy == null)
+            if (_displayStrategy == null)
             {
-                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
+                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(_displayStrategy));
             }
-            if (displayStrategy.IsControlCanAccess(accessKey))
+            if (_displayStrategy.IsControlCanAccess(accessKey))
             {
                 TagBuilder tagBuilder = new TagBuilder("button");
                 tagBuilder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(attributes));
@@ -58,11 +58,11 @@ namespace AccessControlHelper
         /// <returns></returns>
         public static MvcHtmlString SparkLink(this HtmlHelper helper, string innerHtml, string linkUrl, object attributes = null, string accessKey = "")
         {
-            if (displayStrategy == null)
+            if (_displayStrategy == null)
             {
-                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
+                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(_displayStrategy));
             }
-            if (displayStrategy.IsControlCanAccess(accessKey))
+            if (_displayStrategy.IsControlCanAccess(accessKey))
             {
                 TagBuilder tagBuilder = new TagBuilder("a");
                 tagBuilder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(attributes));
@@ -86,11 +86,11 @@ namespace AccessControlHelper
         /// <returns></returns>
         public static MvcHtmlString SparkActionLink(this HtmlHelper helper, string linkText, string actionName, string controllerName = "", object routeValues = null, object htmlAttributes = null, string accessKey = "")
         {
-            if (displayStrategy == null)
+            if (_displayStrategy == null)
             {
-                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
+                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(_displayStrategy));
             }
-            if (displayStrategy.IsControlCanAccess(accessKey))
+            if (_displayStrategy.IsControlCanAccess(accessKey))
             {
                 if (String.IsNullOrEmpty(controllerName))
                 {
@@ -114,19 +114,19 @@ namespace AccessControlHelper
         /// <returns></returns>
         public static SparkContainer SparkContainer(this HtmlHelper helper, string tagName, object attributes = null, string accessKey = "")
         {
-            if (displayStrategy == null)
+            if (_displayStrategy == null)
             {
-                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
+                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(_displayStrategy));
             }
-            return SparkContainerHelper(helper, tagName, HtmlHelper.AnonymousObjectToHtmlAttributes(attributes), displayStrategy.IsControlCanAccess(accessKey));
+            return SparkContainerHelper(helper, tagName, HtmlHelper.AnonymousObjectToHtmlAttributes(attributes), _displayStrategy.IsControlCanAccess(accessKey));
         }
 
         private static SparkContainer SparkContainerHelper(this HtmlHelper helper, string tagName,
             IDictionary<string, object> attributes = null, bool canAccess = true)
         {
-            if (displayStrategy == null)
+            if (_displayStrategy == null)
             {
-                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
+                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(_displayStrategy));
             }
             TagBuilder tagBuilder = new TagBuilder(tagName);
             if (canAccess)
@@ -151,11 +151,11 @@ namespace AccessControlHelper
         /// <returns></returns>
         public static IHtmlContent SparkActionLink(this IHtmlHelper helper, string linkText, string actionName, string controllerName = "", object routeValues = null, object htmlAttributes = null, string accessKey = "")
         {
-            if (displayStrategy == null)
+            if (_displayStrategy == null)
             {
-                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
+                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(_displayStrategy));
             }
-            if (displayStrategy.IsControlCanAccess(accessKey))
+            if (_displayStrategy.IsControlCanAccess(accessKey))
             {
                 if (String.IsNullOrEmpty(controllerName))
                 {
@@ -179,30 +179,25 @@ namespace AccessControlHelper
         /// <returns></returns>
         public static SparkContainer SparkContainer(this IHtmlHelper helper, string tagName, object attributes = null, string accessKey = "")
         {
-            if (displayStrategy == null)
+            if (_displayStrategy == null)
             {
-                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
+                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(_displayStrategy));
             }
-            return SparkContainerHelper(helper, tagName, HtmlHelper.ObjectToDictionary(attributes), displayStrategy.IsControlCanAccess(accessKey));
+            return SparkContainerHelper(helper, tagName, HtmlHelper.AnonymousObjectToHtmlAttributes(attributes), _displayStrategy.IsControlCanAccess(accessKey));
         }
 
-        private static SparkContainer SparkContainerHelper(this IHtmlHelper helper, string tagName,
+        private static SparkContainer SparkContainerHelper(IHtmlHelper helper, string tagName,
             IDictionary<string, object> attributes = null, bool canAccess = true)
         {
-            if (displayStrategy == null)
-            {
-                throw new ArgumentException("Control显示策略未初始化，请使用 HtmlHelperExtension.RegisterDisplayStrategy(IControlDisplayStrategy stragety) 方法注册显示策略", nameof(displayStrategy));
-            }
             TagBuilder tagBuilder = new TagBuilder(tagName);
             if (canAccess)
             {
                 tagBuilder.MergeAttributes(attributes);
                 tagBuilder.TagRenderMode = TagRenderMode.StartTag;
-                helper.ViewContext.Writer.Write(tagBuilder.ToString());
+                helper.ViewContext.Writer.Write(tagBuilder);
             }
             return new SparkContainer(helper.ViewContext, tagName, canAccess);
         }
 #endif
-
     }
 }

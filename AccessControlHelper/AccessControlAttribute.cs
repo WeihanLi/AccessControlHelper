@@ -16,27 +16,35 @@ namespace AccessControlHelper
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AccessControlAttribute : ActionFilterAttribute
     {
-        private static IActionResultDisplayStrategy _displayStrategy;
+        private static IActionDisplayStrategy _displayStrategy;
 
-        public static void RegisterDisplayStrategy<TStrategy>(TStrategy strategy) where TStrategy : IActionResultDisplayStrategy
+        public static void RegisterDisplayStrategy<TStrategy>(TStrategy strategy) where TStrategy : IActionDisplayStrategy
         {
             _displayStrategy = strategy;
         }
 
+        public AccessControlAttribute() {}
+
+        public AccessControlAttribute(IActionDisplayStrategy displayStrategy)
+        {
+            _displayStrategy = displayStrategy;
+        }
+
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-#if NET45
-            if (!filterContext.ActionDescriptor.IsDefined(typeof(NoAccessControlAttribute), true))
-#else
+
             bool isDefined = false;
+#if NET45
+            isDefined = filterContext.ActionDescriptor.IsDefined(typeof(NoAccessControlAttribute), true);
+#else
             var controllerActionDescriptor = filterContext.ActionDescriptor as ControllerActionDescriptor;
             if (controllerActionDescriptor != null)
             {
-                isDefined = controllerActionDescriptor.MethodInfo.GetCustomAttributes(inherit: true)
+                isDefined = controllerActionDescriptor.MethodInfo.GetCustomAttributes()
                     .Any(a => a.GetType().Equals(typeof(NoAccessControlAttribute)));
             }
-            if(!isDefined)
 #endif
+            if (!isDefined)
             {
                 if (_displayStrategy == null)
                 {
@@ -68,7 +76,7 @@ namespace AccessControlHelper
             }
         }
     }
-#if NETSTANDARD1_6
+#if NETSTANDARD2_0
     public static class AjaxRequestExtensions
     {
         /// <summary>
