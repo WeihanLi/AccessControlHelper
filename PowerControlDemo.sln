@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerControlDemo", "PowerControlDemo\PowerControlDemo.csproj", "{9A77CA9F-C415-4344-8CD4-AB770678F32E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControlHelper", "AccessControlHelper\AccessControlHelper.csproj", "{93A06FC3-80A8-4B9A-BAFD-185A127E40CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlHelper", "AccessControlHelper\AccessControlHelper.csproj", "{93A06FC3-80A8-4B9A-BAFD-185A127E40CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControlDemo", "AccessControlDemo\AccessControlDemo.csproj", "{06F5133F-2824-4AD5-8276-59271F9DA493}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{93A06FC3-80A8-4B9A-BAFD-185A127E40CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93A06FC3-80A8-4B9A-BAFD-185A127E40CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93A06FC3-80A8-4B9A-BAFD-185A127E40CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06F5133F-2824-4AD5-8276-59271F9DA493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06F5133F-2824-4AD5-8276-59271F9DA493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06F5133F-2824-4AD5-8276-59271F9DA493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06F5133F-2824-4AD5-8276-59271F9DA493}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
