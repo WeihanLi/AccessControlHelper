@@ -7,7 +7,8 @@ dist: trusty
 
 install:
   - dotnet --info
-  - dotnet restore
+  - dotnet restore ./AccessControlHelper/AccessControlHelper.csproj
+  - dotnet restore ./AccessControlDemo/AccessControlDemo.csproj
   
 script:
   - dotnet build /p:Configuration=Release --framework:netstandard2.0 ./AccessControlHelper/AccessControlHelper.csproj
