@@ -1,0 +1,14 @@
+language: csharp
+solution: AccessControl.sln
+# runtime config
+mono: none
+dotnet: 2.0.0
+dist: trusty
+
+install:
+  - dotnet --info
+  - dotnet restore
+  
+script:
+  - dotnet build /p:Configuration=Release --framework:netstandard2.0 ./AccessControlHelper/AccessControlHelper.csproj
+  - dotnet build ./AccessControlDemo/AccessControlDemo.csproj
