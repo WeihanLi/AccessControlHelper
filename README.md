@@ -1,21 +1,23 @@
-## AccessControlDemo
+## AccessControlHelper
 
 ### Build Status
 [![Build status](https://ci.appveyor.com/api/projects/status/ht69a1o8b9ss9v8a?svg=true)](https://ci.appveyor.com/project/WeihanLi/accesscontroldemo)
 
+[![Build Status](https://travis-ci.org/WeihanLi/AccessControlHelper.svg?branch=master)](https://travis-ci.org/WeihanLi/AccessControlHelper)
+
 ### Intro
-AccessControlDemo 是一个基于 ASP.NET MVC 的权限控制系统，这个权限控制系统主要是实现对 `Action` 的访问控制和页面元素的权限控制。
+AccessControlHelper 是基于 ASP.NET MVC 和 ASP.NET Core 实现的对 `Action` 的访问控制以及页面元素的权限控制。
 
 权限访问控制实现机制：
 
 - Action的访问控制是基于 `ActionFilter` 来实现的
-- 页面元素访问控制是基于通过自己封装的一些 `HtmlHelper` 扩展方法来实现的
+- 页面元素访问控制是基于通过自己封装的 `HtmlHelper` 扩展方法来实现的
 
 ### GetStarted
 1. 实现自己的权限控制显示策略类
 
     - 实现页面元素显示策略接口 `IControlDisplayStrategy`
-    - 实现 `Action` 访问显示策略接口 `IActionResultDisplayStrategy`
+    - 实现 `Action` 访问显示策略接口 `IActionDisplayStrategy`
 
     示例代码：
    <https://github.com/WeihanLi/AccessControlDemo/blob/master/PowerControlDemo/Helper/AccessControlDisplayStrategy.cs>
@@ -34,7 +36,7 @@ AccessControlDemo 是一个基于 ASP.NET MVC 的权限控制系统，这个权�
 
 1. 控制 `Action` 的方法权限
 
-    通过 `AccessControl` Filter 来控制 `Action` 的访问权限
+    通过 `AccessControl` 和 `NoAccessControl` Filter 来控制 `Action` 的访问权限
 
 1. 控制页面元素的显示
 
