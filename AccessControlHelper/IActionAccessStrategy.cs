@@ -1,7 +1,9 @@
 ﻿#if NET45
 using System.Web.Mvc;
 #else
+
 using Microsoft.AspNetCore.Mvc;
+
 #endif
 
 namespace AccessControlHelper
@@ -9,7 +11,7 @@ namespace AccessControlHelper
     /// <summary>
     /// Action显示策略
     /// </summary>
-    public interface IActionDisplayStrategy
+    public interface IActionAccessStrategy
     {
         /// <summary>
         /// 是否可以显示
@@ -18,7 +20,7 @@ namespace AccessControlHelper
         /// <param name="controllerName">控制器名称</param>
         /// <param name="actionName">action名称</param>
         /// <returns></returns>
-        bool IsActionCanAccess(string areaName,string controllerName,string actionName);
+        bool IsActionCanAccess(string areaName, string controllerName, string actionName);
 
         /// <summary>
         /// 默认HTTP请求不被授权时返回的结果
@@ -28,7 +30,6 @@ namespace AccessControlHelper
 #else
         IActionResult DisallowedCommonResult { get; }
 #endif
-
 
         /// <summary>
         /// Ajax请求不被授权时返回的结果

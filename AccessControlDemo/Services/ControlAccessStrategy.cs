@@ -2,7 +2,7 @@
 
 namespace AccessControlDemo.Services
 {
-    public class AccessControlDisplayStrategy : AccessControlHelper.IControlDisplayStrategy
+    public class ControlAccessStrategy : AccessControlHelper.IControlAccessStrategy
     {
         public bool IsControlCanAccess(string accessKey)
         {

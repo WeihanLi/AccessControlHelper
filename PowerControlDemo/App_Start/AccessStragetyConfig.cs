@@ -11,9 +11,9 @@
         public static void RegisterDisplayStrategy()
         {
             // RegisterControlDisplayStrategy
-            AccessControlHelper.HtmlHelperExtension.RegisterDisplayStrategy(new Helper.AccessControlDisplayStrategy());
+            AccessControlHelper.HtmlHelperExtension.RegisterAccessStrategy(new Helper.AccessControlDisplayStrategy());
             //RegisterActionResultDisplayStrategy
-            AccessControlHelper.AccessControlAttribute.RegisterDisplayStrategy(new Helper.AccessActionResultDisplayStrategy());
+            AccessControlHelper.AccessControlAttribute.RegisterAccessStrategy(new Helper.AccessActionResultDisplayStrategy());
         }
     }
 }

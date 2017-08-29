@@ -1,9 +1,12 @@
 ﻿using System;
 using System.IO;
+
 #if NET45
 using System.Web.Mvc;
 #else
+
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 #endif
 
 namespace AccessControlHelper
@@ -19,6 +22,7 @@ namespace AccessControlHelper
 #else
         private readonly TextWriter _writer;
 #endif
+
         public SparkContainer(ViewContext viewContext, string tagName, bool canAccess = true)
         {
             _viewContext = viewContext;

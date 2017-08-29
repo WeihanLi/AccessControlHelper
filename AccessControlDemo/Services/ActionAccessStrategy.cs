@@ -2,7 +2,7 @@
 
 namespace AccessControlDemo.Services
 {
-    public class AccessActionDisplayStrategy : AccessControlHelper.IActionDisplayStrategy
+    public class ActionAccessStrategy : AccessControlHelper.IActionAccessStrategy
     {
         public bool IsActionCanAccess(string areaName, string controllerName, string actionName)
         {

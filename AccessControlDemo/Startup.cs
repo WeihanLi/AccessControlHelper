@@ -30,13 +30,6 @@ namespace AccessControlDemo
         {
             // Add framework services.
             services.AddMvc();
-
-            // TODO:@liweihan  add asp.net core support and optimize
-            //services.AddSingleton<AccessControlHelper.IActionDisplayStrategy>(new AccessActionDisplayStrategy());
-            //services.AddSingleton<AccessControlHelper.IControlDisplayStrategy>(new AccessControlDisplayStrategy());
-
-            AccessControlHelper.AccessControlAttribute.RegisterDisplayStrategy(new AccessActionDisplayStrategy());
-            AccessControlHelper.HtmlHelperExtension.RegisterDisplayStrategy(new AccessControlDisplayStrategy());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +55,12 @@ namespace AccessControlDemo
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+            // UseAccessControlHelper
+            app.UseAccessControlHelper(new AccessControlHelper.AccessControlHelperOptions
+            {
+                ActionAccessStrategy = new ActionAccessStrategy(),
+                ControlAccessStrategy = new ControlAccessStrategy()
             });
         }
     }

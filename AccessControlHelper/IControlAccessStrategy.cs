@@ -3,7 +3,7 @@
     /// <summary>
     /// Control显示策略
     /// </summary>
-    public interface IControlDisplayStrategy
+    public interface IControlAccessStrategy
     {
         /// <summary>
         /// 是否可以显示

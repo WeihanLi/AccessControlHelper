@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Reflection;
 using System.Linq;
+
 #if NET45
 using System.Web.Mvc;
 #else
+
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Controllers;
+
 #endif
 
 namespace AccessControlHelper
@@ -16,23 +19,24 @@ namespace AccessControlHelper
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AccessControlAttribute : ActionFilterAttribute
     {
-        private static IActionDisplayStrategy _displayStrategy;
+        private static IActionAccessStrategy _accessStrategy;
 
-        public static void RegisterDisplayStrategy<TStrategy>(TStrategy strategy) where TStrategy : IActionDisplayStrategy
+        public static void RegisterAccessStrategy<TStrategy>(TStrategy strategy) where TStrategy : IActionAccessStrategy
         {
-            _displayStrategy = strategy;
+            _accessStrategy = strategy;
         }
 
-        public AccessControlAttribute() {}
-
-        public AccessControlAttribute(IActionDisplayStrategy displayStrategy)
+        public AccessControlAttribute()
         {
-            _displayStrategy = displayStrategy;
+        }
+
+        public AccessControlAttribute(IActionAccessStrategy displayStrategy)
+        {
+            _accessStrategy = displayStrategy;
         }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-
             bool isDefined = false;
 #if NET45
             isDefined = filterContext.ActionDescriptor.IsDefined(typeof(NoAccessControlAttribute), true);
@@ -46,14 +50,14 @@ namespace AccessControlHelper
 #endif
             if (!isDefined)
             {
-                if (_displayStrategy == null)
+                if (_accessStrategy == null)
                 {
-                    throw new ArgumentException("ActionResult显示策略未初始化，请使用 AccessControlAttribute.RegisterDisplayStrategy(IActionResultDisplayStrategy stragety) 方法注册显示策略", nameof(_displayStrategy));
+                    throw new ArgumentException("ActionResult显示策略未初始化，请使用 AccessControlAttribute.RegisterDisplayStrategy(IActionResultDisplayStrategy stragety) 方法注册显示策略", nameof(_accessStrategy));
                 }
                 var area = filterContext.RouteData.Values["area"]?.ToString() ?? "";
                 var controller = filterContext.RouteData.Values["controller"].ToString();
                 var action = filterContext.RouteData.Values["action"].ToString();
-                if (_displayStrategy.IsActionCanAccess(area, controller, action))
+                if (_accessStrategy.IsActionCanAccess(area, controller, action))
                 {
                     base.OnActionExecuting(filterContext);
                 }
@@ -62,11 +66,11 @@ namespace AccessControlHelper
                     //if Ajax request
                     if (filterContext.HttpContext.Request.IsAjaxRequest())
                     {
-                        filterContext.Result = _displayStrategy.DisallowedAjaxResult;
+                        filterContext.Result = _accessStrategy.DisallowedAjaxResult;
                     }
                     else
                     {
-                        filterContext.Result = _displayStrategy.DisallowedCommonResult;
+                        filterContext.Result = _accessStrategy.DisallowedCommonResult;
                     }
                 }
             }
@@ -76,7 +80,9 @@ namespace AccessControlHelper
             }
         }
     }
-#if NETSTANDARD2_0
+
+#if !NET45
+
     public static class AjaxRequestExtensions
     {
         /// <summary>
@@ -89,5 +95,6 @@ namespace AccessControlHelper
             return (request != null && request.Headers != null && (request.Headers["X-Requested-With"] == "XMLHttpRequest"));
         }
     }
+
 #endif
 }
