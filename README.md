@@ -16,23 +16,43 @@ AccessControlHelper 是基于 ASP.NET MVC 和 ASP.NET Core 实现的对 `Action`
 ### GetStarted
 1. 实现自己的权限控制显示策略类
 
-    - 实现页面元素显示策略接口 `IControlDisplayStrategy`
-    - 实现 `Action` 访问显示策略接口 `IActionDisplayStrategy`
+    - 实现页面元素显示策略接口 `IControlAccessStrategy`
+    - 实现 `Action` 访问显示策略接口 `IActionAccessStrategy`
 
     示例代码：
-   <https://github.com/WeihanLi/AccessControlDemo/blob/master/PowerControlDemo/Helper/AccessControlDisplayStrategy.cs>
+    
+    - ASP.NET Mvc
+   
+   <https://github.com/WeihanLi/AccessControlHelper/blob/master/PowerControlDemo/Helper/AccessControlDisplayStrategy.cs>
+
+   - ASP.NET CORE
+
+   <https://github.com/WeihanLi/AccessControlHelper/blob/master/AccessControlDemo/Startup.cs#L60>
 
 
 1. 程序启动时注册自己的显示策略
 
-    在 `Global` 文件中注册显示策略
+    - asp.net core
+
+    在 `Startup` 文件中注册显示策略
     ``` csharp
-    // RegisterControlDisplayStrategy
-    AccessControlHelper.HtmlHelperExtension.RegisterDisplayStrategy(new AccessControlDisplayStrategy());
-    // RegisterActionResultDisplayStrategy
-    AccessControlHelper.AccessControlAttribute.RegisterDisplayStrategy(new AccessActionResultDisplayStrategy());
+    app.UseAccessControlHelper(new AccessControlHelperOptions
+        {
+            ActionAccessStrategy = new ActionAccessStrategy(),
+            ControlAccessStrategy = new ControlAccessStrategy()
+        });
     ```
     
+    - asp.net mvc
+
+    在 `Global` 文件中注册显示策略
+    ``` csharp
+    AccessControlHelperExtensions.RegisterAccessStragety(new AccessControlHelperOptions
+        {
+            ActionAccessStrategy = new ActionAccessStrategy(),
+            ControlAccessStrategy = new ControlAccessStrategy()
+        });
+    ```
 
 1. 控制 `Action` 的方法权限
 
@@ -41,12 +61,6 @@ AccessControlHelper 是基于 ASP.NET MVC 和 ASP.NET Core 实现的对 `Action`
 1. 控制页面元素的显示
 
     通过 `HtmlHelper` 扩展方法来实现权限控制
-
-    - 常用元素权限控制
-        
-        - `Html.SparkLink()`
-        - `Html.SparkButton()`
-        - `Html.SparkActionLink()`
 
     - `SparkContainer` 使用
     
