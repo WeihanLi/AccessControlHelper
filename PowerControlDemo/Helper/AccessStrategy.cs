@@ -7,7 +7,7 @@ using AccessControlHelper;
 
 namespace PowerControlDemo.Helper
 {
-    public class AccessControlDisplayStrategy : IControlAccessStrategy
+    public class ControlAccessStrategy : IControlAccessStrategy
     {
         public bool IsControlCanAccess(string accessKey)
         {
@@ -36,7 +36,7 @@ namespace PowerControlDemo.Helper
         }
     }
 
-    public class AccessActionResultDisplayStrategy : IActionAccessStrategy
+    public class ActionAccessStrategy : IActionAccessStrategy
     {
 
         public bool IsActionCanAccess(string areaName, string controllerName, string actionName)
