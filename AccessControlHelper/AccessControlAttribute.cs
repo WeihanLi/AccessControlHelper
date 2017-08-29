@@ -92,7 +92,7 @@ namespace AccessControlHelper
         /// <returns></returns>
         public static bool IsAjaxRequest(this Microsoft.AspNetCore.Http.HttpRequest request)
         {
-            return (request != null && request.Headers != null && (request.Headers["X-Requested-With"] == "XMLHttpRequest"));
+            return request?.Headers != null && String.Equals(request.Headers["X-Requested-With"], "XMLHttpRequest", StringComparison.OrdinalIgnoreCase);
         }
     }
 
