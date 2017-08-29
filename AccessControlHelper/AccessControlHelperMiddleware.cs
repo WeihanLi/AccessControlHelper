@@ -60,6 +60,8 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         }
     }
 
+#endif
+
     /// <summary>
     /// AccessControlHelperOption
     /// </summary>
@@ -72,6 +74,4 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 
         public IControlAccessStrategy ControlAccessStrategy { get; set; }
     }
-
-#endif
 }

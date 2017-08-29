@@ -1,4 +1,7 @@
-﻿namespace PowerControlDemo
+﻿using PowerControlDemo.Helper;
+using WeihanLi.AspNetMvc.AccessControlHelper;
+
+namespace PowerControlDemo
 {
     /// <summary>
     /// 权限控制显示策略配置
@@ -11,9 +14,11 @@
         public static void RegisterDisplayStrategy()
         {
             // RegisterControlDisplayStrategy
-            WeihanLi.AspNetMvc.AccessControlHelper.HtmlHelperExtension.RegisterAccessStrategy(new Helper.ControlAccessStrategy());
-            //RegisterActionResultDisplayStrategy
-            WeihanLi.AspNetMvc.AccessControlHelper.AccessControlAttribute.RegisterAccessStrategy(new Helper.ActionAccessStrategy());
+            AccessControlHelperExtensions.RegisterAccessStragety(new AccessControlHelperOptions
+            {
+                ActionAccessStrategy = new ActionAccessStrategy(),
+                ControlAccessStrategy = new ControlAccessStrategy()
+            });
         }
     }
 }

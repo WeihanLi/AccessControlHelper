@@ -1,17 +1,41 @@
 ﻿using System;
-using WeihanLi.AspNetMvc.AccessControlHelper;
-#if !NET45
 
+#if !NET45
+using WeihanLi.AspNetMvc.AccessControlHelper;
 using Microsoft.Extensions.Options;
 
 #endif
-
+#if NET45
+namespace WeihanLi.AspNetMvc.AccessControlHelper
+#else
 namespace Microsoft.AspNetCore.Builder
+#endif
 {
-#if !NET45
-
-    public static class AccessControlHelperExtension
+    public static class AccessControlHelperExtensions
     {
+#if NET45
+        public static void RegisterAccessStragety(AccessControlHelperOptions options)
+        {
+            if (options == null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+            AccessControlAttribute.RegisterAccessStrategy(options.ActionAccessStrategy);
+            HtmlHelperExtension.RegisterAccessStrategy(options.ControlAccessStrategy);
+        }
+
+        public static void RegisterAccessStragety(Action<AccessControlHelperOptions> optionsAction)
+        {
+            if (optionsAction == null)
+            {
+                throw new ArgumentNullException(nameof(optionsAction));
+            }
+            AccessControlHelperOptions options = new AccessControlHelperOptions();
+            optionsAction(options);
+            AccessControlAttribute.RegisterAccessStrategy(options.ActionAccessStrategy);
+            HtmlHelperExtension.RegisterAccessStrategy(options.ControlAccessStrategy);
+        }
+#else
         public static IApplicationBuilder UseAccessControlHelper(this IApplicationBuilder app)
         {
             if (app == null)
@@ -55,7 +79,6 @@ namespace Microsoft.AspNetCore.Builder
             // put middleware in pipeline
             return app.UseMiddleware<AccessControlHelperMiddleware>(Options.Create(options));
         }
-    }
-
 #endif
+    }
 }
