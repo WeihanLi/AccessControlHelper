@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo.Services
 {
-    public class ActionAccessStrategy : AccessControlHelper.IActionAccessStrategy
+    public class ActionAccessStrategy : IActionAccessStrategy
     {
         public bool IsActionCanAccess(string areaName, string controllerName, string actionName)
         {

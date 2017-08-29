@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 #endif
 
-namespace AccessControlHelper
+namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
 #if !NET45
 

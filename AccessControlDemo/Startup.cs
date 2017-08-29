@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo
 {
@@ -57,7 +58,7 @@ namespace AccessControlDemo
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
             // UseAccessControlHelper
-            app.UseAccessControlHelper(new AccessControlHelper.AccessControlHelperOptions
+            app.UseAccessControlHelper(new AccessControlHelperOptions
             {
                 ActionAccessStrategy = new ActionAccessStrategy(),
                 ControlAccessStrategy = new ControlAccessStrategy()

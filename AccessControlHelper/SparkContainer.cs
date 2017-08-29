@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 #endif
 
-namespace AccessControlHelper
+namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     public class SparkContainer : IDisposable
     {

@@ -1,8 +1,9 @@
 ﻿using System;
+using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo.Services
 {
-    public class ControlAccessStrategy : AccessControlHelper.IControlAccessStrategy
+    public class ControlAccessStrategy : IControlAccessStrategy
     {
         public bool IsControlCanAccess(string accessKey)
         {

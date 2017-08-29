@@ -1,6 +1,5 @@
 ﻿using System;
-using AccessControlHelper;
-
+using WeihanLi.AspNetMvc.AccessControlHelper;
 #if !NET45
 
 using Microsoft.Extensions.Options;

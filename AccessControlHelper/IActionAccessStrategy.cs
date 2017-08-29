@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 #endif
 
-namespace AccessControlHelper
+namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     /// <summary>
     /// Action显示策略

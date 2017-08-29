@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 #endif
 
-namespace AccessControlHelper
+namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     public static class HtmlHelperExtension
     {

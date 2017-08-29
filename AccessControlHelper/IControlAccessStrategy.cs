@@ -1,4 +1,4 @@
-﻿namespace AccessControlHelper
+﻿namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     /// <summary>
     /// Control显示策略

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 
 #endif
 
-namespace AccessControlHelper
+namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     /// <summary>
     /// 权限控制

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using AccessControlHelper;
+using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace PowerControlDemo.Helper
 {

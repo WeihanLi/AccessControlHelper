@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 #endif
 
-namespace AccessControlHelper
+namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     /// <summary>
     /// 不用权限控制
