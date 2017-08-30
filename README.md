@@ -25,7 +25,7 @@ AccessControlHelper 是基于 ASP.NET MVC 和 ASP.NET Core 实现的对 `Action`
    
    <https://github.com/WeihanLi/AccessControlHelper/blob/master/PowerControlDemo/Helper/AccessControlDisplayStrategy.cs>
 
-   - ASP.NET CORE
+   - ASP.NET Core
 
    <https://github.com/WeihanLi/AccessControlHelper/blob/master/AccessControlDemo/Startup.cs#L60>
 
