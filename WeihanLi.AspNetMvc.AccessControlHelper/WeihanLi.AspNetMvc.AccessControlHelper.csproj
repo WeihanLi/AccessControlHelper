@@ -5,13 +5,17 @@
     <PackageId>WeihanLi.AspNetMvc.AccessControlHelper</PackageId>
     <Authors>WeihanLi</Authors>
     <Company>WeihanLi</Company>
-    <Description>WeihanLi.AspNet.Mvc.AccessControlHelper
+    <Description>WeihanLi.AspNetMvc.AccessControlHelper
 AccessControlHelper for asp.net mvc and asp.net core apps</Description>
     <RepositoryUrl>https://github.com/WeihanLi/AccessControlHelper</RepositoryUrl>
     <PackageProjectUrl>https://github.com/WeihanLi/AccessControlHelper</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/WeihanLi/AccessControlHelper/blob/master/LICENSE</PackageLicenseUrl>
     <AssemblyName>WeihanLi.AspNetMvc.AccessControlHelper</AssemblyName>
     <RootNamespace>WeihanLi.AspNetMvc.AccessControlHelper</RootNamespace>
+    <Copyright>WeihanLi</Copyright>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>AccessControl PowerControl Mvc</PackageTags>
+    <PackageReleaseNotes>init commit</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
