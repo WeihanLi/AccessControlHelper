@@ -15,7 +15,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AccessControlHelper\AccessControlHelper.csproj" />
+    <ProjectReference Include="..\WeihanLi.AspNetMvc.AccessControlHelper\WeihanLi.AspNetMvc.AccessControlHelper.csproj" />
   </ItemGroup>
 
 </Project>

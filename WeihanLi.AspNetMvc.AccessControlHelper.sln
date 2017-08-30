@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerControlDemo", "PowerControlDemo\PowerControlDemo.csproj", "{9A77CA9F-C415-4344-8CD4-AB770678F32E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlHelper", "AccessControlHelper\AccessControlHelper.csproj", "{93A06FC3-80A8-4B9A-BAFD-185A127E40CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlDemo", "AccessControlDemo\AccessControlDemo.csproj", "{06F5133F-2824-4AD5-8276-59271F9DA493}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControlDemo", "AccessControlDemo\AccessControlDemo.csproj", "{06F5133F-2824-4AD5-8276-59271F9DA493}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeihanLi.AspNetMvc.AccessControlHelper", "WeihanLi.AspNetMvc.AccessControlHelper\WeihanLi.AspNetMvc.AccessControlHelper.csproj", "{2FBA0AF2-C1C0-426E-8FF4-F954C1B24252}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,16 +19,19 @@ Global
 		{9A77CA9F-C415-4344-8CD4-AB770678F32E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A77CA9F-C415-4344-8CD4-AB770678F32E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A77CA9F-C415-4344-8CD4-AB770678F32E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{93A06FC3-80A8-4B9A-BAFD-185A127E40CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93A06FC3-80A8-4B9A-BAFD-185A127E40CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93A06FC3-80A8-4B9A-BAFD-185A127E40CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93A06FC3-80A8-4B9A-BAFD-185A127E40CA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{06F5133F-2824-4AD5-8276-59271F9DA493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{06F5133F-2824-4AD5-8276-59271F9DA493}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06F5133F-2824-4AD5-8276-59271F9DA493}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06F5133F-2824-4AD5-8276-59271F9DA493}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FBA0AF2-C1C0-426E-8FF4-F954C1B24252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FBA0AF2-C1C0-426E-8FF4-F954C1B24252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FBA0AF2-C1C0-426E-8FF4-F954C1B24252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FBA0AF2-C1C0-426E-8FF4-F954C1B24252}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FF6C673F-3A35-4031-838A-934FCBF33A31}
 	EndGlobalSection
 EndGlobal
