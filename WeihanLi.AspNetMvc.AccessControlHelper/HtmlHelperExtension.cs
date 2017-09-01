@@ -18,7 +18,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
     {
         private static IControlAccessStrategy _accessStrategy;
 
-        public static void RegisterAccessStrategy<TStrategy>(TStrategy strategy) where TStrategy : IControlAccessStrategy
+        internal static void RegisterAccessStrategy<TStrategy>(TStrategy strategy) where TStrategy : IControlAccessStrategy
         {
             _accessStrategy = strategy;
         }
