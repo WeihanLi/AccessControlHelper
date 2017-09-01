@@ -76,5 +76,16 @@ AccessControlHelper 是基于 ASP.NET MVC 和 ASP.NET Core 实现的对 `Action`
     }
     ```
 
+    没有权限访问就不会渲染到页面上，有权限访问的时候渲染得到的 Html 如下：
+
+    ``` html
+    <div class="container" custom-attribute="abcd">1234</div>
+
+    <span class="custome_p111"></span>
+    ```
+
 ### Contact
+
+如果您在使用中遇到了问题，欢迎随时与我联系。
+
 Conact me: <weihanli@outlook.com>
