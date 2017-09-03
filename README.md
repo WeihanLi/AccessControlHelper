@@ -1,19 +1,35 @@
 ## AccessControlHelper
 
 ### Build Status
+
 [![Build status](https://ci.appveyor.com/api/projects/status/ht69a1o8b9ss9v8a?svg=true)](https://ci.appveyor.com/project/WeihanLi/accesscontroldemo)
 
 [![Build Status](https://travis-ci.org/WeihanLi/AccessControlHelper.svg?branch=master)](https://travis-ci.org/WeihanLi/AccessControlHelper)
 
 ### Intro
-AccessControlHelper 是基于 ASP.NET MVC 和 ASP.NET Core 实现的对 `Action` 的访问控制以及页面元素的权限控制。
 
-权限访问控制实现机制：
+由于项目需要，需要在 基于 Asp.net mvc 的 Web 项目框架中做权限的控制，于是才有了这个权限控制组件。
 
-- Action的访问控制是基于 `ActionFilter` 来实现的
-- 页面元素访问控制是基于通过自己封装的 `HtmlHelper` 扩展方法来实现的
+项目基于 .NETStandard，同时支持 asp.net mvc（.NET faremwork4.5以上） 和 asp.net core 项目（asp.net 2.0以上），基于 ASP.NET MVC 和 ASP.NET Core 实现的对 `Action` 的访问控制以及页面元素的权限控制。
 
 ### GetStarted
+
+1. Nuget Package <https://www.nuget.org/packages/WeihanLi.AspNetMvc.AccessControlHelper/> 
+   
+   安装权限控制组件 `WeihanLi.AspNetMvc.AccessControlHelper` 
+
+   asp.net:
+
+   ```
+   Install-Package WeihanLi.AspNetMvc.AccessControlHelper
+   ```
+
+   asp.net core:
+
+   ```
+   dotnet add package WeihanLi.AspNetMvc.AccessControlHelper
+   ```
+
 1. 实现自己的权限控制显示策略类
 
     - 实现页面元素显示策略接口 `IControlAccessStrategy`
@@ -32,6 +48,17 @@ AccessControlHelper 是基于 ASP.NET MVC 和 ASP.NET Core 实现的对 `Action`
 
 1. 程序启动时注册自己的显示策略
 
+    - asp.net mvc
+
+    在 `Global` 文件中注册显示策略
+    ``` csharp
+    AccessControlHelperExtensions.RegisterAccessStragety(new AccessControlHelperOptions
+        {
+            ActionAccessStrategy = new ActionAccessStrategy(),
+            ControlAccessStrategy = new ControlAccessStrategy()
+        });
+    ```
+    
     - asp.net core
 
     在 `Startup` 文件中注册显示策略
@@ -43,16 +70,6 @@ AccessControlHelper 是基于 ASP.NET MVC 和 ASP.NET Core 实现的对 `Action`
         });
     ```
     
-    - asp.net mvc
-
-    在 `Global` 文件中注册显示策略
-    ``` csharp
-    AccessControlHelperExtensions.RegisterAccessStragety(new AccessControlHelperOptions
-        {
-            ActionAccessStrategy = new ActionAccessStrategy(),
-            ControlAccessStrategy = new ControlAccessStrategy()
-        });
-    ```
 
 1. 控制 `Action` 的方法权限
 
