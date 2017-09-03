@@ -1,7 +1,7 @@
 ## AccessControlHelper
 
 [![WeihanLi.AspNetMvc.AccessControlHelper](https://img.shields.io/nuget/v/WeihanLi.AspNetMvc.AccessControlHelper.svg)](http://www.nuget.org/packages/WeihanLi.AspNetMvc.AccessControlHelper/)
-![NuGet Downloads](https://img.shields.io/nuget/dt/WeihanLi.AspNetMvc.AccessControlHelper.svg)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/WeihanLi.AspNetMvc.AccessControlHelper.svg)](http://www.nuget.org/packages/WeihanLi.AspNetMvc.AccessControlHelper/)
 
 ### Build Status
 
