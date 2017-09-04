@@ -66,11 +66,20 @@
 
     在 `Startup` 文件中注册显示策略
     ``` csharp
+    // Method1
+    app.UseAccessControlHelper(options =>
+        {
+            options.ActionAccessStrategy = new ActionAccessStrategy(),
+            options.ControlAccessStrategy = new ControlAccessStrategy()
+        });
+        
+    // Method2
     app.UseAccessControlHelper(new AccessControlHelperOptions
         {
             ActionAccessStrategy = new ActionAccessStrategy(),
             ControlAccessStrategy = new ControlAccessStrategy()
         });
+
     ```
     
 
@@ -108,4 +117,4 @@
 
 如果您在使用中遇到了问题，欢迎随时与我联系。
 
-Conact me: <weihanli@outlook.com>
+Contact me: <weihanli@outlook.com>
