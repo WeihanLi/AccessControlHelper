@@ -42,7 +42,7 @@
     
     - ASP.NET Mvc
    
-   <https://github.com/WeihanLi/AccessControlHelper/blob/master/PowerControlDemo/Helper/AccessControlDisplayStrategy.cs>
+   <https://github.com/WeihanLi/AccessControlHelper/blob/master/PowerControlDemo/Helper/AccessStrategy.cs>
 
     - ASP.NET Core
 
