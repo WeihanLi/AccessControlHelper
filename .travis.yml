@@ -1,5 +1,5 @@
 language: csharp
-solution: AccessControl.sln
+solution: WeihanLi.AspNetMvc.AccessControlHelper.sln
 # runtime config
 mono: none
 dotnet: 2.0.0
@@ -7,7 +7,7 @@ dist: trusty
 
 install:
   - dotnet --info
-  - dotnet restore ./WeihanLi.AspNetMvc.AccessControlHelper/WeihanLi.AspNetMvc.AccessControlHelper.csproj
+  - dotnet restore ./src//WeihanLi.AspNetMvc.AccessControlHelper/WeihanLi.AspNetMvc.AccessControlHelper.csproj
   
 script:
-  - dotnet build /p:Configuration=Release --framework:netstandard2.0 ./WeihanLi.AspNetMvc.AccessControlHelper/WeihanLi.AspNetMvc.AccessControlHelper.csproj
+  - dotnet build /p:Configuration=Release --framework:netstandard2.0 ./src/WeihanLi.AspNetMvc.AccessControlHelper/WeihanLi.AspNetMvc.AccessControlHelper.csproj

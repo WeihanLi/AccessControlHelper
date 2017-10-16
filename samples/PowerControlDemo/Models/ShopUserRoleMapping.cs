@@ -1,4 +1,4 @@
-﻿using EntityFramework.DbDescriptionHelper;
+﻿using WeihanLi.EntityFramework.DbDescriptionHelper;
 using System;
 
 namespace PowerControlDemo.Models

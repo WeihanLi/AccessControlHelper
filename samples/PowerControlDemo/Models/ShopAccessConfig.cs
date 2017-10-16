@@ -1,5 +1,5 @@
-﻿using EntityFramework.DbDescriptionHelper;
-using System;
+﻿using System;
+using WeihanLi.EntityFramework.DbDescriptionHelper;
 
 namespace PowerControlDemo.Models
 {
