@@ -15,7 +15,10 @@ AccessControlHelper for asp.net mvc and asp.net core apps</Description>
     <Copyright>WeihanLi</Copyright>
     <RepositoryType>git</RepositoryType>
     <PackageTags>AccessControl PowerControl Mvc</PackageTags>
-    <PackageReleaseNotes>init commit</PackageReleaseNotes>
+    <PackageReleaseNotes>handle permission check move from ActionFilter to IAuthorizationFilter</PackageReleaseNotes>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
