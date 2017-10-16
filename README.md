@@ -42,11 +42,11 @@
     
     - ASP.NET Mvc
    
-   <https://github.com/WeihanLi/AccessControlHelper/blob/master/PowerControlDemo/Helper/AccessStrategy.cs>
+   <https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/PowerControlDemo/Helper/AccessStrategy.cs>
 
     - ASP.NET Core
 
-   <https://github.com/WeihanLi/AccessControlHelper/blob/master/AccessControlDemo/Startup.cs#L60>
+   <https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Startup.cs#L60>
 
 
 1. 程序启动时注册自己的显示策略
