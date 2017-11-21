@@ -20,7 +20,7 @@ namespace PowerControlDemo
             // etc..
 
             // register accesss control
-            builder.AddAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>();
+            builder.RegisterAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>();
         }
     }
 }

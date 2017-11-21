@@ -33,7 +33,7 @@ AccessControlHelper for asp.net mvc and asp.net core apps</Description>
       <Version>3.0.20105.1</Version>
     </PackageReference>
     <Compile Remove="AccessControlHelperMiddleware.cs" />
-    <Compile Remove="AccessControlBuilder.cs" />
+    <Compile Remove="AccessControlHelperBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="WeihanLi.Common" Version="1.0.7" />

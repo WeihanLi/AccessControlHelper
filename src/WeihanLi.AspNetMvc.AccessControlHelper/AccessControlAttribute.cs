@@ -26,6 +26,8 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
     public class AccessControlAttribute : Attribute, IAuthorizationFilter
 #endif
     {
+        public string AccessKey { get; set; }
+
         private static IActionAccessStrategy _accessStrategy;
 
         static AccessControlAttribute()
@@ -33,11 +35,11 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             if (_accessStrategy == null)
             {
                 _accessStrategy = WeihanLi.Common.DependencyResolver.Current.GetService<IActionAccessStrategy>();
+                if (_accessStrategy == null)
+                {
+                    throw new ArgumentException("ActionResult显示策略未初始化，请使用注册显示策略", nameof(_accessStrategy));
+                }
             }
-        }
-
-        public AccessControlAttribute()
-        {
         }
 
 #if NET45
@@ -48,14 +50,10 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             bool isDefined = filterContext.ActionDescriptor.IsDefined(typeof(NoAccessControlAttribute), true);
             if (!isDefined)
             {
-                if (_accessStrategy == null)
-                {
-                    throw new ArgumentException("ActionResult显示策略未初始化，请使用 AccessControlAttribute.RegisterDisplayStrategy(IActionResultDisplayStrategy stragety) 方法注册显示策略", nameof(_accessStrategy));
-                }
                 var area = filterContext.RouteData.Values["area"]?.ToString() ?? "";
                 var controller = filterContext.RouteData.Values["controller"].ToString();
                 var action = filterContext.RouteData.Values["action"].ToString();
-                if (!_accessStrategy.IsActionCanAccess(area, controller, action))
+                if (!_accessStrategy.IsActionCanAccess(area, controller, action, AccessKey))
                 {
                     //if Ajax request
                     if (filterContext.HttpContext.Request.IsAjaxRequest())
@@ -83,14 +81,10 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             }
             if (!isDefined)
             {
-                if (_accessStrategy == null)
-                {
-                    throw new ArgumentException("ActionResult显示策略未初始化，请注册显示策略", nameof(_accessStrategy));
-                }
                 var area = filterContext.RouteData.Values["area"]?.ToString() ?? "";
                 var controller = filterContext.RouteData.Values["controller"].ToString();
                 var action = filterContext.RouteData.Values["action"].ToString();
-                if (!_accessStrategy.IsActionCanAccess(area, controller, action))
+                if (!_accessStrategy.IsActionCanAccess(area, controller, action, AccessKey))
                 {
                     //if Ajax request
                     filterContext.Result = filterContext.HttpContext.Request.IsAjaxRequest() ?

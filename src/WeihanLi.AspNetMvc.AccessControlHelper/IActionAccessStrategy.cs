@@ -19,8 +19,9 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <param name="areaName">区域名称</param>
         /// <param name="controllerName">控制器名称</param>
         /// <param name="actionName">action名称</param>
+        /// <param name="accessKey">accessKey</param>
         /// <returns></returns>
-        bool IsActionCanAccess(string areaName, string controllerName, string actionName);
+        bool IsActionCanAccess(string areaName, string controllerName, string actionName,string accessKey);
 
         /// <summary>
         /// 默认HTTP请求不被授权时返回的结果

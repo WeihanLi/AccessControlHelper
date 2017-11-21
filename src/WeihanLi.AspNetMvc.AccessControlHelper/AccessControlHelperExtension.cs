@@ -1,18 +1,20 @@
 ﻿using System;
-using Autofac;
-using WeihanLi.AspNetMvc.AccessControlHelper;
 using WeihanLi.Common;
 
 #if NET45
-
+using Autofac;
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     public static class AccessControlHelperExtensions
     {
-        public static void AddAccessControlHelper<TActionStragety, TControlStragety>(this ContainerBuilder builder)
+        public static void RegisterAccessControlHelper<TActionStragety, TControlStragety>(this ContainerBuilder builder)
             where TActionStragety : class, IActionAccessStrategy
             where TControlStragety : class, IControlAccessStrategy
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
             builder.RegisterType<TActionStragety>().As<IActionAccessStrategy>();
             builder.RegisterType<TControlStragety>().As<IControlAccessStrategy>();
 
@@ -21,7 +23,8 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
     }
 }
 #else
-using Microsoft.Extensions.DependencyInjection;
+
+using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -42,16 +45,21 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static AccessControlBuilder AddAccessControlHelper<TActionStragety, TControlStragety>(this IServiceCollection services)
+        public static AccessControlHelperBuilder AddAccessControlHelper<TActionStragety, TControlStragety>(this IServiceCollection services)
             where TActionStragety : class, IActionAccessStrategy
             where TControlStragety : class, IControlAccessStrategy
         {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
             services.AddSingleton<IActionAccessStrategy, TActionStragety>();
             services.AddSingleton<IControlAccessStrategy, TControlStragety>();
             // SetDependencyResolver
             DependencyResolver.SetDependencyResolver(new MicrosoftExtensionDependencyResolver(services.BuildServiceProvider()));
-            return new AccessControlBuilder(services);
+            return new AccessControlHelperBuilder(services);
         }
     }
 }
+
 #endif
