@@ -31,6 +31,8 @@ namespace AccessControlDemo
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,11 +60,7 @@ namespace AccessControlDemo
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
             // UseAccessControlHelper
-            app.UseAccessControlHelper(new AccessControlHelperOptions
-            {
-                ActionAccessStrategy = new ActionAccessStrategy(),
-                ControlAccessStrategy = new ControlAccessStrategy()
-            });
+            app.UseAccessControlHelper();
         }
     }
 }

@@ -1,26 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
-
-#if !NET45
-
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-
-#endif
+using System;
+using System.Threading.Tasks;
 
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
-#if !NET45
-
     /// <summary>
     /// AccessControlHelperMiddleware
     /// </summary>
     public class AccessControlHelperMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly AccessControlHelperOptions _options;
         private readonly ILogger _logger;
 
         /// <summary>
@@ -33,19 +24,13 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         public AccessControlHelperMiddleware(
             RequestDelegate next,
             IHostingEnvironment hostingEnvironment,
-            ILoggerFactory loggerFactory,
-            IOptions<AccessControlHelperOptions> options)
+            ILoggerFactory loggerFactory)
         {
             if (next == null)
             {
                 throw new ArgumentNullException(nameof(next));
             }
-            if (options == null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
             _next = next;
-            _options = options.Value;
             _logger = loggerFactory.CreateLogger(typeof(AccessControlHelperMiddleware).FullName);
         }
 
@@ -58,20 +43,5 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         {
             return _next(context);
         }
-    }
-
-#endif
-
-    /// <summary>
-    /// AccessControlHelperOption
-    /// </summary>
-    public class AccessControlHelperOptions
-    {
-        /// <summary>
-        /// Action 访问策略
-        /// </summary>
-        public IActionAccessStrategy ActionAccessStrategy { get; set; }
-
-        public IControlAccessStrategy ControlAccessStrategy { get; set; }
     }
 }

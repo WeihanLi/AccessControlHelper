@@ -11,6 +11,7 @@ namespace PowerControlDemo.Helper
     {
         public bool IsControlCanAccess(string accessKey)
         {
+            return accessKey == String.Empty;
             var user = HttpContext.Current.User.Identity.Name;
             var role = CommonHelper.GetUserRoleInfo(user);
             if (role.Any(r => r.RoleName.Contains("超级管理员")))
@@ -44,7 +45,7 @@ namespace PowerControlDemo.Helper
             return false;
         }
 
-        public ActionResult DisallowedCommonResult => new ContentResult()
+        public ActionResult DisallowedCommonResult => new ContentResult
         {
                 Content = "<h3>You have no permission!</h3>",
                 ContentEncoding = Encoding.UTF8,

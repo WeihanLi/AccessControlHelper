@@ -5,7 +5,7 @@ using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace PowerControlDemo.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     [AccessControl]
     public class HomeController : Controller
     {

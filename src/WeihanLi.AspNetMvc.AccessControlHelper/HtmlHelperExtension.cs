@@ -18,9 +18,12 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
     {
         private static IControlAccessStrategy _accessStrategy;
 
-        internal static void RegisterAccessStrategy<TStrategy>(TStrategy strategy) where TStrategy : IControlAccessStrategy
+        static HtmlHelperExtension()
         {
-            _accessStrategy = strategy;
+            if (_accessStrategy == null)
+            {
+                _accessStrategy = WeihanLi.Common.DependencyResolver.Current.GetService<IControlAccessStrategy>();
+            }
         }
 
 #if NET45

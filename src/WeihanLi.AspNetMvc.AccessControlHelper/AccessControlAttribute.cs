@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Reflection;
 using System.Linq;
+
 #if NET45
+
 using System.Web.Mvc;
+
 #else
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -24,19 +28,18 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
     {
         private static IActionAccessStrategy _accessStrategy;
 
-        internal static void RegisterAccessStrategy<TStrategy>(TStrategy strategy) where TStrategy : IActionAccessStrategy
+        static AccessControlAttribute()
         {
-            _accessStrategy = strategy;
+            if (_accessStrategy == null)
+            {
+                _accessStrategy = WeihanLi.Common.DependencyResolver.Current.GetService<IActionAccessStrategy>();
+            }
         }
 
         public AccessControlAttribute()
         {
         }
 
-        public AccessControlAttribute(IActionAccessStrategy displayStrategy)
-        {
-            _accessStrategy = displayStrategy;
-        }
 #if NET45
         public void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -67,6 +70,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             }
         }
 #else
+
         public virtual void OnAuthorization(AuthorizationFilterContext filterContext)
         {
             if (filterContext == null)
@@ -81,7 +85,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             {
                 if (_accessStrategy == null)
                 {
-                    throw new ArgumentException("ActionResult显示策略未初始化，请使用 AccessControlAttribute.RegisterDisplayStrategy(IActionResultDisplayStrategy stragety) 方法注册显示策略", nameof(_accessStrategy));
+                    throw new ArgumentException("ActionResult显示策略未初始化，请注册显示策略", nameof(_accessStrategy));
                 }
                 var area = filterContext.RouteData.Values["area"]?.ToString() ?? "";
                 var controller = filterContext.RouteData.Values["controller"].ToString();
@@ -89,19 +93,14 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
                 if (!_accessStrategy.IsActionCanAccess(area, controller, action))
                 {
                     //if Ajax request
-                    if (filterContext.HttpContext.Request.IsAjaxRequest())
-                    {
-                        filterContext.Result = _accessStrategy.DisallowedAjaxResult;
-                    }
-                    else
-                    {
-                        filterContext.Result = _accessStrategy.DisallowedCommonResult;
-                    }
+                    filterContext.Result = filterContext.HttpContext.Request.IsAjaxRequest() ?
+                        _accessStrategy.DisallowedAjaxResult :
+                        _accessStrategy.DisallowedCommonResult;
                 }
             }
         }
-#endif
 
+#endif
     }
 
 #if !NET45

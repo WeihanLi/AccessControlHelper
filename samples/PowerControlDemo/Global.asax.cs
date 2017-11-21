@@ -1,6 +1,9 @@
 ﻿using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Autofac;
+using PowerControlDemo.Helper;
+using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace PowerControlDemo
 {
@@ -12,7 +15,12 @@ namespace PowerControlDemo
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AccessStragetyConfig.RegisterDisplayStrategy();
+
+            var builder = new ContainerBuilder();
+            // etc..
+
+            // register accesss control
+            builder.AddAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>();
         }
     }
 }

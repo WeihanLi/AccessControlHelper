@@ -1,84 +1,57 @@
 ﻿using System;
-
-#if !NET45
+using Autofac;
 using WeihanLi.AspNetMvc.AccessControlHelper;
-using Microsoft.Extensions.Options;
+using WeihanLi.Common;
 
-#endif
 #if NET45
+
 namespace WeihanLi.AspNetMvc.AccessControlHelper
-#else
-namespace Microsoft.AspNetCore.Builder
-#endif
 {
     public static class AccessControlHelperExtensions
     {
-#if NET45
-        public static void RegisterAccessStragety(AccessControlHelperOptions options)
+        public static void AddAccessControlHelper<TActionStragety, TControlStragety>(this ContainerBuilder builder)
+            where TActionStragety : class, IActionAccessStrategy
+            where TControlStragety : class, IControlAccessStrategy
         {
-            if (options == null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
-            AccessControlAttribute.RegisterAccessStrategy(options.ActionAccessStrategy);
-            HtmlHelperExtension.RegisterAccessStrategy(options.ControlAccessStrategy);
-        }
+            builder.RegisterType<TActionStragety>().As<IActionAccessStrategy>();
+            builder.RegisterType<TControlStragety>().As<IControlAccessStrategy>();
 
-        public static void RegisterAccessStragety(Action<AccessControlHelperOptions> optionsAction)
-        {
-            if (optionsAction == null)
-            {
-                throw new ArgumentNullException(nameof(optionsAction));
-            }
-            AccessControlHelperOptions options = new AccessControlHelperOptions();
-            optionsAction(options);
-            AccessControlAttribute.RegisterAccessStrategy(options.ActionAccessStrategy);
-            HtmlHelperExtension.RegisterAccessStrategy(options.ControlAccessStrategy);
+            DependencyResolver.SetDependencyResolver(new AutofacDependencyResolver(builder.Build()));
         }
+    }
+}
 #else
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Microsoft.AspNetCore.Builder
+{
+    public static class ApplicationBuilderExtensions
+    {
         public static IApplicationBuilder UseAccessControlHelper(this IApplicationBuilder app)
         {
             if (app == null)
             {
                 throw new ArgumentNullException(nameof(app));
             }
-            // put middleware in pipeline
             return app.UseMiddleware<AccessControlHelperMiddleware>();
         }
-
-        public static IApplicationBuilder UseAccessControlHelper(this IApplicationBuilder app, AccessControlHelperOptions options)
-        {
-            if (app == null)
-            {
-                throw new ArgumentNullException(nameof(app));
-            }
-            if (options == null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
-            AccessControlAttribute.RegisterAccessStrategy(options.ActionAccessStrategy);
-            HtmlHelperExtension.RegisterAccessStrategy(options.ControlAccessStrategy);
-            // put middleware in pipeline
-            return app.UseMiddleware<AccessControlHelperMiddleware>(Options.Create(options));
-        }
-
-        public static IApplicationBuilder UseAccessControlHelper(this IApplicationBuilder app, Action<AccessControlHelperOptions> optionsAction)
-        {
-            if (app == null)
-            {
-                throw new ArgumentNullException(nameof(app));
-            }
-            if (optionsAction == null)
-            {
-                throw new ArgumentNullException(nameof(optionsAction));
-            }
-            AccessControlHelperOptions options = new AccessControlHelperOptions();
-            optionsAction(options);
-            AccessControlAttribute.RegisterAccessStrategy(options.ActionAccessStrategy);
-            HtmlHelperExtension.RegisterAccessStrategy(options.ControlAccessStrategy);
-            // put middleware in pipeline
-            return app.UseMiddleware<AccessControlHelperMiddleware>(Options.Create(options));
-        }
-#endif
     }
 }
+
+namespace Microsoft.Extensions.DependencyInjection
+{
+    public static class ServiceCollectionExtensions
+    {
+        public static AccessControlBuilder AddAccessControlHelper<TActionStragety, TControlStragety>(this IServiceCollection services)
+            where TActionStragety : class, IActionAccessStrategy
+            where TControlStragety : class, IControlAccessStrategy
+        {
+            services.AddSingleton<IActionAccessStrategy, TActionStragety>();
+            services.AddSingleton<IControlAccessStrategy, TControlStragety>();
+            // SetDependencyResolver
+            DependencyResolver.SetDependencyResolver(new MicrosoftExtensionDependencyResolver(services.BuildServiceProvider()));
+            return new AccessControlBuilder(services);
+        }
+    }
+}
+#endif

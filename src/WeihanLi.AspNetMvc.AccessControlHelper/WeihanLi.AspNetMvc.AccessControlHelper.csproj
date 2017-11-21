@@ -27,11 +27,16 @@ AccessControlHelper for asp.net mvc and asp.net core apps</Description>
       <Version>2.0.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-    <Reference Include="System.Web" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">    
+    <Reference Include="System.Web" />    
     <PackageReference Include="Microsoft.AspNet.Mvc">
       <Version>3.0.20105.1</Version>
     </PackageReference>
+    <Compile Remove="AccessControlHelperMiddleware.cs" />
+    <Compile Remove="AccessControlBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WeihanLi.Common" Version="1.0.7" />
   </ItemGroup>
 
 </Project>
