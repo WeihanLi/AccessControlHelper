@@ -7,7 +7,7 @@ using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo.Controllers
 {
-    [AccessControl]
+    //[AccessControl]
     public class HomeController : Controller
     {
         [NoAccessControl]
@@ -16,6 +16,7 @@ namespace AccessControlDemo.Controllers
             return View();
         }
 
+        [AccessControl]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -23,6 +24,7 @@ namespace AccessControlDemo.Controllers
             return View();
         }
 
+        [AccessControl(AccessKey = "Contact")]
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";

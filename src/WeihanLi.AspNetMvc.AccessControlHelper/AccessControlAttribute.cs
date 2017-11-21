@@ -37,7 +37,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
                 _accessStrategy = WeihanLi.Common.DependencyResolver.Current.GetService<IActionAccessStrategy>();
                 if (_accessStrategy == null)
                 {
-                    throw new ArgumentException("ActionResult显示策略未初始化，请使用注册显示策略", nameof(_accessStrategy));
+                    throw new ArgumentException("ActionResult显示策略未初始化，请注册显示策略", nameof(_accessStrategy));
                 }
             }
         }

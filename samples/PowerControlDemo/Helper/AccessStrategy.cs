@@ -40,10 +40,8 @@ namespace PowerControlDemo.Helper
     public class ActionAccessStrategy : IActionAccessStrategy
     {
 
-        public bool IsActionCanAccess(string areaName, string controllerName, string actionName)
-        {
-            return false;
-        }
+        public bool IsActionCanAccess(string areaName, string controllerName, string actionName, string accessKey)
+            => string.IsNullOrEmpty(accessKey);
 
         public ActionResult DisallowedCommonResult => new ContentResult
         {
