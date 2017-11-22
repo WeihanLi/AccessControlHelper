@@ -42,7 +42,7 @@
     
     - ASP.NET Mvc
    
-         1. [ActionAccessStragety](https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/PowerControlDemo/Helper/AccessStrategy.cs)
+         1. [AccessStragety](https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/PowerControlDemo/Helper/AccessStrategy.cs)
 
     - ASP.NET Core
 
@@ -55,7 +55,7 @@
 
     - asp.net mvc
 
-    基于Autofac实现的依赖注入，在autofac注册的最后 注册显示策略，参考：<https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/PowerControlDemo/Global.asax.cs#L23>
+    基于Autofac实现的依赖注入，在autofac的Ioc Container中注册显示策略，参考：<https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/PowerControlDemo/Global.asax.cs#L23>
 
     ``` csharp
     //autofac ContainerBuilder
@@ -81,7 +81,7 @@
 
 1. 控制 `Action` 的方法权限
 
-    通过 `AccessControl` 和 `NoAccessControl` Filter 来控制 `Action` 的访问权限，如果Action上定义了 `NoAccessControl` 可以忽略上级定义的 `AccessControl`，可以设置 Action 对应的 `AccessKey`
+    通过 `AccessControl` 和 `NoAccessControl` Filter 来控制 `Action` 的访问权限，如果Action上定义了 `NoAccessControl` 可以忽略上级定义的 `AccessControl`，另外可以设置 Action 对应的 `AccessKey`
 
     使用示例：
     ``` csharp
@@ -133,7 +133,31 @@
 
        <span class="custome_p111">12344</span>
        ```
+       
 
+    - `SparkLink`
+
+        ``` csharp
+        @Html.SparkLink("Learn about me &raquo;", "http://weihanli.xyz",new { @class = "btn btn-default" })
+        ```
+
+        有权限访问时渲染出来的 html 如下：
+
+        ``` html
+        <a class="btn btn-default" href="http://weihanli.xyz">Learn about me »</a>
+        ```
+
+    - `SparkButton`
+
+        ``` csharp
+         @Html.SparkButton("12234", new { @class= "btn btn-primary" })
+        ```
+
+        有权限访问时渲染出来的 html 如下：
+        
+        ``` html
+        <button class="btn btn-primary" type="button">12234</button>
+        ```
 
 ### Contact
 
