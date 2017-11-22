@@ -110,6 +110,39 @@
 
 1. 控制页面元素的显示
 
+    为了使用比较方便，建议在页面上导入命名空间，具体方法如下，详见 Samples：
+
+        - asp.net mvc
+
+            在 项目的 Views 目录下的 **web.config** 文件中添加命名空间 `WeihanLi.AspNetMvc.AccessControlHelper`
+
+            ``` xml
+            <system.web.webPages.razor>
+                <pages pageBaseType="System.Web.Mvc.WebViewPage">
+                    <namespaces>
+                        <add namespace="System.Web.Mvc" />
+                        <add namespace="System.Web.Mvc.Ajax" />
+                        <add namespace="System.Web.Mvc.Html" />
+                        <add namespace="System.Web.Optimization"/>
+                        <add namespace="System.Web.Routing" />
+                        <add namespace="PowerControlDemo" />
+                        <add namespace="WeihanLi.AspNetMvc.AccessControlHelper" /><!-- WeihanLi.AspNetMvc.AccessControlHelper-->
+                    </namespaces>
+                </pages>
+            </system.web.webPages.razor>
+            ```
+
+        - asp.net core
+
+            在 Views 目录下的 **_ViewImports.cshtml** 中引用命名空间 `WeihanLi.AspNetMvc.AccessControlHelper`
+
+              ``` csharp
+            @using AccessControlDemo
+            @using WeihanLi.AspNetMvc.AccessControlHelper// WeihanLi.AspNetMvc.AccessControlHelper
+            @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+            ```
+
+
     通过 `HtmlHelper` 扩展方法来实现权限控制
 
     - `SparkContainer` 使用
