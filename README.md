@@ -42,50 +42,71 @@
     
     - ASP.NET Mvc
    
-   <https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/PowerControlDemo/Helper/AccessStrategy.cs>
+         1. [ActionAccessStragety](https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/PowerControlDemo/Helper/AccessStrategy.cs)
 
     - ASP.NET Core
 
-   <https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Startup.cs#L60>
+        1. [ActionAccessStragety](https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Services/ActionAccessStrategy.cs)
+
+        1. [ControlAccessStrategy ](https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Services/ControlAccessStrategy.cs)
 
 
 1. 程序启动时注册自己的显示策略
 
     - asp.net mvc
 
-    在 `Global` 文件中注册显示策略
+    基于Autofac实现的依赖注入，在autofac注册的最后 注册显示策略，参考：<https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/PowerControlDemo/Global.asax.cs#L23>
+
     ``` csharp
-    AccessControlHelperExtensions.RegisterAccessStragety(new AccessControlHelperOptions
-        {
-            ActionAccessStrategy = new ActionAccessStrategy(),
-            ControlAccessStrategy = new ControlAccessStrategy()
-        });
+    //autofac ContainerBuilder
+    var builder = new ContainerBuilder();
+    // etc...
+
+    // register accesss control
+    builder.RegisterAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>();
     ```
     
     - asp.net core
 
-    在 `Startup` 文件中注册显示策略
-    ``` csharp
-    // Method1
-    app.UseAccessControlHelper(options =>
-        {
-            options.ActionAccessStrategy = new ActionAccessStrategy(),
-            options.ControlAccessStrategy = new ControlAccessStrategy()
-        });
-        
-    // Method2
-    app.UseAccessControlHelper(new AccessControlHelperOptions
-        {
-            ActionAccessStrategy = new ActionAccessStrategy(),
-            ControlAccessStrategy = new ControlAccessStrategy()
-        });
+    在 `Startup` 文件中注册显示策略，参考<https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Startup.cs>
 
+    ``` csharp
+    // Configure
+    app.UseAccessControlHelper();
+
+    // ConfigureServices
+    services.AddAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>();
     ```
     
 
 1. 控制 `Action` 的方法权限
 
-    通过 `AccessControl` 和 `NoAccessControl` Filter 来控制 `Action` 的访问权限
+    通过 `AccessControl` 和 `NoAccessControl` Filter 来控制 `Action` 的访问权限，如果Action上定义了 `NoAccessControl` 可以忽略上级定义的 `AccessControl`，可以设置 Action 对应的 `AccessKey`
+
+    使用示例：
+    ``` csharp
+    [NoAccessControl]
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    [AccessControl]
+    public IActionResult About()
+    {
+        ViewData["Message"] = "Your application description page.";
+
+        return View();
+    }
+
+    [AccessControl(AccessKey = "Contact")]
+    public IActionResult Contact()
+    {
+        ViewData["Message"] = "Your contact page.";
+
+        return View();
+    }
+    ```
 
 1. 控制页面元素的显示
 
