@@ -7,7 +7,7 @@ using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo.Controllers
 {
-    //[AccessControl]
+    [AccessControl]
     public class HomeController : Controller
     {
         [NoAccessControl]

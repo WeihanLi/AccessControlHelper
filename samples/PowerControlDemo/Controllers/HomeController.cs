@@ -6,6 +6,7 @@ using WeihanLi.AspNetMvc.AccessControlHelper;
 namespace PowerControlDemo.Controllers
 {
     [AllowAnonymous]
+    [AccessControl]
     public class HomeController : Controller
     {
         [NoAccessControl]
@@ -14,7 +15,7 @@ namespace PowerControlDemo.Controllers
             return View();
         }
 
-        [AccessControl(AccessKey = "About")]
+        
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -30,6 +31,7 @@ namespace PowerControlDemo.Controllers
             return View();
         }
 
+        [AccessControl(AccessKey = "Access")]
         public JsonResult Access(string accessKey)
         {
             var result = false;
