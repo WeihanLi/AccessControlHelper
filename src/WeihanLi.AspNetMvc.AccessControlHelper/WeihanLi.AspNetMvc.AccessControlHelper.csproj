@@ -15,10 +15,10 @@ AccessControlHelper for asp.net mvc and asp.net core apps</Description>
     <Copyright>WeihanLi</Copyright>
     <RepositoryType>git</RepositoryType>
     <PackageTags>AccessControl PowerControl Mvc</PackageTags>
-    <PackageReleaseNotes>handle permission check move from ActionFilter to IAuthorizationFilter</PackageReleaseNotes>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
-    <FileVersion>1.2.0.0</FileVersion>
-    <Version>1.2.0</Version>
+    <PackageReleaseNotes>add custom ioc container and remove reference for WeihanLi.Common</PackageReleaseNotes>
+    <AssemblyVersion>1.3.0.0</AssemblyVersion>
+    <FileVersion>1.3.0.0</FileVersion>
+    <Version>1.3.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -34,9 +34,6 @@ AccessControlHelper for asp.net mvc and asp.net core apps</Description>
     </PackageReference>
     <Compile Remove="AccessControlHelperMiddleware.cs" />
     <Compile Remove="AccessControlHelperBuilder.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="WeihanLi.Common" Version="1.0.7" />
   </ItemGroup>
 
 </Project>

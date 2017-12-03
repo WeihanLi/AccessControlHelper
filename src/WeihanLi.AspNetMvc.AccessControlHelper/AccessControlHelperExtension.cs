@@ -1,24 +1,17 @@
 ﻿using System;
-using WeihanLi.Common;
 
 #if NET45
-using Autofac;
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
-    public static class AccessControlHelperExtensions
+    public static class AccessControlHelper
     {
-        public static void RegisterAccessControlHelper<TActionStragety, TControlStragety>(this ContainerBuilder builder)
+        public static void RegisterAccessControlHelper<TActionStragety, TControlStragety>()
             where TActionStragety : class, IActionAccessStrategy
             where TControlStragety : class, IControlAccessStrategy
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
-            builder.RegisterType<TActionStragety>().As<IActionAccessStrategy>();
-            builder.RegisterType<TControlStragety>().As<IControlAccessStrategy>();
+            IocContainer.DefaultContainer.Register<IActionAccessStrategy, TActionStragety>();
+            IocContainer.DefaultContainer.Register<IControlAccessStrategy, TControlStragety>();
 
-            DependencyResolver.SetDependencyResolver(new AutofacDependencyResolver(builder.Build()));
         }
     }
 }
@@ -55,8 +48,10 @@ namespace Microsoft.Extensions.DependencyInjection
             }
             services.AddSingleton<IActionAccessStrategy, TActionStragety>();
             services.AddSingleton<IControlAccessStrategy, TControlStragety>();
-            // SetDependencyResolver
-            DependencyResolver.SetDependencyResolver(new MicrosoftExtensionDependencyResolver(services.BuildServiceProvider()));
+            //
+            IocContainer.DefaultContainer.Register<IActionAccessStrategy, TActionStragety>();
+            IocContainer.DefaultContainer.Register<IControlAccessStrategy, TControlStragety>();
+
             return new AccessControlHelperBuilder(services);
         }
     }

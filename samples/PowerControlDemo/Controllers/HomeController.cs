@@ -23,7 +23,7 @@ namespace PowerControlDemo.Controllers
             return View();
         }
 
-        [AccessControl]
+        [AccessControl(AccessKey = "Contact")]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
@@ -31,7 +31,7 @@ namespace PowerControlDemo.Controllers
             return View();
         }
 
-        [AccessControl(AccessKey = "Access")]
+        [AccessControl]
         public JsonResult Access(string accessKey)
         {
             var result = false;

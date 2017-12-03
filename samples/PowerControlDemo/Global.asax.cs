@@ -1,7 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Autofac;
 using PowerControlDemo.Helper;
 using WeihanLi.AspNetMvc.AccessControlHelper;
 
@@ -16,11 +15,9 @@ namespace PowerControlDemo
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            var builder = new ContainerBuilder();
-            // etc..
 
             // register accesss control
-            builder.RegisterAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>();
+            AccessControlHelper.RegisterAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>();
         }
     }
 }
