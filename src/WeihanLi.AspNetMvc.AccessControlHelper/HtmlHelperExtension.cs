@@ -22,7 +22,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         {
             if (_accessStrategy == null)
             {
-                _accessStrategy = IocContainer.DefaultContainer.GetService<IControlAccessStrategy>();
+                _accessStrategy = ServiceResolver.Current.GetService<IControlAccessStrategy>();
                 if (_accessStrategy == null)
                 {
                     throw new ArgumentException("Control显示策略未初始化，请注册显示策略", nameof(_accessStrategy));
@@ -37,7 +37,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <param name="helper">HtmlHelper</param>
         /// <param name="innerHtml">buttonText</param>
         /// <param name="attributes">attribute</param>
-        /// <param name="accessKey">accessKey</param>        
+        /// <param name="accessKey">accessKey</param>
         /// <returns></returns>
         public static MvcHtmlString SparkButton(this HtmlHelper helper, string innerHtml, object attributes = null, string accessKey = "")
         {

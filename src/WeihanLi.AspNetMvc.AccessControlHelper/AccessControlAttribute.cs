@@ -28,20 +28,6 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
     {
         public string AccessKey { get; set; }
 
-        private static IActionAccessStrategy _accessStrategy;
-
-        static AccessControlAttribute()
-        {
-            if (_accessStrategy == null)
-            {
-                _accessStrategy = IocContainer.DefaultContainer.GetService<IActionAccessStrategy>();
-                if (_accessStrategy == null)
-                {
-                    throw new ArgumentException("ActionResult显示策略未初始化，请注册显示策略", nameof(_accessStrategy));
-                }
-            }
-        }
-
 #if NET45
         public void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -53,16 +39,22 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
                 var area = filterContext.RouteData.Values["area"]?.ToString() ?? "";
                 var controller = filterContext.RouteData.Values["controller"].ToString();
                 var action = filterContext.RouteData.Values["action"].ToString();
-                if (!_accessStrategy.IsActionCanAccess(area, controller, action, AccessKey))
+
+                var accessStrategy = ServiceResolver.Current.GetService<IActionAccessStrategy>();
+
+                if (accessStrategy == null)
+                    throw new ArgumentException("Action访问策略未初始化，请注册访问策略", nameof(IActionAccessStrategy));
+
+                if (!accessStrategy.IsActionCanAccess(area, controller, action, AccessKey))
                 {
                     //if Ajax request
                     if (filterContext.HttpContext.Request.IsAjaxRequest())
                     {
-                        filterContext.Result = _accessStrategy.DisallowedAjaxResult;
+                        filterContext.Result = accessStrategy.DisallowedAjaxResult;
                     }
                     else
                     {
-                        filterContext.Result = _accessStrategy.DisallowedCommonResult;
+                        filterContext.Result = accessStrategy.DisallowedCommonResult;
                     }
                 }
             }
@@ -84,12 +76,18 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
                 var area = filterContext.RouteData.Values["area"]?.ToString() ?? "";
                 var controller = filterContext.RouteData.Values["controller"].ToString();
                 var action = filterContext.RouteData.Values["action"].ToString();
-                if (!_accessStrategy.IsActionCanAccess(area, controller, action, AccessKey))
+
+                var accessStrategy = ServiceResolver.Current.GetService<IActionAccessStrategy>();
+
+                if (accessStrategy == null)
+                    throw new ArgumentException("Action访问策略未初始化，请注册访问策略", nameof(IActionAccessStrategy));
+
+                if (!accessStrategy.IsActionCanAccess(area, controller, action, AccessKey))
                 {
                     //if Ajax request
                     filterContext.Result = filterContext.HttpContext.Request.IsAjaxRequest() ?
-                        _accessStrategy.DisallowedAjaxResult :
-                        _accessStrategy.DisallowedCommonResult;
+                        accessStrategy.DisallowedAjaxResult :
+                        accessStrategy.DisallowedCommonResult;
                 }
             }
         }

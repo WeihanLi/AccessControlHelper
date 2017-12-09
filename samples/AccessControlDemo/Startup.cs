@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AccessControlDemo.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +30,16 @@ namespace AccessControlDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    //options.AccessDeniedPath = "/Account/Login";
+                    options.LoginPath = "/Account/Login";
+
+                    // Cookie settings
+                    options.Cookie.HttpOnly = true;
+                });
+
             // Add framework services.
             services.AddMvc();
 
@@ -52,6 +63,7 @@ namespace AccessControlDemo
             }
 
             app.UseStaticFiles();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
@@ -59,6 +71,7 @@ namespace AccessControlDemo
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
             // UseAccessControlHelper
             app.UseAccessControlHelper();
         }

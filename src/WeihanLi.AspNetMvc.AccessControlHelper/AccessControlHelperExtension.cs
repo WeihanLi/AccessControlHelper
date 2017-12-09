@@ -5,13 +5,11 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     public static class AccessControlHelper
     {
-        public static void RegisterAccessControlHelper<TActionStragety, TControlStragety>()
+        public static void RegisterAccessControlHelper<TActionStragety, TControlStragety>(Func<IServiceProvider> registerFunc)
             where TActionStragety : class, IActionAccessStrategy
             where TControlStragety : class, IControlAccessStrategy
         {
-            IocContainer.DefaultContainer.Register<IActionAccessStrategy, TActionStragety>();
-            IocContainer.DefaultContainer.Register<IControlAccessStrategy, TControlStragety>();
-
+            ServiceResolver.SetReslover(registerFunc());
         }
     }
 }
@@ -48,10 +46,8 @@ namespace Microsoft.Extensions.DependencyInjection
             }
             services.AddSingleton<IActionAccessStrategy, TActionStragety>();
             services.AddSingleton<IControlAccessStrategy, TControlStragety>();
-            //
-            IocContainer.DefaultContainer.Register<IActionAccessStrategy, TActionStragety>();
-            IocContainer.DefaultContainer.Register<IControlAccessStrategy, TControlStragety>();
-
+            //SetReslover
+            ServiceResolver.SetReslover(services.BuildServiceProvider());
             return new AccessControlHelperBuilder(services);
         }
     }
