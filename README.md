@@ -55,7 +55,7 @@
 
     - asp.net mvc
 
-    基于Autofac实现的依赖注入，在autofac的Ioc Container中注册显示策略，参考：<https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/PowerControlDemo/Global.asax.cs#L23>
+    可基于Autofac实现的依赖注入，在 autofac 的 Ioc Container中注册显示策略，并返回一个可以从Ioc Container中获取对象的委托或者实现 `IServiceProvider` 接口的对象，参考：<https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/PowerControlDemo/Global.asax.cs#L23>
 
     ``` csharp
     //autofac ContainerBuilder
@@ -63,7 +63,11 @@
     // etc...
 
     // register accesss control
-    builder.RegisterAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>();
+    builder.RegisterType<ActionAccessStrategy>().As<IActionAccessStrategy>();
+    builder.RegisterType<ControlAccessStrategy>().As<IControlAccessStrategy>();
+    var container = builder.Build();
+    // Important
+    AccessControlHelper.RegisterAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>(type => container.Resolve(type));
     ```
     
     - asp.net core
