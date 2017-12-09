@@ -1,7 +1,5 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
-using PowerControlDemo.Helper;
-using WeihanLi.Common.Helpers;
 
 namespace PowerControlDemo.Controllers
 {
@@ -19,18 +17,10 @@ namespace PowerControlDemo.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Logon(ViewModels.LogonViewModel model)
+        public ActionResult Logon()
         {
-            bool result = false;
-            var user = Helper.CommonHelper.BusinessHelper.ShopUserHelper.Fetch(s => s.IsDeleted == false && s.UserName == model.UserName);
-            if (user != null && user.PasswordHash.Equals(HashHelper.GetHashedString(HashType.SHA256, model.Password)))
-            {
-                result = true;
-                FormsAuthentication.SetAuthCookie(user.UserName, model.RememberMe);
-                //请求权限数据
-                Helper.CommonHelper.GetPowerList(user.UserName);
-            }
-            return Json(result);
+            FormsAuthentication.SetAuthCookie("testUser001", false);
+            return Json(true);
         }
 
         /// <summary>
@@ -40,7 +30,6 @@ namespace PowerControlDemo.Controllers
         [Authorize]
         public ActionResult LogOut()
         {
-            CommonHelper.RemoveAccessControlCache(User.Identity.Name);
             FormsAuthentication.SignOut();
             return Redirect("Login");
         }

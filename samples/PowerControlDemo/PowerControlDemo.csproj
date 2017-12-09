@@ -166,45 +166,15 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Business\BusinessHelper.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BusinessHelper.tt</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="DataAccess\BaseDal.cs" />
-    <Compile Include="DataAccess\DALCollection.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DALCollection.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccess\DatabaseContextProvider.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helper\CommonHelper.cs" />
     <Compile Include="Helper\AccessStrategy.cs" />
-    <Compile Include="Helper\RedisHelper.cs" />
-    <Compile Include="Helper\Utility.cs" />
-    <Compile Include="Models\BaseModel.cs" />
-    <Compile Include="Models\ShopAccessConfig.cs" />
-    <Compile Include="Models\ShopContext.cs" />
-    <Compile Include="Models\ShopPowerDbInitializer.cs" />
-    <Compile Include="Models\ShopRouteInfo.cs" />
-    <Compile Include="Models\ShopUser.cs" />
-    <Compile Include="Models\ShopUserAccess.cs" />
-    <Compile Include="Models\ShopUserRole.cs" />
-    <Compile Include="Models\ShopUserRoleAccess.cs" />
-    <Compile Include="Models\ShopUserRoleMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\LogonViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Business\BusinessHelper.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>BusinessHelper.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\layer\layer.js" />
@@ -216,10 +186,6 @@
     <Content Include="Content\layer\skin\default\loading-0.gif" />
     <Content Include="Content\layer\skin\default\loading-1.gif" />
     <Content Include="Content\layer\skin\default\loading-2.gif" />
-    <Content Include="DataAccess\DALCollection.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DALCollection.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

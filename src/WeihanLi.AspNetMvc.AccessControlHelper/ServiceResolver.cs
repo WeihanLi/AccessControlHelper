@@ -22,6 +22,11 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             _serviceProvider = serviceProvider;
         }
 
+        public static void SetReslover(Func<Type, object> getService)
+        {
+            _serviceProvider = new DelegateServiceProvider(getService);
+        }
+
         private class DefaultServiceProvider : IServiceProvider
         {
             public object GetService(Type serviceType)
@@ -39,6 +44,17 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
                     return null;
                 }
             }
+        }
+
+        private class DelegateServiceProvider : IServiceProvider
+        {
+            private readonly Func<Type, object> _func;
+
+            public DelegateServiceProvider(Func<Type, object> func)
+            => _func = func ?? throw new ArgumentNullException(nameof(func));
+
+            public object GetService(Type serviceType)
+                => _func(serviceType);
         }
     }
 

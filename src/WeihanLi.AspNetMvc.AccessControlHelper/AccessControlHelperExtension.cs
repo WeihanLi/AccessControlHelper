@@ -11,6 +11,23 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         {
             ServiceResolver.SetReslover(registerFunc());
         }
+
+        public static void RegisterAccessControlHelper<TActionStragety, TControlStragety>(Func<Type, object> getServiceFunc)
+            where TActionStragety : class, IActionAccessStrategy
+            where TControlStragety : class, IControlAccessStrategy
+        {
+            ServiceResolver.SetReslover(getServiceFunc);
+        }
+
+        public static void RegisterAccessControlHelper<TActionStragety, TControlStragety>(Action<Type, Type> registerTypeAsAction, Func<Type, object> getServiceFunc)
+            where TActionStragety : class, IActionAccessStrategy
+            where TControlStragety : class, IControlAccessStrategy
+        {
+            registerTypeAsAction(typeof(TActionStragety), typeof(IActionAccessStrategy));
+            registerTypeAsAction(typeof(TControlStragety), typeof(IControlAccessStrategy));
+
+            ServiceResolver.SetReslover(getServiceFunc);
+        }
     }
 }
 #else

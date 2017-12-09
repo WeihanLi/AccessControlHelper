@@ -1,7 +1,9 @@
 ﻿#if NET45
+using System.Web;
 using System.Web.Mvc;
 #else
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 #endif
@@ -16,12 +18,16 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <summary>
         /// 是否可以显示
         /// </summary>
-        /// <param name="areaName">区域名称</param>
-        /// <param name="controllerName">控制器名称</param>
-        /// <param name="actionName">action名称</param>
+        /// <param name="httpContext">httpContext</param>
         /// <param name="accessKey">accessKey</param>
         /// <returns></returns>
-        bool IsActionCanAccess(string areaName, string controllerName, string actionName, string accessKey);
+#if NET45
+        bool IsActionCanAccess(HttpContextBase httpContext, string accessKey);
+#else
+
+        bool IsActionCanAccess(HttpContext httpContext, string accessKey);
+
+#endif
 
         /// <summary>
         /// 默认HTTP请求不被授权时返回的结果

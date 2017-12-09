@@ -12,42 +12,27 @@ namespace PowerControlDemo.Helper
         public bool IsControlCanAccess(string accessKey)
         {
             return accessKey == String.Empty;
-            var user = HttpContext.Current.User.Identity.Name;
-            var role = CommonHelper.GetUserRoleInfo(user);
-            if (role.Any(r => r.RoleName.Contains("超级管理员")))
-            {
-                return true;
-            }
-            if (String.IsNullOrEmpty(accessKey))
-            {
-                if (role.Any(r => r.RoleName.StartsWith("门店")))
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                var accessList = Helper.CommonHelper.GetPowerList(HttpContext.Current.User.Identity.Name);
-                if (accessList != null && accessList.Any(a => a.AccessKey == Guid.Parse(accessKey)))
-                {
-                    return true;
-                }
-            }
-            return false;
         }
     }
 
     public class ActionAccessStrategy : IActionAccessStrategy
     {
+        public bool IsActionCanAccess(HttpContextBase context, string accessKey)
+        {
+            var isValid = string.IsNullOrEmpty(accessKey);
 
-        public bool IsActionCanAccess(string areaName, string controllerName, string actionName, string accessKey)
-            => string.IsNullOrEmpty(accessKey);
+            var area = context.Request.RequestContext.RouteData.Values["area"];
+            var controller = context.Request.RequestContext.RouteData.Values["controller"];
+            var action = context.Request.RequestContext.RouteData.Values["action"];
+
+            return isValid;
+        }
 
         public ActionResult DisallowedCommonResult => new ContentResult
         {
-                Content = "<h3>You have no permission!</h3>",
-                ContentEncoding = Encoding.UTF8,
-                ContentType = "text/html"
+            Content = "<h3>You have no permission!</h3>",
+            ContentEncoding = Encoding.UTF8,
+            ContentType = "text/html"
         };
 
         public JsonResult DisallowedAjaxResult => new JsonResult()

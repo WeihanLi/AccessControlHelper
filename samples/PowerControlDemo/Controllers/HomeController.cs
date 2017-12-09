@@ -15,7 +15,6 @@ namespace PowerControlDemo.Controllers
             return View();
         }
 
-        
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -34,16 +33,7 @@ namespace PowerControlDemo.Controllers
         [AccessControl]
         public JsonResult Access(string accessKey)
         {
-            var result = false;
-            if (!String.IsNullOrEmpty(accessKey))
-            {
-                var powerList = Helper.CommonHelper.GetPowerList(User.Identity.Name);
-                if (powerList != null && powerList.Any(s => s.AccessKey == Guid.Parse(accessKey)))
-                {
-                    result = true;
-                }
-            }
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(string.IsNullOrEmpty(accessKey), JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -20,12 +20,11 @@ namespace PowerControlDemo
             var builder = new ContainerBuilder();
             // etc..
             // register accesss control
-            AccessControlHelper.RegisterAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>(() =>
-            {
-                builder.RegisterType<ActionAccessStrategy>().As<IActionAccessStrategy>();
-                builder.RegisterType<ControlAccessStrategy>().As<IControlAccessStrategy>();
-                return new AutofacDependencyResolver(builder.Build());
-            });
+
+            builder.RegisterType<ActionAccessStrategy>().As<IActionAccessStrategy>();
+            builder.RegisterType<ControlAccessStrategy>().As<IControlAccessStrategy>();
+            var container = builder.Build();
+            AccessControlHelper.RegisterAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>(type => container.Resolve(type));
         }
     }
 }

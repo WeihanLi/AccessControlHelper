@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Linq;
 
 #if NET45
 
@@ -30,59 +29,24 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 
 #if NET45
         public void OnAuthorization(AuthorizationContext filterContext)
-        {
-            if (filterContext == null)
-                throw new ArgumentNullException(nameof(filterContext));
-            bool isDefined = filterContext.ActionDescriptor.IsDefined(typeof(NoAccessControlAttribute), true);
-            if (!isDefined)
-            {
-                var area = filterContext.RouteData.Values["area"]?.ToString() ?? "";
-                var controller = filterContext.RouteData.Values["controller"].ToString();
-                var action = filterContext.RouteData.Values["action"].ToString();
-
-                var accessStrategy = ServiceResolver.Current.GetService<IActionAccessStrategy>();
-
-                if (accessStrategy == null)
-                    throw new ArgumentException("Action访问策略未初始化，请注册访问策略", nameof(IActionAccessStrategy));
-
-                if (!accessStrategy.IsActionCanAccess(area, controller, action, AccessKey))
-                {
-                    //if Ajax request
-                    if (filterContext.HttpContext.Request.IsAjaxRequest())
-                    {
-                        filterContext.Result = accessStrategy.DisallowedAjaxResult;
-                    }
-                    else
-                    {
-                        filterContext.Result = accessStrategy.DisallowedCommonResult;
-                    }
-                }
-            }
-        }
 #else
 
         public virtual void OnAuthorization(AuthorizationFilterContext filterContext)
+#endif
         {
             if (filterContext == null)
                 throw new ArgumentNullException(nameof(filterContext));
-            bool isDefined = false;
-            if (filterContext.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
-            {
-                isDefined = controllerActionDescriptor.MethodInfo.GetCustomAttributes()
-                    .Any(a => a.GetType().Equals(typeof(NoAccessControlAttribute)));
-            }
-            if (!isDefined)
-            {
-                var area = filterContext.RouteData.Values["area"]?.ToString() ?? "";
-                var controller = filterContext.RouteData.Values["controller"].ToString();
-                var action = filterContext.RouteData.Values["action"].ToString();
 
+            var isDefinedNoControl = filterContext.ActionDescriptor.IsDefined(typeof(NoAccessControlAttribute), true);
+
+            if (!isDefinedNoControl)
+            {
                 var accessStrategy = ServiceResolver.Current.GetService<IActionAccessStrategy>();
 
                 if (accessStrategy == null)
                     throw new ArgumentException("Action访问策略未初始化，请注册访问策略", nameof(IActionAccessStrategy));
 
-                if (!accessStrategy.IsActionCanAccess(area, controller, action, AccessKey))
+                if (!accessStrategy.IsActionCanAccess(filterContext.HttpContext, AccessKey))
                 {
                     //if Ajax request
                     filterContext.Result = filterContext.HttpContext.Request.IsAjaxRequest() ?
@@ -91,8 +55,6 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
                 }
             }
         }
-
-#endif
     }
 
 #if !NET45
@@ -107,6 +69,26 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         public static bool IsAjaxRequest(this Microsoft.AspNetCore.Http.HttpRequest request)
         {
             return request?.Headers != null && String.Equals(request.Headers["X-Requested-With"], "XMLHttpRequest", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool IsDefined(this Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor actionDescriptor,
+            Type attributeType, bool inherit)
+        {
+            if (actionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
+            {
+                if (controllerActionDescriptor.MethodInfo.GetCustomAttribute(attributeType) == null)
+                {
+                    if (inherit && controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute(attributeType) != null)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

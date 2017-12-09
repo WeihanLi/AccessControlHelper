@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo.Services
@@ -11,8 +12,16 @@ namespace AccessControlDemo.Services
         public ActionAccessStrategy(IHttpContextAccessor httpContextAccessor) =>
             _httpContextAccessor = httpContextAccessor;
 
-        public bool IsActionCanAccess(string areaName, string controllerName, string actionName, string accessKey)
-        => string.IsNullOrEmpty(accessKey) && _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
+        public bool IsActionCanAccess(HttpContext httpContext, string accessKey)
+        {
+            var isValid = string.IsNullOrEmpty(accessKey) && httpContext.User.Identity.IsAuthenticated;
+
+            var area = httpContext.GetRouteValue("area");
+            var controller = httpContext.GetRouteValue("controller");
+            var action = httpContext.GetRouteValue("action");
+
+            return isValid;
+        }
 
         public IActionResult DisallowedCommonResult => new ContentResult { Content = "You have no access", ContentType = "text/html", StatusCode = 401 };
 
