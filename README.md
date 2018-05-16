@@ -1,35 +1,35 @@
-## AccessControlHelper
+# AccessControlHelper
 
 [![WeihanLi.AspNetMvc.AccessControlHelper](https://img.shields.io/nuget/v/WeihanLi.AspNetMvc.AccessControlHelper.svg)](http://www.nuget.org/packages/WeihanLi.AspNetMvc.AccessControlHelper/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/WeihanLi.AspNetMvc.AccessControlHelper.svg)](http://www.nuget.org/packages/WeihanLi.AspNetMvc.AccessControlHelper/)
 
-### Build Status
+## Build Status
 
 [![Build status](https://ci.appveyor.com/api/projects/status/ht69a1o8b9ss9v8a?svg=true)](https://ci.appveyor.com/project/WeihanLi/accesscontroldemo)
 
 [![Build Status](https://travis-ci.org/WeihanLi/AccessControlHelper.svg?branch=master)](https://travis-ci.org/WeihanLi/AccessControlHelper)
 
-### Intro
+## Intro
 
 由于项目需要，需要在 基于 Asp.net mvc 的 Web 项目框架中做权限的控制，于是才有了这个权限控制组件。
 
 项目基于 .NETStandard，同时支持 asp.net mvc（.NET faremwork4.5以上） 和 asp.net core 项目（asp.net 2.0以上），基于 ASP.NET MVC 和 ASP.NET Core 实现的对 `Action` 的访问控制以及页面元素的权限控制。
 
-### GetStarted
+## GetStarted
 
 1. Nuget Package <https://www.nuget.org/packages/WeihanLi.AspNetMvc.AccessControlHelper/> 
-   
+
    安装权限控制组件 `WeihanLi.AspNetMvc.AccessControlHelper` 
 
    asp.net:
 
-   ```
+   ``` bash
    Install-Package WeihanLi.AspNetMvc.AccessControlHelper
    ```
 
    asp.net core:
 
-   ```
+   ``` bash
    dotnet add package WeihanLi.AspNetMvc.AccessControlHelper
    ```
 
@@ -39,17 +39,16 @@
     - 实现 `Action` 访问显示策略接口 `IActionAccessStrategy`
 
     示例代码：
-    
+
     - ASP.NET Mvc
-   
+
          1. [AccessStragety](https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/PowerControlDemo/Helper/AccessStrategy.cs)
 
     - ASP.NET Core
 
         1. [ActionAccessStragety](https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Services/ActionAccessStrategy.cs)
 
-        1. [ControlAccessStrategy ](https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Services/ControlAccessStrategy.cs)
-
+        1. [ControlAccessStrategy](https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Services/ControlAccessStrategy.cs)
 
 1. 程序启动时注册自己的显示策略
 
@@ -69,7 +68,7 @@
     // Important
     AccessControlHelper.RegisterAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>(type => container.Resolve(type));
     ```
-    
+
     - asp.net core
 
     在 `Startup` 文件中注册显示策略，参考<https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Startup.cs>
@@ -81,7 +80,6 @@
     // ConfigureServices
     services.AddAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>();
     ```
-    
 
 1. 控制 `Action` 的方法权限
 
@@ -146,7 +144,6 @@
         @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
         ```
 
-
     通过 `HtmlHelper` 扩展方法来实现权限控制
 
     - `SparkContainer` 使用
@@ -170,7 +167,6 @@
 
        <span class="custome_p111">12344</span>
        ```
-       
 
     - `SparkLink`
 
@@ -191,12 +187,12 @@
         ```
 
         有权限访问时渲染出来的 html 如下：
-        
+
         ``` html
         <button class="btn btn-primary" type="button">12234</button>
         ```
 
-### Contact
+## Contact
 
 如果您在使用中遇到了问题，欢迎随时与我联系。
 
