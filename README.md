@@ -17,9 +17,9 @@
 
 ## GetStarted
 
-1. Nuget Package <https://www.nuget.org/packages/WeihanLi.AspNetMvc.AccessControlHelper/> 
+1. Nuget Package <https://www.nuget.org/packages/WeihanLi.AspNetMvc.AccessControlHelper/>
 
-   安装权限控制组件 `WeihanLi.AspNetMvc.AccessControlHelper` 
+   安装权限控制组件 `WeihanLi.AspNetMvc.AccessControlHelper`
 
    asp.net:
 
