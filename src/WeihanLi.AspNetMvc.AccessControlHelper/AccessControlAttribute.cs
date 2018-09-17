@@ -68,7 +68,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <returns></returns>
         public static bool IsAjaxRequest(this Microsoft.AspNetCore.Http.HttpRequest request)
         {
-            return request?.Headers != null && String.Equals(request.Headers["X-Requested-With"], "XMLHttpRequest", StringComparison.OrdinalIgnoreCase);
+            return request?.Headers != null && string.Equals(request.Headers["X-Requested-With"], "XMLHttpRequest", StringComparison.OrdinalIgnoreCase);
         }
 
         public static bool IsDefined(this Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor actionDescriptor,

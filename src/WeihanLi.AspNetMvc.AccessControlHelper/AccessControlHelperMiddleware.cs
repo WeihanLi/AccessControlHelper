@@ -24,14 +24,14 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         public AccessControlHelperMiddleware(
             RequestDelegate next,
             IHostingEnvironment hostingEnvironment,
-            ILoggerFactory loggerFactory)
+            ILogger<AccessControlHelperMiddleware> logger)
         {
             if (next == null)
             {
                 throw new ArgumentNullException(nameof(next));
             }
             _next = next;
-            _logger = loggerFactory.CreateLogger(typeof(AccessControlHelperMiddleware).FullName);
+            _logger = logger;
         }
 
         /// <summary>
