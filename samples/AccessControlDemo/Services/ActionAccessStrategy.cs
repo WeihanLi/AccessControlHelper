@@ -23,8 +23,8 @@ namespace AccessControlDemo.Services
             return isValid;
         }
 
-        public IActionResult DisallowedCommonResult => new ContentResult { Content = "You have no access", ContentType = "text/html", StatusCode = 401 };
+        public IActionResult DisallowedCommonResult => new ContentResult { Content = "You have no access", ContentType = "text/html", StatusCode = 403 };
 
-        public JsonResult DisallowedAjaxResult => new JsonResult(new { Data = "You have no access", Code = 401 });
+        public JsonResult DisallowedAjaxResult => new JsonResult(new { Data = "You have no access", Code = 403 });
     }
 }

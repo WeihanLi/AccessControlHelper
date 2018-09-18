@@ -17,10 +17,8 @@
     <Copyright>WeihanLi</Copyright>
     <RepositoryType>git</RepositoryType>
     <PackageTags>AccessControl PowerControl Mvc</PackageTags>
-    <PackageReleaseNotes>remove reference for WeihanLi.Common and update IActionAccessStrategy interface,optimize code</PackageReleaseNotes>
-    <AssemblyVersion>1.3.1</AssemblyVersion>
-    <FileVersion>1.3.1</FileVersion>
-    <Version>1.3.1</Version>
+    <PackageReleaseNotes>add policy support</PackageReleaseNotes>
+    <Version>1.3.2</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -37,5 +35,6 @@
     <Compile Remove="AccessControlRequirement.cs" />
     <Compile Remove="AccessControlHelperMiddleware.cs" />
     <Compile Remove="AccessControlHelperBuilder.cs" />
+    <Compile Remove="AccessControlAuthorizationHandler.cs" />
   </ItemGroup>
 </Project>

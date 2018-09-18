@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using System;
+﻿using System;
 
 #if NET45
 namespace WeihanLi.AspNetMvc.AccessControlHelper
@@ -36,6 +33,9 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 #else
 
 using WeihanLi.AspNetMvc.AccessControlHelper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -65,10 +65,12 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
             services.AddAuthorization(options => options.AddPolicy("AccessControl", new AuthorizationPolicyBuilder().AddRequirements(new AccessControlRequirement()).Build()));
+            services.AddSingleton<IAuthorizationHandler, AccessControlAuthorizationHandler>();
+
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.TryAddSingleton<IActionAccessStrategy, TActionStragety>();
             services.TryAddSingleton<IControlAccessStrategy, TControlStragety>();
-            //SetReslover
+            //Set reslover
             ServiceResolver.SetReslover(services.BuildServiceProvider());
             return new AccessControlHelperBuilder(services);
         }

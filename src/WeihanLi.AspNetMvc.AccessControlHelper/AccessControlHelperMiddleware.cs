@@ -19,18 +19,13 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// </summary>
         /// <param name="next">The delegate representing the next middleware in the request pipeline.</param>
         /// <param name="hostingEnvironment">The Hosting Environment.</param>
-        /// <param name="loggerFactory">The Logger Factory.</param>
-        /// <param name="options">The middleware options, containing the rules to apply.</param>
+        /// <param name="logger">The Logger Factory.</param>
         public AccessControlHelperMiddleware(
             RequestDelegate next,
             IHostingEnvironment hostingEnvironment,
             ILogger<AccessControlHelperMiddleware> logger)
         {
-            if (next == null)
-            {
-                throw new ArgumentNullException(nameof(next));
-            }
-            _next = next;
+            _next = next ?? throw new ArgumentNullException(nameof(next));
             _logger = logger;
         }
 
