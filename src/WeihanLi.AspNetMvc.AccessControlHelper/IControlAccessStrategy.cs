@@ -1,12 +1,12 @@
 ﻿namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     /// <summary>
-    /// Control显示策略
+    /// view componment access strategy
     /// </summary>
     public interface IControlAccessStrategy
     {
         /// <summary>
-        /// 是否可以显示
+        /// view componment access strategy
         /// </summary>
         bool IsControlCanAccess(string accessKey);
     }

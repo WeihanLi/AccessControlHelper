@@ -2,7 +2,9 @@
 using System.IO;
 
 #if NET45
+
 using System.Web.Mvc;
+
 #else
 
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -50,11 +52,11 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             if (!_disposed)
             {
                 _disposed = true;
-                EndShopContainer();
+                EndContainer();
             }
         }
 
-        public void EndShopContainer()
+        public void EndContainer()
         {
             if (!_canAccess)
             {

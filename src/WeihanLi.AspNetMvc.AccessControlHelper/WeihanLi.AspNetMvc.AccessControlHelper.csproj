@@ -34,6 +34,7 @@
     </PackageReference>
     <Compile Remove="AccessControlRequirement.cs" />
     <Compile Remove="AccessControlHelperMiddleware.cs" />
+    <Compile Remove="AccessControlTagHelper.cs" />
     <Compile Remove="AccessControlHelperBuilder.cs" />
     <Compile Remove="AccessControlAuthorizationHandler.cs" />
   </ItemGroup>

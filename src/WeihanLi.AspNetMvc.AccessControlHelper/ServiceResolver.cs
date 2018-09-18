@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.ExceptionServices;
 
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     internal class ServiceResolver
     {
         private static IServiceProvider _serviceProvider;
+        private static readonly object _locker = new object();
 
         static ServiceResolver()
         {
@@ -19,12 +16,18 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 
         public static void SetReslover(IServiceProvider serviceProvider)
         {
-            _serviceProvider = serviceProvider;
+            lock (_locker)
+            {
+                _serviceProvider = serviceProvider;
+            }
         }
 
         public static void SetReslover(Func<Type, object> getService)
         {
-            _serviceProvider = new DelegateServiceProvider(getService);
+            lock (_locker)
+            {
+                _serviceProvider = new DelegateServiceProvider(getService);
+            }
         }
 
         private class DefaultServiceProvider : IServiceProvider
@@ -60,7 +63,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 
     internal static class ServiceResolverExtensions
     {
-        public static TService GetService<TService>(this IServiceProvider serviceProvider)
+        public static TService ResolveService<TService>(this IServiceProvider serviceProvider)
             => (TService)serviceProvider.GetService(typeof(TService));
     }
 }

@@ -17,10 +17,11 @@ namespace PowerControlDemo.Helper
 
     public class ActionAccessStrategy : IActionAccessStrategy
     {
-        public bool IsActionCanAccess(HttpContextBase context, string accessKey)
+        public bool IsActionCanAccess(string accessKey)
         {
             var isValid = string.IsNullOrEmpty(accessKey);
 
+            var context = HttpContext.Current;
             var area = context.Request.RequestContext.RouteData.Values["area"];
             var controller = context.Request.RequestContext.RouteData.Values["controller"];
             var action = context.Request.RequestContext.RouteData.Values["action"];

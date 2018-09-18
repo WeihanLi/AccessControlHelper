@@ -18,16 +18,9 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <summary>
         /// 是否可以显示
         /// </summary>
-        /// <param name="httpContext">httpContext</param>
         /// <param name="accessKey">accessKey</param>
         /// <returns></returns>
-#if NET45
-        bool IsActionCanAccess(HttpContextBase httpContext, string accessKey);
-#else
-
-        bool IsActionCanAccess(HttpContext httpContext, string accessKey);
-
-#endif
+        bool IsActionCanAccess(string accessKey);
 
         /// <summary>
         /// 默认HTTP请求不被授权时返回的结果

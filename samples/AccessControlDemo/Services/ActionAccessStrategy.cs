@@ -12,8 +12,10 @@ namespace AccessControlDemo.Services
         public ActionAccessStrategy(IHttpContextAccessor httpContextAccessor) =>
             _httpContextAccessor = httpContextAccessor;
 
-        public bool IsActionCanAccess(HttpContext httpContext, string accessKey)
+        public bool IsActionCanAccess(string accessKey)
         {
+            var httpContext = _httpContextAccessor.HttpContext;
+
             var isValid = string.IsNullOrEmpty(accessKey) && httpContext.User.Identity.IsAuthenticated;
 
             var area = httpContext.GetRouteValue("area");

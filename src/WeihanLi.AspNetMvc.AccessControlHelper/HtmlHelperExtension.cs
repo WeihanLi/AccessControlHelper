@@ -22,7 +22,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         {
             if (_accessStrategy == null)
             {
-                _accessStrategy = ServiceResolver.Current.GetService<IControlAccessStrategy>();
+                _accessStrategy = ServiceResolver.Current.ResolveService<IControlAccessStrategy>();
                 if (_accessStrategy == null)
                 {
                     throw new ArgumentException("Control显示策略未初始化，请注册显示策略", nameof(_accessStrategy));

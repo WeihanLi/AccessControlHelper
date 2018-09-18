@@ -10,17 +10,17 @@ namespace AccessControlDemo.Controllers
     public class AccountController : Controller
     {
         [ActionName("Login")]
-        public async Task<string> LoginAsync()
+        public async Task<IActionResult> LoginAsync()
         {
             var u = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, "testuser") }, CookieAuthenticationDefaults.AuthenticationScheme));
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, u, new AuthenticationProperties { IsPersistent = true, AllowRefresh = true });
-            return "Login success";
+            return RedirectToAction("Index", "Home");
         }
 
-        public async Task<string> Logout()
+        public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return "Logout success";
+            return RedirectToAction("Index", "Home");
         }
 
         [Authorize("AccessControl")]
