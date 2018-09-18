@@ -27,6 +27,13 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             {
                 output.SuppressOutput();
             }
+            else
+            {
+                if (accessKey != null)
+                {
+                    output.Attributes.Remove(accessKey);
+                }
+            }
         }
     }
 }

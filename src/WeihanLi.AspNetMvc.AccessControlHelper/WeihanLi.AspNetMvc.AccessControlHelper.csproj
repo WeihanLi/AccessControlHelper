@@ -12,13 +12,14 @@
     <RepositoryUrl>https://github.com/WeihanLi/AccessControlHelper</RepositoryUrl>
     <PackageProjectUrl>https://github.com/WeihanLi/AccessControlHelper</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/WeihanLi/AccessControlHelper/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://avatars3.githubusercontent.com/u/7604648</PackageIconUrl>
     <AssemblyName>WeihanLi.AspNetMvc.AccessControlHelper</AssemblyName>
     <RootNamespace>WeihanLi.AspNetMvc.AccessControlHelper</RootNamespace>
     <Copyright>WeihanLi</Copyright>
     <RepositoryType>git</RepositoryType>
     <PackageTags>AccessControl PowerControl Mvc</PackageTags>
-    <PackageReleaseNotes>add policy support</PackageReleaseNotes>
-    <Version>1.3.2</Version>
+    <PackageReleaseNotes>add policy and tagHelper support</PackageReleaseNotes>
+    <Version>1.4.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
