@@ -1,0 +1,24 @@
+<Project>  
+  <Import Project="sign.props" />
+  <Import Project="version.props" />
+  <PropertyGroup>        
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <PackageIconUrl>https://avatars3.githubusercontent.com/u/7604648</PackageIconUrl>    
+    <PackageId>WeihanLi.AspNetMvc.AccessControlHelper</PackageId>
+    <Authors>WeihanLi</Authors>
+    <Description>
+      WeihanLi.AspNetMvc.AccessControlHelper
+      AccessControlHelper for asp.net mvc and asp.net core apps
+    </Description>
+    <RepositoryUrl>https://github.com/WeihanLi/AccessControlHelper</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/WeihanLi/AccessControlHelper</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/WeihanLi/AccessControlHelper/blob/master/LICENSE</PackageLicenseUrl>
+    <AssemblyName>WeihanLi.AspNetMvc.AccessControlHelper</AssemblyName>
+    <RootNamespace>WeihanLi.AspNetMvc.AccessControlHelper</RootNamespace>
+    <Copyright>WeihanLi</Copyright>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>AccessControl PowerControl Mvc</PackageTags>
+    <PackageReleaseNotes>add policy and tagHelper support for asp.net core</PackageReleaseNotes>
+    <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">True</GeneratePackageOnBuild>
+  </PropertyGroup>
+</Project>
