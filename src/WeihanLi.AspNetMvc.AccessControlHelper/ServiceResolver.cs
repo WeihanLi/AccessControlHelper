@@ -14,7 +14,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 
         public static IServiceProvider Current => _serviceProvider;
 
-        public static void SetReslover(IServiceProvider serviceProvider)
+        public static void SetResolver(IServiceProvider serviceProvider)
         {
             lock (_locker)
             {
@@ -22,13 +22,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             }
         }
 
-        public static void SetReslover(Func<Type, object> getService)
-        {
-            lock (_locker)
-            {
-                _serviceProvider = new DelegateServiceProvider(getService);
-            }
-        }
+        public static void SetResolver(Func<Type, object> getService) => SetResolver(new DelegateServiceProvider(getService));
 
         private class DefaultServiceProvider : IServiceProvider
         {

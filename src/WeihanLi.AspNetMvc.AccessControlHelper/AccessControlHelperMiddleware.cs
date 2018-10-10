@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
@@ -18,11 +17,9 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// Creates a new instance of <see cref="AccessControlHelperMiddleware"/>
         /// </summary>
         /// <param name="next">The delegate representing the next middleware in the request pipeline.</param>
-        /// <param name="hostingEnvironment">The Hosting Environment.</param>
         /// <param name="logger">The Logger Factory.</param>
         public AccessControlHelperMiddleware(
             RequestDelegate next,
-            IHostingEnvironment hostingEnvironment,
             ILogger<AccessControlHelperMiddleware> logger)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
@@ -36,6 +33,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <returns>A task that represents the execution of this middleware.</returns>
         public Task Invoke(HttpContext context)
         {
+            // add custom operation
             return _next(context);
         }
     }

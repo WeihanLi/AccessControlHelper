@@ -9,14 +9,14 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             where TActionStragety : class, IActionAccessStrategy
             where TControlStragety : class, IControlAccessStrategy
         {
-            ServiceResolver.SetReslover(registerFunc());
+            ServiceResolver.SetResolver(registerFunc());
         }
 
         public static void RegisterAccessControlHelper<TActionStragety, TControlStragety>(Func<Type, object> getServiceFunc)
             where TActionStragety : class, IActionAccessStrategy
             where TControlStragety : class, IControlAccessStrategy
         {
-            ServiceResolver.SetReslover(getServiceFunc);
+            ServiceResolver.SetResolver(getServiceFunc);
         }
 
         public static void RegisterAccessControlHelper<TActionStragety, TControlStragety>(Action<Type, Type> registerTypeAsAction, Func<Type, object> getServiceFunc)
@@ -26,7 +26,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             registerTypeAsAction(typeof(TActionStragety), typeof(IActionAccessStrategy));
             registerTypeAsAction(typeof(TControlStragety), typeof(IControlAccessStrategy));
 
-            ServiceResolver.SetReslover(getServiceFunc);
+            ServiceResolver.SetResolver(getServiceFunc);
         }
     }
 }
@@ -71,7 +71,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<IActionAccessStrategy, TActionStragety>();
             services.TryAddSingleton<IControlAccessStrategy, TControlStragety>();
             //Set reslover
-            ServiceResolver.SetReslover(services.BuildServiceProvider());
+            ServiceResolver.SetResolver(services.BuildServiceProvider());
             return new AccessControlHelperBuilder(services);
         }
     }
