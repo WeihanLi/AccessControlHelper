@@ -14,7 +14,20 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
     /// 不用权限控制
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class NoAccessControlAttribute : ActionFilterAttribute
+#if NET45
+    public class NoAccessControlAttribute : FilterAttribute, IAuthorizationFilter
     {
+        public void OnAuthorization(AuthorizationContext filterContext)
+        {
+        }
     }
+#else
+    public class NoAccessControlAttribute : Attribute, IAuthorizationFilter
+    {
+        public void OnAuthorization(AuthorizationFilterContext context)
+        {
+        }
+    }
+
+#endif
 }
