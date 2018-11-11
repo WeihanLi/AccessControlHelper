@@ -7,7 +7,7 @@ dist: trusty
 
 install:
   - dotnet --info
-  - dotnet restore ./src/WeihanLi.AspNetMvc.AccessControlHelper/WeihanLi.AspNetMvc.AccessControlHelper.csproj
+  - dotnet restore ./src/AccessControlHelper/AccessControlHelper.csproj
   
 script:
-  - dotnet build /p:Configuration=Release --framework:netstandard2.0 ./src/WeihanLi.AspNetMvc.AccessControlHelper/WeihanLi.AspNetMvc.AccessControlHelper.csproj
+  - dotnet build /p:Configuration=Release --framework:netstandard2.0 ./src/AccessControlHelper/AccessControlHelper.csproj

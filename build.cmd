@@ -1,3 +1,3 @@
 dotnet --info
-dotnet build -c Release  ./src/WeihanLi.AspNetMvc.AccessControlHelper/WeihanLi.AspNetMvc.AccessControlHelper.csproj
+dotnet build -c Release  ./src/AccessControlHelper/AccessControlHelper.csproj
 pause
