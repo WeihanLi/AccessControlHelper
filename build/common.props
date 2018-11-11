@@ -17,7 +17,7 @@
     <Copyright>WeihanLi</Copyright>
     <RepositoryType>git</RepositoryType>
     <PackageTags>access control power authorize authorization Mvc</PackageTags>
-    <PackageReleaseNotes>add policy and tagHelper support for asp.net core</PackageReleaseNotes>
+    <PackageReleaseNotes>add more authorization support for asp.net core</PackageReleaseNotes>
     <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">True</GeneratePackageOnBuild>
   </PropertyGroup>
 </Project>
