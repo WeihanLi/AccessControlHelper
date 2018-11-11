@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 using System.Web;
-using System.Web.Mvc;
 using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace PowerControlDemo.Helper
@@ -15,9 +13,9 @@ namespace PowerControlDemo.Helper
         }
     }
 
-    public class ActionAccessStrategy : IActionAccessStrategy
+    public class ActionAccessStrategy : IResourceAccessStrategy
     {
-        public bool IsActionCanAccess(string accessKey)
+        public bool IsCanAccess(string accessKey)
         {
             var isValid = string.IsNullOrEmpty(accessKey);
 

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo.Controllers
 {
-    [AccessControl]
+    //[AccessControl]
     public class HomeController : Controller
     {
         [NoAccessControl]
@@ -16,7 +12,7 @@ namespace AccessControlDemo.Controllers
             return View();
         }
 
-        [AccessControl]
+        //[AccessControl]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

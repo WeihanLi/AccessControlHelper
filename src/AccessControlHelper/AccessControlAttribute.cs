@@ -29,6 +29,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 
 #if NET45
         public void OnAuthorization(AuthorizationContext filterContext)
+
 #else
 
         public virtual void OnAuthorization(AuthorizationFilterContext filterContext)
@@ -41,12 +42,12 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 
             if (!isDefinedNoControl)
             {
-                var accessStrategy = ServiceResolver.Current.ResolveService<IActionAccessStrategy>();
+                var accessStrategy = ServiceResolver.Current.ResolveService<IResourceAccessStrategy>();
 
                 if (accessStrategy == null)
-                    throw new ArgumentException("Action访问策略未初始化，请注册访问策略", nameof(IActionAccessStrategy));
+                    throw new ArgumentException("Action访问策略未初始化，请注册访问策略", nameof(IResourceAccessStrategy));
 
-                if (!accessStrategy.IsActionCanAccess(AccessKey))
+                if (!accessStrategy.IsCanAccess(AccessKey))
                 {
                     //if Ajax request
                     filterContext.Result = filterContext.HttpContext.Request.IsAjaxRequest() ?

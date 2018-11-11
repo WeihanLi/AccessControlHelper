@@ -248,7 +248,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\WeihanLi.AspNetMvc.AccessControlHelper\WeihanLi.AspNetMvc.AccessControlHelper.csproj">
+    <ProjectReference Include="..\..\src\AccessControlHelper\AccessControlHelper.csproj">
       <Project>{2fba0af2-c1c0-426e-8ff4-f954c1b24252}</Project>
       <Name>WeihanLi.AspNetMvc.AccessControlHelper</Name>
     </ProjectReference>

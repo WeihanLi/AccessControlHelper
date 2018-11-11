@@ -10,30 +10,30 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
-    /// <summary>
-    /// Action显示策略
-    /// </summary>
-    public interface IActionAccessStrategy
+    public interface IResourceAccessStrategy
     {
         /// <summary>
-        /// 是否可以显示
+        /// Is resource can be accessed
         /// </summary>
         /// <param name="accessKey">accessKey</param>
         /// <returns></returns>
-        bool IsActionCanAccess(string accessKey);
+        bool IsCanAccess(string accessKey);
 
         /// <summary>
-        /// 默认HTTP请求不被授权时返回的结果
+        /// AccessStrategyName
         /// </summary>
+        //string StrategyName { get; }
+
 #if NET45
         ActionResult DisallowedCommonResult { get; }
+
+        ActionResult DisallowedAjaxResult { get; }
+
 #else
         IActionResult DisallowedCommonResult { get; }
-#endif
 
-        /// <summary>
-        /// Ajax请求不被授权时返回的结果
-        /// </summary>
-        JsonResult DisallowedAjaxResult { get; }
+        IActionResult DisallowedAjaxResult { get; }
+
+#endif
     }
 }

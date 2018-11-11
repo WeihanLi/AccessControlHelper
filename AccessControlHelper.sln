@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{43025BB9-B6AB-47D2-BA5E-ECD9FF7ACD5C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeihanLi.AspNetMvc.AccessControlHelper", "src\WeihanLi.AspNetMvc.AccessControlHelper\WeihanLi.AspNetMvc.AccessControlHelper.csproj", "{3033FE2E-4DDF-4D1F-8F3B-F4B459C09345}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControlHelper", "src\AccessControlHelper\AccessControlHelper.csproj", "{3033FE2E-4DDF-4D1F-8F3B-F4B459C09345}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{CBEAA6B5-0280-48D9-B654-A2FBEEEB70B6}"
 EndProject
