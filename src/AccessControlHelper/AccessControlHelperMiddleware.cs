@@ -54,11 +54,9 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             //
             _logger.LogInformation($"Request {context.TraceIdentifier} was unauthorized, Request path:{context.Request.Path}");
 
-            context.Response.StatusCode = 403;
+            context.Response.StatusCode = context.User.Identity.IsAuthenticated ? 403 : 401;
 
-            _option.DefaultUnauthorizedOperation?.Invoke(context.Response);
-
-            return Task.CompletedTask;
+            return _option.DefaultUnauthorizedOperation?.Invoke(context.Response) ?? Task.CompletedTask;
         }
     }
 }
