@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
-    public interface IResourceAccessStrategy
+    public interface IActionAccessStrategy
     {
         /// <summary>
         /// Is resource can be accessed

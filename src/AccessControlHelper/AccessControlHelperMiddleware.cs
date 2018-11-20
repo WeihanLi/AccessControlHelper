@@ -12,7 +12,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
     public class AccessControlHelperMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IResourceAccessStrategy _accessStrategy;
+        private readonly IActionAccessStrategy _accessStrategy;
         private readonly ILogger _logger;
         private readonly AccessControlOptions _option;
 
@@ -26,7 +26,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         public AccessControlHelperMiddleware(
             RequestDelegate next,
             IOptions<AccessControlOptions> options,
-            ILogger<AccessControlHelperMiddleware> logger, IResourceAccessStrategy accessStrategy)
+            ILogger<AccessControlHelperMiddleware> logger, IActionAccessStrategy accessStrategy)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _logger = logger;

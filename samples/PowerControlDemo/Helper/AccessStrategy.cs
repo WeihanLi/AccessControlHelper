@@ -13,7 +13,7 @@ namespace PowerControlDemo.Helper
         }
     }
 
-    public class ActionAccessStrategy : IResourceAccessStrategy
+    public class ActionAccessStrategy : IActionAccessStrategy
     {
         public bool IsCanAccess(string accessKey)
         {
