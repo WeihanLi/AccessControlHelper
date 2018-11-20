@@ -12,7 +12,7 @@
     <PackageReference Include="Microsoft.AspNet.Mvc">
       <Version>3.0.20105.1</Version>
     </PackageReference>
-    <Compile Remove="AccessControlOption.cs" />
+    <Compile Remove="AccessControlOptions.cs" />
     <Compile Remove="AccessControlRequirement.cs" />
     <Compile Remove="AccessControlHelperMiddleware.cs" />
     <Compile Remove="AccessControlTagHelper.cs" />

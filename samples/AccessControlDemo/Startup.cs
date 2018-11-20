@@ -43,12 +43,12 @@ namespace AccessControlDemo
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
-            // UseAccessControlHelper
+            app.UseAuthentication();
+
+            // UseAccessControlHelper  for global authorization needed
             app.UseAccessControlHelper();
 
             app.UseStaticFiles();
-
-            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

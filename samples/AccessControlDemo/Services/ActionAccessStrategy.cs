@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo.Services
@@ -16,18 +15,21 @@ namespace AccessControlDemo.Services
         {
             var httpContext = _httpContextAccessor.HttpContext;
 
-            var isValid = string.IsNullOrEmpty(accessKey) && httpContext.User.Identity.IsAuthenticated;
+            //var area = httpContext.GetRouteValue("area");
+            //var controller = httpContext.GetRouteValue("controller");
+            //var action = httpContext.GetRouteValue("action");
 
-            var area = httpContext.GetRouteValue("area");
-            var controller = httpContext.GetRouteValue("controller");
-            var action = httpContext.GetRouteValue("action");
-
-            return isValid;
+            return AccessControlService.IsCanAcccess(httpContext.Request.Path, httpContext);
         }
 
-        public string StrategyName { get; } = "Default";
+        public string StrategyName { get; } = "Global";
 
-        public IActionResult DisallowedCommonResult => new ContentResult { Content = "You have no access", ContentType = "text/html", StatusCode = 403 };
+        public IActionResult DisallowedCommonResult => new ContentResult
+        {
+            Content = "You have no access",
+            ContentType = "text/html",
+            StatusCode = 403
+        };
 
         public IActionResult DisallowedAjaxResult => new JsonResult(new { Data = "You have no access", Code = 403 });
     }

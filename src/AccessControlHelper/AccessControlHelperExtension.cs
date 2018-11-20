@@ -63,7 +63,7 @@ namespace Microsoft.Extensions.DependencyInjection
             return services.AddAccessControlHelper<TResourceStrategy, TControlStrategy>(options => { });
         }
 
-        public static AccessControlHelperBuilder AddAccessControlHelper<TResourceStrategy, TControlStrategy>(this IServiceCollection services, Action<AccessControlOption> configAction)
+        public static AccessControlHelperBuilder AddAccessControlHelper<TResourceStrategy, TControlStrategy>(this IServiceCollection services, Action<AccessControlOptions> configAction)
             where TResourceStrategy : class, IResourceAccessStrategy
             where TControlStrategy : class, IControlAccessStrategy
         {

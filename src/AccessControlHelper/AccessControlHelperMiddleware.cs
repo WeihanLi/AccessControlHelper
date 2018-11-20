@@ -14,7 +14,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         private readonly RequestDelegate _next;
         private readonly IResourceAccessStrategy _accessStrategy;
         private readonly ILogger _logger;
-        private readonly AccessControlOption _option;
+        private readonly AccessControlOptions _option;
 
         /// <summary>
         /// Creates a new instance of <see cref="AccessControlHelperMiddleware"/>
@@ -25,7 +25,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <param name="accessStrategy">actionAccessStrategy</param>
         public AccessControlHelperMiddleware(
             RequestDelegate next,
-            IOptions<AccessControlOption> options,
+            IOptions<AccessControlOptions> options,
             ILogger<AccessControlHelperMiddleware> logger, IResourceAccessStrategy accessStrategy)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
