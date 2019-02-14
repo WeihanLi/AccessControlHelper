@@ -7,11 +7,11 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     public class AccessControlAuthorizationHandler : AuthorizationHandler<AccessControlRequirement>
     {
-        private readonly IActionAccessStrategy _resourceAccessStrategy;
+        private readonly IResourceAccessStrategy _resourceAccessStrategy;
         private readonly string _accessKey = string.Empty;
-        private readonly AccessControlOptions _option;
+        private readonly AccessControlOption _option;
 
-        public AccessControlAuthorizationHandler(IActionAccessStrategy resourceAccessStrategy, IHttpContextAccessor contextAccessor, IOptions<AccessControlOptions> options)
+        public AccessControlAuthorizationHandler(IResourceAccessStrategy resourceAccessStrategy, IHttpContextAccessor contextAccessor, IOptions<AccessControlOption> options)
         {
             _resourceAccessStrategy = resourceAccessStrategy;
             _option = options.Value;

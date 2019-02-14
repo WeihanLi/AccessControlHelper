@@ -12,9 +12,9 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
     public class AccessControlHelperMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IActionAccessStrategy _accessStrategy;
+        private readonly IResourceAccessStrategy _accessStrategy;
         private readonly ILogger _logger;
-        private readonly AccessControlOptions _option;
+        private readonly AccessControlOption _option;
 
         /// <summary>
         /// Creates a new instance of <see cref="AccessControlHelperMiddleware"/>
@@ -25,8 +25,8 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <param name="accessStrategy">actionAccessStrategy</param>
         public AccessControlHelperMiddleware(
             RequestDelegate next,
-            IOptions<AccessControlOptions> options,
-            ILogger<AccessControlHelperMiddleware> logger, IActionAccessStrategy accessStrategy)
+            IOptions<AccessControlOption> options,
+            ILogger<AccessControlHelperMiddleware> logger, IResourceAccessStrategy accessStrategy)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _logger = logger;
@@ -41,7 +41,6 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <returns>A task that represents the execution of this middleware.</returns>
         public Task Invoke(HttpContext context)
         {
-            // add custom operation
             var accessKey = string.Empty;
             if (context.Request.Headers.ContainsKey(_option.AccessHeaderKey))
             {
@@ -53,9 +52,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             }
             //
             _logger.LogInformation($"Request {context.TraceIdentifier} was unauthorized, Request path:{context.Request.Path}");
-
             context.Response.StatusCode = context.User.Identity.IsAuthenticated ? 403 : 401;
-
             return _option.DefaultUnauthorizedOperation?.Invoke(context.Response) ?? Task.CompletedTask;
         }
     }

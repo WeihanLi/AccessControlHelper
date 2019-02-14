@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
-    public class SparkContainer : IDisposable
+    public sealed class SparkContainer : IDisposable
     {
         private readonly string _tagName;
         private readonly ViewContext _viewContext;
@@ -47,7 +47,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!_disposed)
             {

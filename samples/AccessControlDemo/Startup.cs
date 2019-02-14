@@ -44,7 +44,6 @@ namespace AccessControlDemo
         public void Configure(IApplicationBuilder app)
         {
             app.UseAuthentication();
-
             // UseAccessControlHelper  for global authorization needed
             app.UseAccessControlHelper();
 

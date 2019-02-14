@@ -4,7 +4,7 @@ using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo.Services
 {
-    public class ActionAccessStrategy : IActionAccessStrategy
+    public class ActionAccessStrategy : IResourceAccessStrategy
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 

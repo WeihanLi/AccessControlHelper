@@ -42,10 +42,10 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 
             if (!isDefinedNoControl)
             {
-                var accessStrategy = ServiceResolver.Current.ResolveService<IActionAccessStrategy>();
+                var accessStrategy = ServiceResolver.Current.ResolveService<IResourceAccessStrategy>();
 
                 if (accessStrategy == null)
-                    throw new ArgumentException("Action访问策略未初始化，请注册访问策略", nameof(IActionAccessStrategy));
+                    throw new ArgumentException("Action访问策略未初始化，请注册访问策略", nameof(IResourceAccessStrategy));
 
                 if (!accessStrategy.IsCanAccess(AccessKey))
                 {

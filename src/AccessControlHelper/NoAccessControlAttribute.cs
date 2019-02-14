@@ -11,11 +11,11 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     /// <summary>
-    /// 不用权限控制
+    /// NoAccessControl
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 #if NET45
-    public class NoAccessControlAttribute : FilterAttribute, IAuthorizationFilter
+    public sealed class NoAccessControlAttribute : FilterAttribute, IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {

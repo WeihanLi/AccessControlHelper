@@ -2,7 +2,7 @@
 
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
-    internal class ServiceResolver
+    internal sealed class ServiceResolver
     {
         private static IServiceProvider _serviceProvider;
         private static readonly object _locker = new object();

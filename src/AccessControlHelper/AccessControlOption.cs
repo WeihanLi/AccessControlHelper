@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
-    public class AccessControlOptions
+    public class AccessControlOption
     {
         public string AccessHeaderKey { get; set; } = "X-Access-Key";
 
