@@ -11,7 +11,7 @@
     <Summary>AccessControlHelper for asp.net mvc and asp.net core apps</Summary>
     <RepositoryUrl>https://github.com/WeihanLi/AccessControlHelper</RepositoryUrl>
     <PackageProjectUrl>https://github.com/WeihanLi/AccessControlHelper</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/WeihanLi/AccessControlHelper/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AssemblyName>WeihanLi.AspNetMvc.AccessControlHelper</AssemblyName>
     <RootNamespace>WeihanLi.AspNetMvc.AccessControlHelper</RootNamespace>
     <Copyright>WeihanLi</Copyright>
