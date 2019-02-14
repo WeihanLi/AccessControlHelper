@@ -86,6 +86,7 @@
     通过 `AccessControl` 和 `NoAccessControl` Filter 来控制 `Action` 的访问权限，如果Action上定义了 `NoAccessControl` 可以忽略上级定义的 `AccessControl`，另外可以设置 Action 对应的 `AccessKey`
 
     使用示例：
+
     ``` csharp
     [NoAccessControl]
     public IActionResult Index()
@@ -116,81 +117,107 @@
 
     - asp.net mvc
 
-        在 项目的 Views 目录下的 **web.config** 文件中添加命名空间 `WeihanLi.AspNetMvc.AccessControlHelper`
+      1. 添加命名空间引用
 
-        ``` xml
-        <system.web.webPages.razor>
-            <pages pageBaseType="System.Web.Mvc.WebViewPage">
-                <namespaces>
-                    <add namespace="System.Web.Mvc" />
-                    <add namespace="System.Web.Mvc.Ajax" />
-                    <add namespace="System.Web.Mvc.Html" />
-                    <add namespace="System.Web.Optimization"/>
-                    <add namespace="System.Web.Routing" />
-                    <add namespace="PowerControlDemo" />
-                    <add namespace="WeihanLi.AspNetMvc.AccessControlHelper" /><!-- add WeihanLi.AspNetMvc.AccessControlHelper-->
-                </namespaces>
-            </pages>
-        </system.web.webPages.razor>
-        ```
+            在 项目的 Views 目录下的 **web.config** 文件中添加命名空间 `WeihanLi.AspNetMvc.AccessControlHelper`
+
+            ``` xml
+            <system.web.webPages.razor>
+                <pages pageBaseType="System.Web.Mvc.WebViewPage">
+                    <namespaces>
+                        <add namespace="System.Web.Mvc" />
+                        <add namespace="System.Web.Mvc.Ajax" />
+                        <add namespace="System.Web.Mvc.Html" />
+                        <add namespace="System.Web.Optimization"/>
+                        <add namespace="System.Web.Routing" />
+                        <add namespace="PowerControlDemo" />
+                        <add namespace="WeihanLi.AspNetMvc.AccessControlHelper" /><!-- add WeihanLi.AspNetMvc.AccessControlHelper-->
+                    </namespaces>
+                </pages>
+            </system.web.webPages.razor>
+            ```
+
+      2. 在 Razor 页面上使用
+
+            - `SparkContainer` 使用
+
+                ``` csharp
+                @using(Html.SparkContainer("div",new { @class="container",custom-attribute = "abcd" }))
+                {
+                    @Html.Raw("1234")
+                }
+
+                @using (Html.SparkContainer("span",new { @class = "custom_p111" }, "F7A17FF9-3371-4667-B78E-BD11691CA852"))
+                {
+                    @:12344
+                }
+                ```
+
+                没有权限访问就不会渲染到页面上，有权限访问的时候渲染得到的 Html 如下：
+
+                ``` html
+                <div class="container" custom-attribute="abcd">1234</div>
+
+                <span class="custome_p111">12344</span>
+                ```
+
+            - `SparkLink`
+
+                ``` csharp
+                @Html.SparkLink("Learn about me &raquo;", "http://weihanli.xyz",new { @class = "btn btn-default" })
+                ```
+
+                有权限访问时渲染出来的 html 如下：
+
+                ``` html
+                <a class="btn btn-default" href="http://weihanli.xyz">Learn about me »</a>
+                ```
+
+            - `SparkButton`
+
+                ``` csharp
+                @Html.SparkButton("12234", new { @class= "btn btn-primary" })
+                ```
+
+                有权限访问时渲染出来的 html 如下：
+
+                ``` html
+                <button class="btn btn-primary" type="button">12234</button>
+                ```
 
     - asp.net core
 
-        在 Views 目录下的 **_ViewImports.cshtml** 中引用命名空间 `WeihanLi.AspNetMvc.AccessControlHelper`
+      - HtmlHelper 扩展
 
-        ``` csharp
-        @using AccessControlDemo
-        @using WeihanLi.AspNetMvc.AccessControlHelper// add WeihanLi.AspNetMvc.AccessControlHelper
-        @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-        ```
+        1. 添加命名空间引用
 
-    通过 `HtmlHelper` 扩展方法来实现权限控制
+            在 Views 目录下的 **_ViewImports.cshtml** 中引用命名空间 `WeihanLi.AspNetMvc.AccessControlHelper`
 
-    - `SparkContainer` 使用
+            ``` csharp
+            @using AccessControlDemo
+            @using WeihanLi.AspNetMvc.AccessControlHelper// add WeihanLi.AspNetMvc.AccessControlHelper
+            @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+            ```
 
-       ``` csharp
-       @using(Html.SparkContainer("div",new { @class="container",custom-attribute = "abcd" }))
-       {
-           @Html.Raw("1234")
-       }
+        2. 在 Razor 页面上使用，使用方法与上面的使用方式一样
 
-       @using (Html.SparkContainer("span",new { @class = "custom_p111" }, "F7A17FF9-3371-4667-B78E-BD11691CA852"))
-       {
-           @:12344
-       }
-       ```
+      - TagHelper
 
-       没有权限访问就不会渲染到页面上，有权限访问的时候渲染得到的 Html 如下：
+        1. 添加 TagHelper 引用
 
-       ``` html
-       <div class="container" custom-attribute="abcd">1234</div>
+            在 Views 目录下的 **_ViewImports.cshtml** 中引用 `WeihanLi.AspNetMvc.AccessControlHelper` TagHelper
 
-       <span class="custome_p111">12344</span>
-       ```
+            ``` csharp
+            @using AccessControlDemo
+            @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+            @addTagHelper *, WeihanLi.AspNetMvc.AccessControlHelper // add WeihanLi.AspNetMvc.AccessControlHelper TagHelper
+            ```
 
-    - `SparkLink`
+        2. 在 Razor 页面上使用
 
-        ``` csharp
-        @Html.SparkLink("Learn about me &raquo;", "http://weihanli.xyz",new { @class = "btn btn-default" })
-        ```
+            在需要权限控制的元素上增加 `asp-access` 即可，如果需要配置 access-key 通过 `asp-accesss-key` 来配置，示例：`<ul class="list-group" asp-access asp-access-key="12334">...</ul>`
 
-        有权限访问时渲染出来的 html 如下：
-
-        ``` html
-        <a class="btn btn-default" href="http://weihanli.xyz">Learn about me »</a>
-        ```
-
-    - `SparkButton`
-
-        ``` csharp
-         @Html.SparkButton("12234", new { @class= "btn btn-primary" })
-        ```
-
-        有权限访问时渲染出来的 html 如下：
-
-        ``` html
-        <button class="btn btn-primary" type="button">12234</button>
-        ```
+            这样有权限的时候就会输出这个 `ul` 的内容，如果没有权限就不会输出，而且出于安全考虑，如果有配置 `asp-access-key` 的话也会把 `asp-access-key` 给移除，不会输出到浏览器中
 
 ## Contact
 
