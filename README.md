@@ -74,11 +74,11 @@
     在 `Startup` 文件中注册显示策略，参考<https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Startup.cs>
 
     ``` csharp
-    // Configure
-    app.UseAccessControlHelper();
-
     // ConfigureServices
     services.AddAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>();
+
+    // Configure
+    // app.UseAccessControlHelper(); // use this only when you want to have a global access control especially for static files
     ```
 
 1. 控制 `Action` 的方法权限
@@ -107,6 +107,17 @@
     {
         ViewData["Message"] = "Your contact page.";
 
+        return View();
+    }
+    ```
+
+    在 asp.net core 中你也可以设置 `Policy` 和直接使用 `[AccessControl]` 方法一致
+
+    ``` csharp
+    [Authorize("AccessControl")]
+    public IActionResult Contact()
+    {
+        ViewData["Message"] = "Your contact page.";
         return View();
     }
     ```
