@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Web;
+using System.Web.Mvc;
 using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace PowerControlDemo.Helper
@@ -13,7 +14,7 @@ namespace PowerControlDemo.Helper
         }
     }
 
-    public class ActionAccessStrategy : IActionAccessStrategy
+    public class ActionAccessStrategy : IResourceAccessStrategy
     {
         public bool IsCanAccess(string accessKey)
         {
@@ -34,7 +35,7 @@ namespace PowerControlDemo.Helper
             ContentType = "text/html"
         };
 
-        public JsonResult DisallowedAjaxResult => new JsonResult()
+        public ActionResult DisallowedAjaxResult => new JsonResult()
         {
             JsonRequestBehavior = JsonRequestBehavior.AllowGet,
             Data = "You have no permission!"
