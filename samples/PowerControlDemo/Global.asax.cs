@@ -4,7 +4,6 @@ using System.Web.Routing;
 using Autofac;
 using PowerControlDemo.Helper;
 using WeihanLi.AspNetMvc.AccessControlHelper;
-using WeihanLi.Common;
 
 namespace PowerControlDemo
 {
@@ -19,9 +18,8 @@ namespace PowerControlDemo
 
             var builder = new ContainerBuilder();
             // etc..
-            // register accesss control
-
-            builder.RegisterType<ActionAccessStrategy>().As<IActionAccessStrategy>();
+            // register access control
+            builder.RegisterType<ActionAccessStrategy>().As<IResourceAccessStrategy>();
             builder.RegisterType<ControlAccessStrategy>().As<IControlAccessStrategy>();
             var container = builder.Build();
             AccessControlHelper.RegisterAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>(type => container.Resolve(type));

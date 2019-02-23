@@ -17,7 +17,9 @@
     <Copyright>WeihanLi</Copyright>
     <RepositoryType>git</RepositoryType>
     <PackageTags>access control power authorize authorization Mvc</PackageTags>
-    <PackageReleaseNotes>add more authorization support for asp.net core</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      add AccessControlHelperMiddleware for asp.net core, add more support for asp.net core
+    </PackageReleaseNotes>
     <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">True</GeneratePackageOnBuild>
   </PropertyGroup>
 </Project>

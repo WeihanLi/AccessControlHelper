@@ -36,7 +36,7 @@
 1. 实现自己的权限控制显示策略类
 
     - 实现页面元素显示策略接口 `IControlAccessStrategy`
-    - 实现 `Action` 访问显示策略接口 `IActionAccessStrategy`
+    - 实现 `Action` 访问显示策略接口 `IResourceAccessStrategy`
 
     示例代码：
 
@@ -46,7 +46,7 @@
 
     - ASP.NET Core
 
-        1. [ActionAccessStragety](https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Services/ActionAccessStrategy.cs)
+        1. [ResourceAccessStrategy](https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Services/ActionAccessStrategy.cs)
 
         1. [ControlAccessStrategy](https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Services/ControlAccessStrategy.cs)
 
@@ -62,7 +62,7 @@
     // etc...
 
     // register accesss control
-    builder.RegisterType<ActionAccessStrategy>().As<IActionAccessStrategy>();
+    builder.RegisterType<ActionAccessStrategy>().As<IResourceAccessStrategy>();
     builder.RegisterType<ControlAccessStrategy>().As<IControlAccessStrategy>();
     var container = builder.Build();
     // Important
@@ -74,11 +74,11 @@
     在 `Startup` 文件中注册显示策略，参考<https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Startup.cs>
 
     ``` csharp
-    // Configure
-    app.UseAccessControlHelper();
-
     // ConfigureServices
     services.AddAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>();
+
+    // Configure
+    // app.UseAccessControlHelper(); // use this only when you want to have a global access control especially for static files
     ```
 
 1. 控制 `Action` 的方法权限
@@ -107,6 +107,17 @@
     {
         ViewData["Message"] = "Your contact page.";
 
+        return View();
+    }
+    ```
+
+    在 asp.net core 中你也可以设置 `Policy` 和直接使用 `[AccessControl]` 方法一致
+
+    ``` csharp
+    [Authorize("AccessControl")]
+    public IActionResult Contact()
+    {
+        ViewData["Message"] = "Your contact page.";
         return View();
     }
     ```
