@@ -3,7 +3,7 @@
 [![WeihanLi.AspNetMvc.AccessControlHelper](https://img.shields.io/nuget/v/WeihanLi.AspNetMvc.AccessControlHelper.svg)](http://www.nuget.org/packages/WeihanLi.AspNetMvc.AccessControlHelper/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/WeihanLi.AspNetMvc.AccessControlHelper.svg)](http://www.nuget.org/packages/WeihanLi.AspNetMvc.AccessControlHelper/)
 
-## [English](README.en.md)
+## [中文](README.md)
 
 ## Build Status
 
@@ -13,17 +13,19 @@
 
 ## Intro
 
-由于项目需要，需要在 基于 Asp.net mvc 的 Web 项目框架中做权限的控制，于是才有了这个权限控制组件。
+Project based on `.netstandard2.0` and support `net45` also, you can use it in a asp.net mvc project or a asp.net core project.
 
-项目基于 .NETStandard，同时支持 asp.net mvc（.NET faremwork4.5以上） 和 asp.net core 项目（asp.net 2.0以上），基于 ASP.NET MVC 和 ASP.NET Core 实现的对 `Action` 的访问控制以及页面元素的权限控制。
+You can use this to control the permissions to:
 
-asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控制页面上元素的权限访问，同时支持通过中间件也可以实现对静态资源的访问。
+- access the `Action`
+- access the element of the razor page
+- access the all resources included the static files
 
 ## GetStarted
 
 1. Nuget Package <https://www.nuget.org/packages/WeihanLi.AspNetMvc.AccessControlHelper/>
 
-   安装权限控制组件 `WeihanLi.AspNetMvc.AccessControlHelper`
+   install the package `WeihanLi.AspNetMvc.AccessControlHelper`
 
    asp.net:
 
@@ -37,12 +39,12 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
    dotnet add package WeihanLi.AspNetMvc.AccessControlHelper
    ```
 
-1. 实现自己的权限控制显示策略类
+1. Implement your own custom access strategy
 
-    - 实现页面元素显示策略接口 `IControlAccessStrategy`
-    - 实现 `Action` 访问显示策略接口 `IResourceAccessStrategy`
+    - implement your element in razor page access strategy `IControlAccessStrategy`
+    - implement your resource access stragety `IResourceAccessStrategy`
 
-    示例代码：
+    Samples:
 
     - ASP.NET Mvc
 
@@ -54,11 +56,11 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
 
         1. [ControlAccessStrategy](https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Services/ControlAccessStrategy.cs)
 
-1. 程序启动时注册自己的显示策略
+1. Register your stragety when your app start
 
     - asp.net mvc
 
-    可基于Autofac实现的依赖注入，在 autofac 的 Ioc Container中注册显示策略，并返回一个可以从Ioc Container中获取对象的委托或者实现 `IServiceProvider` 接口的对象，参考：<https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/PowerControlDemo/Global.asax.cs#L23>
+    Referer to ：<https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/PowerControlDemo/Global.asax.cs#L23>
 
     ``` csharp
     //autofac ContainerBuilder
@@ -75,7 +77,7 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
 
     - asp.net core
 
-    在 `Startup` 文件中注册显示策略，参考<https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Startup.cs>
+    Register your access stragety in the `Startup` file，refer to: <https://github.com/WeihanLi/AccessControlHelper/blob/master/samples/AccessControlDemo/Startup.cs>
 
     ``` csharp
     // ConfigureServices
@@ -85,11 +87,9 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
     // app.UseAccessControlHelper(); // use this only when you want to have a global access control especially for static files
     ```
 
-1. 控制 `Action` 的方法权限
+1. Control `Action` access permission
 
-    通过 `AccessControl` 和 `NoAccessControl` Filter 来控制 `Action` 的访问权限，如果Action上定义了 `NoAccessControl` 可以忽略上级定义的 `AccessControl`，另外可以设置 Action 对应的 `AccessKey`
-
-    使用示例：
+    samples:
 
     ``` csharp
     [NoAccessControl]
@@ -115,7 +115,7 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
     }
     ```
 
-    在 asp.net core 中你也可以设置 `Policy` 和直接使用 `[AccessControl]` 方法一致
+    you can use poliy in asp.net core, `Policy` is equal to `[AccessControl]`
 
     ``` csharp
     [Authorize("AccessControl")]
@@ -126,15 +126,15 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
     }
     ```
 
-1. 控制页面元素的显示
+1. control the element control access
 
-    为了使用比较方便，建议在页面上导入命名空间，具体方法如下，详见 Samples：
+    import the namespace,see Samples below：
 
     - asp.net mvc
 
-      1. 添加命名空间引用
+      1. import namespace
 
-            在 项目的 Views 目录下的 **web.config** 文件中添加命名空间 `WeihanLi.AspNetMvc.AccessControlHelper`
+            update **web.config** in the `Views` folder , import `WeihanLi.AspNetMvc.AccessControlHelper`
 
             ``` xml
             <system.web.webPages.razor>
@@ -152,9 +152,9 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
             </system.web.webPages.razor>
             ```
 
-      2. 在 Razor 页面上使用
+      2. use in razor page
 
-            - `SparkContainer` 使用
+            - `SparkContainer`
 
                 ``` csharp
                 @using(Html.SparkContainer("div",new { @class="container",custom-attribute = "abcd" }))
@@ -168,7 +168,7 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
                 }
                 ```
 
-                没有权限访问就不会渲染到页面上，有权限访问的时候渲染得到的 Html 如下：
+                when you have the permission to access the element control, you will get the follows, if you do not have the permission, you will get nothing:
 
                 ``` html
                 <div class="container" custom-attribute="abcd">1234</div>
@@ -182,7 +182,7 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
                 @Html.SparkLink("Learn about me &raquo;", "http://weihanli.xyz",new { @class = "btn btn-default" })
                 ```
 
-                有权限访问时渲染出来的 html 如下：
+                when you have the permission to access the element control, you will get the follows output:
 
                 ``` html
                 <a class="btn btn-default" href="http://weihanli.xyz">Learn about me »</a>
@@ -194,7 +194,7 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
                 @Html.SparkButton("12234", new { @class= "btn btn-primary" })
                 ```
 
-                有权限访问时渲染出来的 html 如下：
+                when you have the permission to access the element control, you will get the follows output:
 
                 ``` html
                 <button class="btn btn-primary" type="button">12234</button>
@@ -202,11 +202,11 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
 
     - asp.net core
 
-      - HtmlHelper 扩展
+      - HtmlHelper extensions
 
-        1. 添加命名空间引用
+        1. import namespace
 
-            在 Views 目录下的 **_ViewImports.cshtml** 中引用命名空间 `WeihanLi.AspNetMvc.AccessControlHelper`
+            import namespace `WeihanLi.AspNetMvc.AccessControlHelper` in **_ViewImports.cshtml** in you `Views` folder
 
             ``` csharp
             @using AccessControlDemo
@@ -214,13 +214,13 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
             @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
             ```
 
-        2. 在 Razor 页面上使用，使用方法与上面的使用方式一样
+        2. Use it in your razor page, exactly the same with the code in asp.net mvc
 
       - TagHelper
 
-        1. 添加 TagHelper 引用
+        1. add TagHelper reference
 
-            在 Views 目录下的 **_ViewImports.cshtml** 中引用 `WeihanLi.AspNetMvc.AccessControlHelper` TagHelper
+            add reference `WeihanLi.AspNetMvc.AccessControlHelper` in **_ViewImports.cshtml** in you `Views` folder
 
             ``` csharp
             @using AccessControlDemo
@@ -228,14 +228,15 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
             @addTagHelper *, WeihanLi.AspNetMvc.AccessControlHelper // add WeihanLi.AspNetMvc.AccessControlHelper TagHelper
             ```
 
-        2. 在 Razor 页面上使用
+        2. use in your razor page
 
-            在需要权限控制的元素上增加 `asp-access` 即可，如果需要配置 access-key 通过 `asp-accesss-key` 来配置，示例：`<ul class="list-group" asp-access asp-access-key="12334">...</ul>`
+            add `asp-access` in the element you wanna control the access permission, config `asp-acess-key` if you want
+            for example: `<ul class="list-group" asp-access asp-access-key="12334">...</ul>`
 
-            这样有权限的时候就会输出这个 `ul` 的内容，如果没有权限就不会输出，而且出于安全考虑，如果有配置 `asp-access-key` 的话也会把 `asp-access-key` 给移除，不会输出到浏览器中
+            you will get the `ul` output when you have the permission, if not, nothing will output
 
 ## Contact
 
-如果您在使用中遇到了问题，欢迎随时与我联系。
+Contact me if you have any question.
 
 Contact me: <weihanli@outlook.com>
