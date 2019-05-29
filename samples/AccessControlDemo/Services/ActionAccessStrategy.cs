@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo.Services
@@ -15,11 +16,14 @@ namespace AccessControlDemo.Services
         {
             var httpContext = _httpContextAccessor.HttpContext;
 
-            //var area = httpContext.GetRouteValue("area");
-            //var controller = httpContext.GetRouteValue("controller");
-            //var action = httpContext.GetRouteValue("action");
+            var features = httpContext.Features;
 
-            return AccessControlService.IsCanAcccess(httpContext.Request.Path, httpContext);
+            var area = httpContext.GetRouteValue("area");
+            var controller = httpContext.GetRouteValue("controller");
+            var action = httpContext.GetRouteValue("action");
+
+            var routeData = httpContext.GetRouteData();
+            return AccessControlService.IsCanAccess(httpContext.Request.Path, httpContext);
         }
 
         public string StrategyName { get; } = "Global";

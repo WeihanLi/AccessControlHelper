@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo.Controllers
@@ -7,6 +8,7 @@ namespace AccessControlDemo.Controllers
     public class HomeController : Controller
     {
         [NoAccessControl]
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();

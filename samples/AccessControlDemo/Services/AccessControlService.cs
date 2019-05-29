@@ -13,7 +13,7 @@ namespace AccessControlDemo.Services
             { "/Account/LogOut", "" }
         };
 
-        public static bool IsCanAcccess(PathString path, HttpContext context)
+        public static bool IsCanAccess(PathString path, HttpContext context)
         {
             var matchedPath = _permissionDic.Keys.FirstOrDefault(p => path.StartsWithSegments(p));
             if (matchedPath != null)

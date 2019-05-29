@@ -57,7 +57,6 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 
     internal static class ServiceResolverExtensions
     {
-        public static TService ResolveService<TService>(this IServiceProvider serviceProvider)
-            => (TService)serviceProvider.GetService(typeof(TService));
+        public static TService ResolveService<TService>(this IServiceProvider serviceProvider) => (TService)serviceProvider.GetService(typeof(TService));
     }
 }

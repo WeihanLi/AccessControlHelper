@@ -8,6 +8,6 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
     {
         public string AccessHeaderKey { get; set; } = "X-Access-Key";
 
-        public Func<HttpResponse, Task> DefaultUnauthorizedOperation { get; set; }
+        public Func<HttpContext, Task> DefaultUnauthorizedOperation { get; set; }
     }
 }

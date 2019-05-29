@@ -42,18 +42,22 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         public Task Invoke(HttpContext context)
         {
             var accessKey = string.Empty;
+
             if (context.Request.Headers.ContainsKey(_option.AccessHeaderKey))
             {
                 accessKey = context.Request.Headers[_option.AccessHeaderKey].ToString();
             }
+
+            // TODO: 如果 Action 定义了 NoAccessControl 或者 AllowAnonymous 则跳过
+
             if (_accessStrategy.IsCanAccess(accessKey))
             {
                 return _next(context);
             }
-            //
             _logger.LogInformation($"Request {context.TraceIdentifier} was unauthorized, Request path:{context.Request.Path}");
             context.Response.StatusCode = context.User.Identity.IsAuthenticated ? 403 : 401;
-            return _option.DefaultUnauthorizedOperation?.Invoke(context.Response) ?? Task.CompletedTask;
+
+            return _option.DefaultUnauthorizedOperation?.Invoke(context) ?? Task.CompletedTask;
         }
     }
 }
