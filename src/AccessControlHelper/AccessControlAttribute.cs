@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using DependencyResolver = WeihanLi.Common.DependencyResolver;
 
 #if NET45
 
@@ -42,7 +43,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 
             if (!isDefinedNoControl)
             {
-                var accessStrategy = ServiceResolver.Current.ResolveService<IResourceAccessStrategy>();
+                var accessStrategy = DependencyResolver.Current.ResolveCustomService<IResourceAccessStrategy>();
 
                 if (accessStrategy == null)
                     throw new ArgumentException("Action访问策略未初始化，请注册访问策略", nameof(IResourceAccessStrategy));

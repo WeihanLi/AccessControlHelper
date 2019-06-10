@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -12,7 +13,6 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
     public class AccessControlHelperMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IResourceAccessStrategy _accessStrategy;
         private readonly ILogger _logger;
         private readonly AccessControlOption _option;
 
@@ -22,15 +22,13 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <param name="next">The delegate representing the next middleware in the request pipeline.</param>
         /// <param name="options"></param>
         /// <param name="logger">The Logger Factory.</param>
-        /// <param name="accessStrategy">actionAccessStrategy</param>
         public AccessControlHelperMiddleware(
             RequestDelegate next,
             IOptions<AccessControlOption> options,
-            ILogger<AccessControlHelperMiddleware> logger, IResourceAccessStrategy accessStrategy)
+            ILogger<AccessControlHelperMiddleware> logger)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _logger = logger;
-            _accessStrategy = accessStrategy;
             _option = options.Value;
         }
 
@@ -43,18 +41,18 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         {
             var accessKey = string.Empty;
 
-            if (context.Request.Headers.ContainsKey(_option.AccessHeaderKey))
+            if (context.Request.Headers.ContainsKey(_option.AccessKeyHeaderName))
             {
-                accessKey = context.Request.Headers[_option.AccessHeaderKey].ToString();
+                accessKey = context.Request.Headers[_option.AccessKeyHeaderName].ToString();
             }
 
-            // TODO: 如果 Action 定义了 NoAccessControl 或者 AllowAnonymous 则跳过
-
-            if (_accessStrategy.IsCanAccess(accessKey))
+            var accessStrategy = context.RequestServices.GetService<IResourceAccessStrategy>();
+            if (accessStrategy.IsCanAccess(accessKey))
             {
                 return _next(context);
             }
-            _logger.LogInformation($"Request {context.TraceIdentifier} was unauthorized, Request path:{context.Request.Path}");
+
+            _logger.LogDebug($"Request {context.TraceIdentifier} was unauthorized, Request path:{context.Request.Path}");
             context.Response.StatusCode = context.User.Identity.IsAuthenticated ? 403 : 401;
 
             return _option.DefaultUnauthorizedOperation?.Invoke(context) ?? Task.CompletedTask;

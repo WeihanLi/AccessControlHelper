@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DependencyResolver = WeihanLi.Common.DependencyResolver;
 
 #if NET45
 using System.Web.Mvc;
@@ -22,7 +23,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         {
             if (_accessStrategy == null)
             {
-                _accessStrategy = ServiceResolver.Current.ResolveService<IControlAccessStrategy>();
+                _accessStrategy = DependencyResolver.Current.ResolveCustomService<IControlAccessStrategy>();
                 if (_accessStrategy == null)
                 {
                     throw new ArgumentException("Control显示策略未初始化，请注册显示策略", nameof(_accessStrategy));

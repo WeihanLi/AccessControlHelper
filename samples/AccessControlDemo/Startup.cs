@@ -1,9 +1,11 @@
-﻿using AccessControlDemo.Services;
+﻿using AccessControlDemo.Database;
+using AccessControlDemo.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo
 {
@@ -37,7 +39,10 @@ namespace AccessControlDemo
             // Add framework services.
             services.AddMvc();
 
-            services.AddAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>();
+            services.AddScoped<PermissionsDbContext>();
+            services.AddScoped<IResourceAccessStrategy, ActionAccessStrategy>();
+            services.AddSingleton<IControlAccessStrategy, ControlAccessStrategy>();
+            services.AddAccessControlHelper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

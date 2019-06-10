@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AccessControlDemo.Database;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using WeihanLi.AspNetMvc.AccessControlHelper;
@@ -8,8 +9,9 @@ namespace AccessControlDemo.Services
     public class ActionAccessStrategy : IResourceAccessStrategy
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly PermissionsDbContext _dbContext;
 
-        public ActionAccessStrategy(IHttpContextAccessor httpContextAccessor) =>
+        public ActionAccessStrategy(IHttpContextAccessor httpContextAccessor, PermissionsDbContext dbContext) =>
             _httpContextAccessor = httpContextAccessor;
 
         public bool IsCanAccess(string accessKey)

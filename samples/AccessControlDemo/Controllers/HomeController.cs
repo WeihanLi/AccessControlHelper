@@ -4,17 +4,14 @@ using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo.Controllers
 {
-    //[AccessControl]
     public class HomeController : Controller
     {
-        [NoAccessControl]
         [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
 
-        //[AccessControl]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

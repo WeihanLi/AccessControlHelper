@@ -1,29 +1,27 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
-    public class AccessControlAuthorizationHandler : AuthorizationHandler<AccessControlRequirement>
+    internal class AccessControlAuthorizationHandler : AuthorizationHandler<AccessControlRequirement>
     {
-        private readonly IResourceAccessStrategy _resourceAccessStrategy;
-        private readonly string _accessKey = string.Empty;
-        private readonly AccessControlOption _option;
+        private readonly string _accessKeyHeaderName;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public AccessControlAuthorizationHandler(IResourceAccessStrategy resourceAccessStrategy, IHttpContextAccessor contextAccessor, IOptions<AccessControlOption> options)
+        public AccessControlAuthorizationHandler(IHttpContextAccessor contextAccessor, IOptions<AccessControlOption> options)
         {
-            _resourceAccessStrategy = resourceAccessStrategy;
-            _option = options.Value;
-            if (contextAccessor.HttpContext.Request.Headers.ContainsKey(_option.AccessHeaderKey))
-            {
-                _accessKey = contextAccessor.HttpContext.Request.Headers[_option.AccessHeaderKey].ToString();
-            }
+            _contextAccessor = contextAccessor;
+            _accessKeyHeaderName = options.Value.AccessKeyHeaderName;
         }
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AccessControlRequirement requirement)
         {
-            if (_resourceAccessStrategy.IsCanAccess(_accessKey))
+            var httpContext = _contextAccessor.HttpContext;
+            var resourceAccessStrategy = httpContext.RequestServices.GetService<IResourceAccessStrategy>();
+            if (resourceAccessStrategy.IsCanAccess(httpContext.Request.Headers.TryGetValue(_accessKeyHeaderName, out var accessKey) ? accessKey.ToString() : ""))
             {
                 context.Succeed(requirement);
             }
