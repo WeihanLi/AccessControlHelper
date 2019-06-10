@@ -12,12 +12,10 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
     public class AccessControlTagHelper : TagHelper
     {
         private readonly IControlAccessStrategy _controlAccessStrategy;
-        private readonly IHttpContextAccessor _contextAccessor;
 
-        public AccessControlTagHelper(IControlAccessStrategy controlAccessStrategy, IHttpContextAccessor contextAccessor)
+        public AccessControlTagHelper(IControlAccessStrategy controlAccessStrategy)
         {
             _controlAccessStrategy = controlAccessStrategy;
-            _contextAccessor = contextAccessor;
         }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
