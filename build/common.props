@@ -1,4 +1,5 @@
 <Project>
+  <Import Project="./sign.props" />
   <PropertyGroup>        
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <PackageIconUrl>https://avatars3.githubusercontent.com/u/7604648</PackageIconUrl>    

@@ -86,6 +86,22 @@ namespace Microsoft.Extensions.DependencyInjection
             }
             return services.AddAccessControlHelper<TResourceAccessStrategy, TControlStrategy>();
         }
+
+        public static IAccessControlHelperBuilder AddAccessControlHelper(this IServiceCollection services)
+        {
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            ServiceResolver.SetResolver(services.BuildServiceProvider());
+            return new AccessControlHelperBuilder(services);
+        }
+
+        public static IAccessControlHelperBuilder AddAccessControlHelper(this IServiceCollection services, Action<AccessControlOption> configAction)
+        {
+            if (configAction != null)
+            {
+                services.Configure(configAction);
+            }
+            return services.AddAccessControlHelper();
+        }
     }
 }
 
