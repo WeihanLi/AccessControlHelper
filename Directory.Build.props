@@ -1,0 +1,32 @@
+<Project>
+  <Import Project="./build/sign.props" />
+
+  <PropertyGroup>
+		<VersionMajor>1</VersionMajor>
+		<VersionMinor>7</VersionMinor>
+		<VersionPatch>0</VersionPatch>
+		<VersionRevision></VersionRevision>
+		<VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch)</VersionPrefix>
+		<VersionSuffix Condition="'$(Configuration)'=='DEBUG'">preview-$([System.DateTime]::Now.ToString("yyyyMMdd-HHmmss"))</VersionSuffix>
+    <InformationalVersion>$(PackageVersion)</InformationalVersion>
+	</PropertyGroup>
+  
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/WeihanLi/AccessControlHelper</RepositoryUrl>
+    <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+    <Authors>WeihanLi</Authors>
+    <Copyright>Copyright 2018-2019 (c) WeihanLi</Copyright>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Condition="'$(OS)' == 'Windows_NT'" Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19270-01" PrivateAssets="All"/>
+    <PackageReference Include="JetBrains.Annotations" Version="2019.1.1" PrivateAssets="All" />
+  </ItemGroup>
+</Project>

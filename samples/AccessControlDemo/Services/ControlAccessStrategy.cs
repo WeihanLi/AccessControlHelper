@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
 using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo.Services
@@ -13,7 +12,7 @@ namespace AccessControlDemo.Services
 
         public bool IsControlCanAccess(string accessKey)
         {
-            if (!String.IsNullOrWhiteSpace(accessKey) && _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            if (!string.IsNullOrWhiteSpace(accessKey) && _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
             {
                 return true;
             }

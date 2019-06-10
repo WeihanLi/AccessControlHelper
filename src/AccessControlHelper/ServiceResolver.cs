@@ -1,24 +1,30 @@
 ﻿using System;
 
+#if !NET45
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+
+#endif
+
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     internal sealed class ServiceResolver
     {
-        private static IServiceProvider _serviceProvider;
         private static readonly object _locker = new object();
 
         static ServiceResolver()
         {
-            _serviceProvider = new DefaultServiceProvider();
+            Current = new DefaultServiceProvider();
         }
 
-        public static IServiceProvider Current => _serviceProvider;
+        public static IServiceProvider Current { get; private set; }
 
         public static void SetResolver(IServiceProvider serviceProvider)
         {
             lock (_locker)
             {
-                _serviceProvider = serviceProvider;
+                Current = serviceProvider;
             }
         }
 
@@ -47,16 +53,31 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         {
             private readonly Func<Type, object> _func;
 
-            public DelegateServiceProvider(Func<Type, object> func)
-            => _func = func ?? throw new ArgumentNullException(nameof(func));
+            public DelegateServiceProvider(Func<Type, object> func) => _func = func ?? throw new ArgumentNullException(nameof(func));
 
-            public object GetService(Type serviceType)
-                => _func(serviceType);
+            public object GetService(Type serviceType) => _func(serviceType);
         }
     }
 
     internal static class ServiceResolverExtensions
     {
-        public static TService ResolveService<TService>(this IServiceProvider serviceProvider) => (TService)serviceProvider.GetService(typeof(TService));
+        public static TService ResolveService<TService>(this IServiceProvider serviceProvider)
+        {
+            if (null == serviceProvider)
+            {
+                throw new ArgumentNullException(nameof(serviceProvider));
+            }
+
+#if NET45
+            return (TService) serviceProvider.GetService(typeof(TService));
+#else
+            var accessor = serviceProvider.GetService<IHttpContextAccessor>();
+            if (accessor != null)
+            {
+                return accessor.HttpContext.RequestServices.GetService<TService>();
+            }
+            return serviceProvider.GetService<TService>();
+#endif
+        }
     }
 }

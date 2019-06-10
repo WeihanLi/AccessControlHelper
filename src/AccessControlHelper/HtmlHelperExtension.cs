@@ -16,7 +16,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     public static class HtmlHelperExtension
     {
-        private static IControlAccessStrategy _accessStrategy;
+        private static readonly IControlAccessStrategy _accessStrategy;
 
         static HtmlHelperExtension()
         {
