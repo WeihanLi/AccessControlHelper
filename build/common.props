@@ -17,7 +17,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>access control power authorize authorization Mvc</PackageTags>
     <PackageReleaseNotes>
-      add support for resolve scoped service like DbContext
+       add RegisterResourceAccessStrategy/RegisterControlAccessStrategy
     </PackageReleaseNotes>
     <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">True</GeneratePackageOnBuild>
   </PropertyGroup>
