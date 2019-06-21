@@ -14,7 +14,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
     {
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
-        private readonly AccessControlOption _option;
+        private readonly AccessControlOptions _option;
 
         /// <summary>
         /// Creates a new instance of <see cref="AccessControlHelperMiddleware"/>
@@ -24,7 +24,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <param name="logger">The Logger Factory.</param>
         public AccessControlHelperMiddleware(
             RequestDelegate next,
-            IOptions<AccessControlOption> options,
+            IOptions<AccessControlOptions> options,
             ILogger<AccessControlHelperMiddleware> logger)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
@@ -41,9 +41,9 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         {
             var accessKey = string.Empty;
 
-            if (context.Request.Headers.ContainsKey(_option.AccessKeyHeaderName))
+            if (context.Request.Headers.TryGetValue(_option.AccessKeyHeaderName, out var accessKeyVal))
             {
-                accessKey = context.Request.Headers[_option.AccessKeyHeaderName].ToString();
+                accessKey = accessKeyVal.ToString();
             }
 
             var accessStrategy = context.RequestServices.GetService<IResourceAccessStrategy>();

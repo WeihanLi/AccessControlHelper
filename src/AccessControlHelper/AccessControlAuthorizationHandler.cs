@@ -11,7 +11,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         private readonly string _accessKeyHeaderName;
         private readonly IHttpContextAccessor _contextAccessor;
 
-        public AccessControlAuthorizationHandler(IHttpContextAccessor contextAccessor, IOptions<AccessControlOption> options)
+        public AccessControlAuthorizationHandler(IHttpContextAccessor contextAccessor, IOptions<AccessControlOptions> options)
         {
             _contextAccessor = contextAccessor;
             _accessKeyHeaderName = options.Value.AccessKeyHeaderName;
