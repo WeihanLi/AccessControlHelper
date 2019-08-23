@@ -17,7 +17,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>access control power authorize authorization Mvc</PackageTags>
     <PackageReleaseNotes>
-       add RegisterResourceAccessStrategy/RegisterControlAccessStrategy
+       optimize dependencyInjection
     </PackageReleaseNotes>
     <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">True</GeneratePackageOnBuild>
   </PropertyGroup>
