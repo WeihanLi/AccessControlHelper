@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using WeihanLi.Common;
 using DependencyResolver = WeihanLi.Common.DependencyResolver;
 
 #if NET45
@@ -10,6 +10,7 @@ using System.Web.Mvc.Html;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.DependencyInjection;
 
 #endif
 
@@ -17,18 +18,12 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     public static class HtmlHelperExtension
     {
-        private static readonly IControlAccessStrategy _accessStrategy;
-
         static HtmlHelperExtension()
         {
-            if (_accessStrategy == null)
-            {
-                _accessStrategy = DependencyResolver.Current.ResolveCustomService<IControlAccessStrategy>();
-                if (_accessStrategy == null)
-                {
-                    throw new ArgumentException("Control显示策略未初始化，请注册显示策略", nameof(_accessStrategy));
-                }
-            }
+            //if (DependencyResolver.Current.TryResolveService<IControlAccessStrategy>(out _))
+            //{
+            //    throw new ArgumentException("Control显示策略未初始化，请注册显示策略", nameof(IControlAccessStrategy));
+            //}
         }
 
 #if NET45
@@ -42,9 +37,9 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <returns></returns>
         public static MvcHtmlString SparkButton(this HtmlHelper helper, string innerHtml, object attributes = null, string accessKey = "")
         {
-            if (_accessStrategy.IsControlCanAccess(accessKey))
+            if (DependencyResolver.Current.ResolveService<IControlAccessStrategy>().IsControlCanAccess(accessKey))
             {
-                TagBuilder tagBuilder = new TagBuilder("button");
+                var tagBuilder = new TagBuilder("button");
                 tagBuilder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(attributes));
                 tagBuilder.MergeAttribute("type", "button");
                 tagBuilder.InnerHtml = innerHtml;
@@ -64,9 +59,9 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <returns></returns>
         public static MvcHtmlString SparkLink(this HtmlHelper helper, string innerHtml, string linkUrl, object attributes = null, string accessKey = "")
         {
-            if (_accessStrategy.IsControlCanAccess(accessKey))
+            if (DependencyResolver.Current.ResolveService<IControlAccessStrategy>().IsControlCanAccess(accessKey))
             {
-                TagBuilder tagBuilder = new TagBuilder("a");
+                var tagBuilder = new TagBuilder("a");
                 tagBuilder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(attributes));
                 tagBuilder.MergeAttribute("href", linkUrl);
                 tagBuilder.InnerHtml = innerHtml;
@@ -88,7 +83,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <returns></returns>
         public static MvcHtmlString SparkActionLink(this HtmlHelper helper, string linkText, string actionName, string controllerName = "", object routeValues = null, object htmlAttributes = null, string accessKey = "")
         {
-            if (_accessStrategy.IsControlCanAccess(accessKey))
+            if (DependencyResolver.Current.ResolveService<IControlAccessStrategy>().IsControlCanAccess(accessKey))
             {
                 return string.IsNullOrWhiteSpace(controllerName) ? helper.ActionLink(linkText, actionName, routeValues, htmlAttributes) : helper.ActionLink(linkText, actionName, controllerName, routeValues, htmlAttributes);
             }
@@ -104,12 +99,12 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <param name="accessKey">accessKey</param>
         /// <returns></returns>
         public static SparkContainer SparkContainer(this HtmlHelper helper, string tagName, object attributes = null, string accessKey = "")
-        => SparkContainerHelper(helper, tagName, HtmlHelper.AnonymousObjectToHtmlAttributes(attributes), _accessStrategy.IsControlCanAccess(accessKey));
+        => SparkContainerHelper(helper, tagName, HtmlHelper.AnonymousObjectToHtmlAttributes(attributes), DependencyResolver.Current.ResolveService<IControlAccessStrategy>().IsControlCanAccess(accessKey));
 
         private static SparkContainer SparkContainerHelper(this HtmlHelper helper, string tagName,
             IDictionary<string, object> attributes = null, bool canAccess = true)
         {
-            TagBuilder tagBuilder = new TagBuilder(tagName);
+            var tagBuilder = new TagBuilder(tagName);
             if (canAccess)
             {
                 tagBuilder.MergeAttributes(attributes);
@@ -132,9 +127,10 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <returns></returns>
         public static IHtmlContent SparkActionLink(this IHtmlHelper helper, string linkText, string actionName, string controllerName = "", object routeValues = null, object htmlAttributes = null, string accessKey = "")
         {
-            if (_accessStrategy.IsControlCanAccess(accessKey))
+            if (helper.ViewContext.HttpContext.RequestServices.GetRequiredService<IControlAccessStrategy>()
+                            .IsControlCanAccess(accessKey))
             {
-                if (String.IsNullOrEmpty(controllerName))
+                if (string.IsNullOrEmpty(controllerName))
                 {
                     return helper.ActionLink(linkText, actionName, routeValues, htmlAttributes);
                 }
@@ -154,13 +150,15 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <param name="attributes">htmlAttributes</param>
         /// <param name="accessKey">accessKey</param>
         /// <returns></returns>
-        public static SparkContainer SparkContainer(this IHtmlHelper helper, string tagName, object attributes = null, string accessKey = "")
-        => SparkContainerHelper(helper, tagName, HtmlHelper.AnonymousObjectToHtmlAttributes(attributes), _accessStrategy.IsControlCanAccess(accessKey));
+        public static SparkContainer SparkContainer(this IHtmlHelper helper, string tagName, object attributes = null, string accessKey = null)
+        => SparkContainerHelper(helper, tagName, HtmlHelper.AnonymousObjectToHtmlAttributes(attributes), accessKey);
 
         private static SparkContainer SparkContainerHelper(IHtmlHelper helper, string tagName,
-            IDictionary<string, object> attributes = null, bool canAccess = true)
+            IDictionary<string, object> attributes = null, string accessKey = null)
         {
-            TagBuilder tagBuilder = new TagBuilder(tagName);
+            var tagBuilder = new TagBuilder(tagName);
+            var canAccess = helper.ViewContext.HttpContext.RequestServices.GetRequiredService<IControlAccessStrategy>()
+                            .IsControlCanAccess(accessKey);
             if (canAccess)
             {
                 tagBuilder.MergeAttributes(attributes);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using WeihanLi.Common;
 using DependencyResolver = WeihanLi.Common.DependencyResolver;
 
 #if NET45
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Extensions.DependencyInjection;
 
 #endif
 
@@ -43,7 +45,13 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 
             if (!isDefinedNoControl)
             {
-                var accessStrategy = DependencyResolver.Current.ResolveCustomService<IResourceAccessStrategy>();
+                IResourceAccessStrategy accessStrategy;
+
+#if NETSTANDARD2_0
+                accessStrategy = filterContext.HttpContext.RequestServices.GetRequiredService<IResourceAccessStrategy>();
+#else
+                accessStrategy = DependencyResolver.Current.ResolveService<IResourceAccessStrategy>();
+#endif
 
                 if (accessStrategy == null)
                     throw new ArgumentException("Action访问策略未初始化，请注册访问策略", nameof(IResourceAccessStrategy));

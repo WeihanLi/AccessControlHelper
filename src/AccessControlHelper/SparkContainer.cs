@@ -7,7 +7,9 @@ using System.Web.Mvc;
 
 #else
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.DependencyInjection;
 
 #endif
 
