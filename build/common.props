@@ -4,18 +4,14 @@
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <PackageIconUrl>https://avatars3.githubusercontent.com/u/7604648</PackageIconUrl>    
     <PackageId>WeihanLi.AspNetMvc.AccessControlHelper</PackageId>    
-    <Authors>WeihanLi</Authors>
     <Title>AccessControlHelper</Title>
     <Description>AccessControlHelper for asp.net mvc and asp.net core apps</Description>
     <Summary>AccessControlHelper for asp.net mvc and asp.net core apps</Summary>
-    <RepositoryUrl>https://github.com/WeihanLi/AccessControlHelper</RepositoryUrl>
     <PackageProjectUrl>https://github.com/WeihanLi/AccessControlHelper</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AssemblyName>WeihanLi.AspNetMvc.AccessControlHelper</AssemblyName>
     <RootNamespace>WeihanLi.AspNetMvc.AccessControlHelper</RootNamespace>
-    <Copyright>WeihanLi</Copyright>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>access control power authorize authorization Mvc</PackageTags>
+    <PackageTags>access control power permission authorize authorization Mvc</PackageTags>
     <PackageReleaseNotes>
        optimize dependencyInjection
     </PackageReleaseNotes>
