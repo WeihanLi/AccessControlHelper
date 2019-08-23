@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemo
 {
@@ -40,9 +39,7 @@ namespace AccessControlDemo
             services.AddMvc();
 
             services.AddScoped<PermissionsDbContext>();
-            services.AddScoped<IResourceAccessStrategy, ActionAccessStrategy>();
-            services.AddSingleton<IControlAccessStrategy, ControlAccessStrategy>();
-            services.AddAccessControlHelper();
+            services.AddAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>(ServiceLifetime.Scoped, ServiceLifetime.Singleton);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +49,7 @@ namespace AccessControlDemo
 
             app.UseAuthentication();
             // UseAccessControlHelper  for global authorization if needed
-            app.UseAccessControlHelper();
+            //app.UseAccessControlHelper();
 
             app.UseMvc(routes =>
             {

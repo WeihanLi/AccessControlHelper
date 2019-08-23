@@ -12,11 +12,12 @@ namespace AccessControlDemo.Services
 
         public bool IsControlCanAccess(string accessKey)
         {
-            if (!string.IsNullOrWhiteSpace(accessKey) && _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            if (accessKey == "Never")
             {
-                return true;
+                return false;
             }
-            return false;
+
+            return _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
         }
     }
 }

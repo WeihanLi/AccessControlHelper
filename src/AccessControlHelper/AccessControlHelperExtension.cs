@@ -125,6 +125,27 @@ namespace Microsoft.Extensions.DependencyInjection
             return new AccessControlHelperBuilder(services);
         }
 
+        public static IAccessControlHelperBuilder AddAccessControlHelper<TResourceAccessStrategy, TControlStrategy>(this IServiceCollection services, ServiceLifetime resourceAccessStrategyLifetime, ServiceLifetime controlAccessStrategyLifetime)
+            where TResourceAccessStrategy : class, IResourceAccessStrategy
+            where TControlStrategy : class, IControlAccessStrategy
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
+            services.TryAdd(new ServiceDescriptor(typeof(TResourceAccessStrategy), typeof(IResourceAccessStrategy), resourceAccessStrategyLifetime));
+            services.TryAdd(new ServiceDescriptor(typeof(TControlStrategy), typeof(IControlAccessStrategy), controlAccessStrategyLifetime));
+
+            services.AddAuthorization(options => options.AddPolicy("AccessControl", new AuthorizationPolicyBuilder().AddRequirements(new AccessControlRequirement()).Build()));
+            services.AddSingleton<IAuthorizationHandler, AccessControlAuthorizationHandler>();
+
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            DependencyResolver.SetDependencyResolver(services.BuildServiceProvider());
+
+            return new AccessControlHelperBuilder(services);
+        }
+
         public static IAccessControlHelperBuilder AddAccessControlHelper<TResourceAccessStrategy, TControlStrategy>(this IServiceCollection services, Action<AccessControlOptions> configAction)
             where TResourceAccessStrategy : class, IResourceAccessStrategy
             where TControlStrategy : class, IControlAccessStrategy
@@ -135,9 +156,24 @@ namespace Microsoft.Extensions.DependencyInjection
             }
             if (configAction != null)
             {
-                services.Configure(configAction); // configAction
+                services.Configure(configAction);
             }
             return services.AddAccessControlHelper<TResourceAccessStrategy, TControlStrategy>();
+        }
+
+        public static IAccessControlHelperBuilder AddAccessControlHelper<TResourceAccessStrategy, TControlStrategy>(this IServiceCollection services, Action<AccessControlOptions> configAction, ServiceLifetime resourceAccessStrategyLifetime, ServiceLifetime controlAccessStrategyLifetime)
+            where TResourceAccessStrategy : class, IResourceAccessStrategy
+            where TControlStrategy : class, IControlAccessStrategy
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+            if (configAction != null)
+            {
+                services.Configure(configAction);
+            }
+            return services.AddAccessControlHelper<TResourceAccessStrategy, TControlStrategy>(resourceAccessStrategyLifetime, controlAccessStrategyLifetime);
         }
 
         public static IAccessControlHelperBuilder AddAccessControlHelper(this IServiceCollection services)
