@@ -134,8 +134,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            services.TryAdd(new ServiceDescriptor(typeof(TResourceAccessStrategy), typeof(IResourceAccessStrategy), resourceAccessStrategyLifetime));
-            services.TryAdd(new ServiceDescriptor(typeof(TControlStrategy), typeof(IControlAccessStrategy), controlAccessStrategyLifetime));
+            services.TryAdd(new ServiceDescriptor(typeof(IResourceAccessStrategy), typeof(TResourceAccessStrategy), resourceAccessStrategyLifetime));
+            services.TryAdd(new ServiceDescriptor(typeof(IControlAccessStrategy), typeof(TControlStrategy), controlAccessStrategyLifetime));
 
             services.AddAuthorization(options => options.AddPolicy("AccessControl", new AuthorizationPolicyBuilder().AddRequirements(new AccessControlRequirement()).Build()));
             services.AddSingleton<IAuthorizationHandler, AccessControlAuthorizationHandler>();
