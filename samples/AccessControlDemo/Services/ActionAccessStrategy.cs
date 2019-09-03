@@ -11,8 +11,11 @@ namespace AccessControlDemo.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly PermissionsDbContext _dbContext;
 
-        public ActionAccessStrategy(IHttpContextAccessor httpContextAccessor, PermissionsDbContext dbContext) =>
+        public ActionAccessStrategy(IHttpContextAccessor httpContextAccessor, PermissionsDbContext dbContext)
+        {
             _httpContextAccessor = httpContextAccessor;
+            _dbContext = dbContext;
+        }
 
         public bool IsCanAccess(string accessKey)
         {

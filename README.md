@@ -81,7 +81,15 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
     // ConfigureServices
     services.AddAccessControlHelper<ResourceAccessStrategy, ControlAccessStrategy>();
 
-    // Configure
+    // 自己注册服务，如果只用到资源访问，比如只有 API 可以只注册 IResourceAccessStrategy，反之如果只用到视图上的权限控制可以只注册 IControlAccessStrategy
+    //services.TryAddScoped<IResourceAccessStrategy, ActionAccessStrategy>();
+    //services.TryAddSingleton<IControlAccessStrategy, ControlAccessStrategy>();
+    //services.AddAccessControlHelper();
+
+    // 自定义服务生命周期
+    // services.AddAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>(ServiceLifetime.Scoped, ServiceLifetime.Singleton);
+
+    // Configure 中间件，可选，当你需要一个全局的 access control 时使用（会忽略控制器上的 AllowAnonymous）
     // app.UseAccessControlHelper(); // use this only when you want to have a global access control especially for static files
     ```
 

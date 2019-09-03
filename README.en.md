@@ -83,7 +83,18 @@ You can use this to control the permissions to:
     // ConfigureServices
     services.AddAccessControlHelper<ResourceAccessStrategy, ControlAccessStrategy>();
 
-    // Configure
+    // ConfigureServices
+    services.AddAccessControlHelper<ResourceAccessStrategy, ControlAccessStrategy>();
+
+    // register service on your need, you can register IResourceAccessStrategy only when you need control your resource access, or register IControlAccessStrategy when you need to control view component only
+    //services.TryAddScoped<IResourceAccessStrategy, ActionAccessStrategy>();
+    //services.TryAddSingleton<IControlAccessStrategy, ControlAccessStrategy>();
+    //services.AddAccessControlHelper();
+
+    // custom service lieftime
+    // services.AddAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>(ServiceLifetime.Scoped, ServiceLifetime.Singleton);
+
+    // Configure middleware, optional
     // app.UseAccessControlHelper(); // use this only when you want to have a global access control especially for static files
     ```
 

@@ -39,6 +39,11 @@ namespace AccessControlDemo
             services.AddMvc();
 
             services.AddScoped<PermissionsDbContext>();
+
+            //services.TryAddScoped<IResourceAccessStrategy, ActionAccessStrategy>();
+            //services.TryAddSingleton<IControlAccessStrategy, ControlAccessStrategy>();
+            //services.AddAccessControlHelper();
+
             services.AddAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>(ServiceLifetime.Scoped, ServiceLifetime.Singleton);
         }
 
