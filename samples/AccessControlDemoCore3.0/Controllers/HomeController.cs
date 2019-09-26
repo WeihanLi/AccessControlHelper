@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AccessControlDemoCore3._0.Models;
+using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemoCore3._0.Controllers
 {
@@ -23,6 +24,7 @@ namespace AccessControlDemoCore3._0.Controllers
             return View();
         }
 
+        [AccessControl]
         public IActionResult Privacy()
         {
             return View();
