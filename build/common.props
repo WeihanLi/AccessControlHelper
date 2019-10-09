@@ -1,7 +1,7 @@
 <Project>
   <Import Project="./sign.props" />
   <PropertyGroup>        
-    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net45;netcoreapp3.0</TargetFrameworks>
     <PackageIconUrl>https://avatars3.githubusercontent.com/u/7604648</PackageIconUrl>    
     <PackageId>WeihanLi.AspNetMvc.AccessControlHelper</PackageId>    
     <Title>AccessControlHelper</Title>
@@ -13,7 +13,7 @@
     <RootNamespace>WeihanLi.AspNetMvc.AccessControlHelper</RootNamespace>
     <PackageTags>access control power permission authorize authorization Mvc</PackageTags>
     <PackageReleaseNotes>
-       optimize dependencyInjection
+       add support for asp.net core3.0
     </PackageReleaseNotes>
     <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">True</GeneratePackageOnBuild>
   </PropertyGroup>
