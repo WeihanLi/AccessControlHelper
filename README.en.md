@@ -7,9 +7,7 @@
 
 ## Build Status
 
-[![Build status](https://ci.appveyor.com/api/projects/status/ht69a1o8b9ss9v8a?svg=true)](https://ci.appveyor.com/project/WeihanLi/accesscontroldemo)
-
-[![Build Status](https://travis-ci.org/WeihanLi/AccessControlHelper.svg?branch=master)](https://travis-ci.org/WeihanLi/AccessControlHelper)
+[![Build Status](https://weihanli.visualstudio.com/Pipelines/_apis/build/status/WeihanLi.AccessControlHelper?branchName=dev)](https://weihanli.visualstudio.com/Pipelines/_build/latest?definitionId=13&branchName=dev)
 
 ## Intro
 
