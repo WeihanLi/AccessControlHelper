@@ -64,6 +64,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">services</param>
         /// <param name="configAction">config for middleware</param>
         /// <returns>services</returns>
+        [Obsolete("Please use AddAccessControlHelper().AddResourceAccessStrategy() instead")]
         public static IServiceCollection RegisterResourceAccessStrategy<TResourceAccessStrategy>(
             this IServiceCollection services, Action<AccessControlOptions> configAction = null) where TResourceAccessStrategy : class, IResourceAccessStrategy
         {
@@ -83,7 +84,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.TryAddSingleton<IResourceAccessStrategy, TResourceAccessStrategy>();
 
-            DependencyResolver.SetDependencyResolver(services);
             return services;
         }
 
@@ -93,6 +93,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TControlStrategy">TControlStrategy</typeparam>
         /// <param name="services">services</param>
         /// <returns>services</returns>
+        [Obsolete("Please use AddAccessControlHelper().AddControlAccessStrategy() instead")]
         public static IServiceCollection RegisterControlAccessStrategy<TControlStrategy>(
             this IServiceCollection services) where TControlStrategy : class, IControlAccessStrategy
         {
@@ -101,7 +102,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
             services.TryAddSingleton<IControlAccessStrategy, TControlStrategy>();
-            DependencyResolver.SetDependencyResolver(services);
             return services;
         }
 
@@ -120,7 +120,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.TryAddSingleton<IResourceAccessStrategy, TResourceAccessStrategy>();
             services.TryAddSingleton<IControlAccessStrategy, TControlStrategy>();
-            DependencyResolver.SetDependencyResolver(services.BuildServiceProvider());
 
             return new AccessControlHelperBuilder(services);
         }
@@ -141,7 +140,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IAuthorizationHandler, AccessControlAuthorizationHandler>();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            DependencyResolver.SetDependencyResolver(services.BuildServiceProvider());
 
             return new AccessControlHelperBuilder(services);
         }
@@ -186,7 +184,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IAuthorizationHandler, AccessControlAuthorizationHandler>();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            DependencyResolver.SetDependencyResolver(services);
 
             return new AccessControlHelperBuilder(services);
         }
@@ -202,6 +199,39 @@ namespace Microsoft.Extensions.DependencyInjection
                 services.Configure(configAction);
             }
             return services.AddAccessControlHelper();
+        }
+
+        public static IAccessControlHelperBuilder AddResourceAccessStrategy<TResourceAccessStrategy>(this IAccessControlHelperBuilder builder) where TResourceAccessStrategy : IResourceAccessStrategy
+        {
+            return AddResourceAccessStrategy<TResourceAccessStrategy>(builder, ServiceLifetime.Singleton);
+        }
+
+        public static IAccessControlHelperBuilder AddResourceAccessStrategy<TResourceAccessStrategy>(this IAccessControlHelperBuilder builder, ServiceLifetime serviceLifetime) where TResourceAccessStrategy : IResourceAccessStrategy
+        {
+            if (null == builder)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            builder.Services.Add(
+                new ServiceDescriptor(typeof(IResourceAccessStrategy), typeof(TResourceAccessStrategy), serviceLifetime));
+            return builder;
+        }
+
+        public static IAccessControlHelperBuilder AddControlAccessStrategy<TControlAccessStrategy>(this IAccessControlHelperBuilder builder) where TControlAccessStrategy : IControlAccessStrategy
+        {
+            return AddControlAccessStrategy<TControlAccessStrategy>(builder, ServiceLifetime.Singleton);
+        }
+
+        public static IAccessControlHelperBuilder AddControlAccessStrategy<TControlAccessStrategy>(this IAccessControlHelperBuilder builder, ServiceLifetime serviceLifetime) where TControlAccessStrategy : IControlAccessStrategy
+        {
+            if (null == builder)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            builder.Services.Add(new ServiceDescriptor(typeof(IControlAccessStrategy), typeof(TControlAccessStrategy), serviceLifetime));
+            return builder;
         }
     }
 }
