@@ -47,14 +47,14 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
             {
                 IResourceAccessStrategy accessStrategy;
 
-#if NETSTANDARD2_0
-                accessStrategy = filterContext.HttpContext.RequestServices.GetRequiredService<IResourceAccessStrategy>();
+#if NET45
+               accessStrategy = DependencyResolver.Current.ResolveService<IResourceAccessStrategy>();
 #else
-                accessStrategy = DependencyResolver.Current.ResolveService<IResourceAccessStrategy>();
+                accessStrategy = filterContext.HttpContext.RequestServices.GetRequiredService<IResourceAccessStrategy>();
 #endif
 
                 if (accessStrategy == null)
-                    throw new ArgumentException("Action访问策略未初始化，请注册访问策略", nameof(IResourceAccessStrategy));
+                    throw new ArgumentException("IResourceAccessStrategy not initialized，please register your ResourceAccessStrategy", nameof(IResourceAccessStrategy));
 
                 if (!accessStrategy.IsCanAccess(AccessKey))
                 {

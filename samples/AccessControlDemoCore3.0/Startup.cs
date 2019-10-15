@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using AccessControlDemoCore3._0.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +23,13 @@ namespace AccessControlDemoCore3._0
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            services.AddAccessControlHelper<Services.ResourceAccessStrategy, Services.ControlAccessStrategy>();
+            // services.AddAccessControlHelper<Services.ResourceAccessStrategy, Services.ControlAccessStrategy>();
+
+            services.AddAccessControlHelper()
+                .AddResourceAccessStrategy<ResourceAccessStrategy>()
+                .AddControlAccessStrategy<ControlAccessStrategy>()
+                ;
+
             services.AddControllersWithViews();
         }
 
