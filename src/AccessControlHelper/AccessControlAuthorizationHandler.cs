@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
@@ -20,8 +20,9 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AccessControlRequirement requirement)
         {
             var httpContext = _contextAccessor.HttpContext;
+
             var resourceAccessStrategy = httpContext.RequestServices.GetService<IResourceAccessStrategy>();
-            if (resourceAccessStrategy.IsCanAccess(httpContext.Request.Headers.TryGetValue(_accessKeyHeaderName, out var accessKey) ? accessKey.ToString() : ""))
+            if (resourceAccessStrategy.IsCanAccess(httpContext.Request.Headers.TryGetValue(_accessKeyHeaderName, out var accessKey) ? accessKey.ToString() : string.Empty))
             {
                 context.Succeed(requirement);
             }

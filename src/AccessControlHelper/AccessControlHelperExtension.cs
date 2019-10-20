@@ -64,7 +64,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">services</param>
         /// <param name="configAction">config for middleware</param>
         /// <returns>services</returns>
-        [Obsolete("Please use AddAccessControlHelper().AddResourceAccessStrategy() instead")]
+        [Obsolete("Please use AddAccessControlHelper().AddResourceAccessStrategy() instead", true)]
         public static IServiceCollection RegisterResourceAccessStrategy<TResourceAccessStrategy>(
             this IServiceCollection services, Action<AccessControlOptions> configAction = null) where TResourceAccessStrategy : class, IResourceAccessStrategy
         {
@@ -78,11 +78,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 services.Configure(configAction);
             }
 
-            services.AddAuthorization(options => options.AddPolicy("AccessControl", new AuthorizationPolicyBuilder().AddRequirements(new AccessControlRequirement()).Build()));
-            services.AddSingleton<IAuthorizationHandler, AccessControlAuthorizationHandler>();
-
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.TryAddSingleton<IResourceAccessStrategy, TResourceAccessStrategy>();
+            services.AddAccessControlHelper()
+                .AddResourceAccessStrategy<TResourceAccessStrategy>();
 
             return services;
         }
@@ -93,7 +90,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TControlStrategy">TControlStrategy</typeparam>
         /// <param name="services">services</param>
         /// <returns>services</returns>
-        [Obsolete("Please use AddAccessControlHelper().AddControlAccessStrategy() instead")]
+        [Obsolete("Please use AddAccessControlHelper().AddControlAccessStrategy() instead", true)]
         public static IServiceCollection RegisterControlAccessStrategy<TControlStrategy>(
             this IServiceCollection services) where TControlStrategy : class, IControlAccessStrategy
         {
@@ -114,14 +111,10 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            services.AddAuthorization(options => options.AddPolicy("AccessControl", new AuthorizationPolicyBuilder().AddRequirements(new AccessControlRequirement()).Build()));
-            services.AddSingleton<IAuthorizationHandler, AccessControlAuthorizationHandler>();
-
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.TryAddSingleton<IResourceAccessStrategy, TResourceAccessStrategy>();
             services.TryAddSingleton<IControlAccessStrategy, TControlStrategy>();
 
-            return new AccessControlHelperBuilder(services);
+            return services.AddAccessControlHelper();
         }
 
         public static IAccessControlHelperBuilder AddAccessControlHelper<TResourceAccessStrategy, TControlStrategy>(this IServiceCollection services, ServiceLifetime resourceAccessStrategyLifetime, ServiceLifetime controlAccessStrategyLifetime)
@@ -136,12 +129,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAdd(new ServiceDescriptor(typeof(IResourceAccessStrategy), typeof(TResourceAccessStrategy), resourceAccessStrategyLifetime));
             services.TryAdd(new ServiceDescriptor(typeof(IControlAccessStrategy), typeof(TControlStrategy), controlAccessStrategyLifetime));
 
-            services.AddAuthorization(options => options.AddPolicy("AccessControl", new AuthorizationPolicyBuilder().AddRequirements(new AccessControlRequirement()).Build()));
-            services.AddSingleton<IAuthorizationHandler, AccessControlAuthorizationHandler>();
-
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            return new AccessControlHelperBuilder(services);
+            return services.AddAccessControlHelper();
         }
 
         public static IAccessControlHelperBuilder AddAccessControlHelper<TResourceAccessStrategy, TControlStrategy>(this IServiceCollection services, Action<AccessControlOptions> configAction)
@@ -180,7 +168,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 throw new ArgumentNullException(nameof(services));
             }
-            services.AddAuthorization(options => options.AddPolicy("AccessControl", new AuthorizationPolicyBuilder().AddRequirements(new AccessControlRequirement()).Build()));
+            services.AddAuthorization(options => options.AddPolicy(AccessControlHelperConstants.PolicyName, new AuthorizationPolicyBuilder().AddRequirements(new AccessControlRequirement()).Build()));
             services.AddSingleton<IAuthorizationHandler, AccessControlAuthorizationHandler>();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
