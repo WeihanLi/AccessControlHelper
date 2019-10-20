@@ -92,6 +92,12 @@ You can use this to control the permissions to:
     // custom service lieftime
     // services.AddAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>(ServiceLifetime.Scoped, ServiceLifetime.Singleton);
 
+    // asp.net core [recommend]
+    services.AddAccessControlHelper()
+        .AddResourceAccessStrategy<ResourceAccessStrategy>(ServiceLifetime.Scoped)
+        .AddControlAccessStrategy<ControlAccessStrategy>()
+        ;
+
     // Configure middleware, optional
     // app.UseAccessControlHelper(); // use this only when you want to have a global access control especially for static files
     ```
@@ -127,6 +133,7 @@ You can use this to control the permissions to:
     you can use poliy in asp.net core, `Policy` is equal to `[AccessControl]`
 
     ``` csharp
+    // [Authorize(AccessControlHelperConstants.PolicyName)]
     [Authorize("AccessControl")]
     public IActionResult Contact()
     {
