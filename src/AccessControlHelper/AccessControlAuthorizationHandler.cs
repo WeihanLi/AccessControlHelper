@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
-    internal class AccessControlAuthorizationHandler : AuthorizationHandler<AccessControlRequirement>
+    internal sealed class AccessControlAuthorizationHandler : AuthorizationHandler<AccessControlRequirement>
     {
         private readonly string _accessKeyHeaderName;
         private readonly IHttpContextAccessor _contextAccessor;
