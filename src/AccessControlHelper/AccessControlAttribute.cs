@@ -48,7 +48,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
                 IResourceAccessStrategy accessStrategy;
 
 #if NET45
-               accessStrategy = DependencyResolver.Current.ResolveService<IResourceAccessStrategy>();
+                accessStrategy = DependencyResolver.Current.ResolveService<IResourceAccessStrategy>();
 #else
                 accessStrategy = filterContext.HttpContext.RequestServices.GetRequiredService<IResourceAccessStrategy>();
 #endif
@@ -71,11 +71,6 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 
     public static class AjaxRequestExtensions
     {
-        /// <summary>
-        /// 判断是否是Ajax请求
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
         public static bool IsAjaxRequest(this Microsoft.AspNetCore.Http.HttpRequest request)
         {
             return request?.Headers != null && string.Equals(request.Headers["X-Requested-With"], "XMLHttpRequest", StringComparison.OrdinalIgnoreCase);

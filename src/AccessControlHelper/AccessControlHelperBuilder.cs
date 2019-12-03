@@ -7,7 +7,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         IServiceCollection Services { get; }
     }
 
-    internal class AccessControlHelperBuilder : IAccessControlHelperBuilder
+    internal sealed class AccessControlHelperBuilder : IAccessControlHelperBuilder
     {
         public IServiceCollection Services { get; }
 

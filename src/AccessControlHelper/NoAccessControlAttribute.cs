@@ -22,7 +22,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         }
     }
 #else
-    public class NoAccessControlAttribute : Attribute, IAuthorizationFilter
+    public sealed class NoAccessControlAttribute : Attribute, IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
