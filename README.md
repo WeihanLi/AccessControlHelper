@@ -87,6 +87,12 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
     // 自定义服务生命周期
     // services.AddAccessControlHelper<ActionAccessStrategy, ControlAccessStrategy>(ServiceLifetime.Scoped, ServiceLifetime.Singleton);
 
+    // asp.net core 【推荐用法】
+    services.AddAccessControlHelper()
+        .AddResourceAccessStrategy<ResourceAccessStrategy>(ServiceLifetime.Scoped)
+        .AddControlAccessStrategy<ControlAccessStrategy>()
+        ;
+
     // Configure 中间件，可选，当你需要一个全局的 access control 时使用（会忽略控制器上的 AllowAnonymous）
     // app.UseAccessControlHelper(); // use this only when you want to have a global access control especially for static files
     ```
@@ -124,6 +130,7 @@ asp.net core 支持的更多一些，asp.net core 可以使用  TagHelper 来控
     在 asp.net core 中你也可以设置 `Policy` 和直接使用 `[AccessControl]` 方法一致
 
     ``` csharp
+    // [Authorize(AccessControlHelperConstants.PolicyName)]
     [Authorize("AccessControl")]
     public IActionResult Contact()
     {

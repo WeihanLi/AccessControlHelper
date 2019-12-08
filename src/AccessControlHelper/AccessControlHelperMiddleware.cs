@@ -10,7 +10,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
     /// <summary>
     /// AccessControlHelperMiddleware
     /// </summary>
-    public class AccessControlHelperMiddleware
+    internal sealed class AccessControlHelperMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;

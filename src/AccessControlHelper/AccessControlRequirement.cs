@@ -2,7 +2,7 @@
 
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
-    public class AccessControlRequirement : IAuthorizationRequirement
+    public sealed class AccessControlRequirement : IAuthorizationRequirement
     {
         public AccessControlRequirement()
         {
