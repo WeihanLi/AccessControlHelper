@@ -17,7 +17,6 @@ steps:
     packageType: sdk
     version: 3.1.100
 
-steps:
 - script: dotnet --info
   displayName: 'dotnet info'
 
