@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <Import Project="../../build/common.props" />
   <ItemGroup>
     <PackageReference Include="WeihanLi.Common" Version="1.0.26" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Version="2.0.0" Include="Microsoft.AspNetCore.Mvc" />
+    <PackageReference Version="[2.0.0, 3.0.0)" Include="Microsoft.AspNetCore.Mvc" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0' OR '$(TargetFramework)' == 'netcoreapp3.1'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
