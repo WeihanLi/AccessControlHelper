@@ -17,7 +17,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 #if NET45
     public sealed class NoAccessControlAttribute : FilterAttribute, IAuthorizationFilter
     {
-        public void OnAuthorization(AuthorizationContext filterContext)
+        public void OnAuthorization(AuthorizationContext context)
         {
         }
     }

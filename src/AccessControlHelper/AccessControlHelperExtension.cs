@@ -57,51 +57,6 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        /// <summary>
-        /// Register resource access strategy
-        /// </summary>
-        /// <typeparam name="TResourceAccessStrategy">TControlStrategy</typeparam>
-        /// <param name="services">services</param>
-        /// <param name="configAction">config for middleware</param>
-        /// <returns>services</returns>
-        [Obsolete("Please use AddAccessControlHelper().AddResourceAccessStrategy() instead", true)]
-        public static IServiceCollection RegisterResourceAccessStrategy<TResourceAccessStrategy>(
-            this IServiceCollection services, Action<AccessControlOptions> configAction = null) where TResourceAccessStrategy : class, IResourceAccessStrategy
-        {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
-            if (configAction != null)
-            {
-                services.Configure(configAction);
-            }
-
-            services.AddAccessControlHelper()
-                .AddResourceAccessStrategy<TResourceAccessStrategy>();
-
-            return services;
-        }
-
-        /// <summary>
-        /// Register view control access strategy
-        /// </summary>
-        /// <typeparam name="TControlStrategy">TControlStrategy</typeparam>
-        /// <param name="services">services</param>
-        /// <returns>services</returns>
-        [Obsolete("Please use AddAccessControlHelper().AddControlAccessStrategy() instead", true)]
-        public static IServiceCollection RegisterControlAccessStrategy<TControlStrategy>(
-            this IServiceCollection services) where TControlStrategy : class, IControlAccessStrategy
-        {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-            services.TryAddSingleton<IControlAccessStrategy, TControlStrategy>();
-            return services;
-        }
-
         public static IAccessControlHelperBuilder AddAccessControlHelper<TResourceAccessStrategy, TControlStrategy>(this IServiceCollection services)
             where TResourceAccessStrategy : class, IResourceAccessStrategy
             where TControlStrategy : class, IControlAccessStrategy
