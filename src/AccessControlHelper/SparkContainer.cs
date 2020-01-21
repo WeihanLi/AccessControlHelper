@@ -7,9 +7,7 @@ using System.Web.Mvc;
 
 #else
 
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.DependencyInjection;
 
 #endif
 
@@ -44,12 +42,6 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         }
 
         public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
         {
             if (!_disposed)
             {

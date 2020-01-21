@@ -1,31 +1,32 @@
 ﻿using System;
-using WeihanLi.Common;
 
 #if NET45
+using WeihanLi.Common;
+
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     public static class AccessControlHelper
     {
-        public static void RegisterAccessControlHelper<TResourceStragety, TControlStragety>(Func<IServiceProvider> registerFunc)
-            where TResourceStragety : class, IResourceAccessStrategy
-            where TControlStragety : class, IControlAccessStrategy
+        public static void RegisterAccessControlHelper<TResourceStrategy, TControlStrategy>(Func<IServiceProvider> registerFunc)
+            where TResourceStrategy : class, IResourceAccessStrategy
+            where TControlStrategy : class, IControlAccessStrategy
         {
             DependencyResolver.SetDependencyResolver(registerFunc());
         }
 
-        public static void RegisterAccessControlHelper<TResourceStragety, TControlStragety>(Func<Type, object> getServiceFunc)
-            where TResourceStragety : class, IResourceAccessStrategy
-            where TControlStragety : class, IControlAccessStrategy
+        public static void RegisterAccessControlHelper<TResourceStrategy, TControlStrategy>(Func<Type, object> getServiceFunc)
+            where TResourceStrategy : class, IResourceAccessStrategy
+            where TControlStrategy : class, IControlAccessStrategy
         {
             DependencyResolver.SetDependencyResolver(getServiceFunc);
         }
 
-        public static void RegisterAccessControlHelper<TResourceStragety, TControlStragety>(Action<Type, Type> registerTypeAsAction, Func<Type, object> getServiceFunc)
-            where TResourceStragety : class, IResourceAccessStrategy
-            where TControlStragety : class, IControlAccessStrategy
+        public static void RegisterAccessControlHelper<TResourceStrategy, TControlStrategy>(Action<Type, Type> registerTypeAsAction, Func<Type, object> getServiceFunc)
+            where TResourceStrategy : class, IResourceAccessStrategy
+            where TControlStrategy : class, IControlAccessStrategy
         {
-            registerTypeAsAction(typeof(TResourceStragety), typeof(IResourceAccessStrategy));
-            registerTypeAsAction(typeof(TControlStragety), typeof(IControlAccessStrategy));
+            registerTypeAsAction(typeof(TResourceStrategy), typeof(IResourceAccessStrategy));
+            registerTypeAsAction(typeof(TControlStrategy), typeof(IControlAccessStrategy));
 
             DependencyResolver.SetDependencyResolver(getServiceFunc);
         }

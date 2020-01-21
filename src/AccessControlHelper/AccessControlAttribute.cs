@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Reflection;
-using WeihanLi.Common;
-using DependencyResolver = WeihanLi.Common.DependencyResolver;
 
 #if NET45
 
 using System.Web.Mvc;
+using WeihanLi.Common;
+using DependencyResolver = WeihanLi.Common.DependencyResolver;
 
 #else
 
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 #endif
 
