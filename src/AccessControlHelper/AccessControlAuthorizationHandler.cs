@@ -8,21 +8,21 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     internal sealed class AccessControlAuthorizationHandler : AuthorizationHandler<AccessControlRequirement>
     {
-        private readonly string _accessKeyHeaderName;
+        private readonly AccessControlOptions _options;
         private readonly IHttpContextAccessor _contextAccessor;
 
         public AccessControlAuthorizationHandler(IHttpContextAccessor contextAccessor, IOptions<AccessControlOptions> options)
         {
             _contextAccessor = contextAccessor;
-            _accessKeyHeaderName = options.Value.AccessKeyHeaderName;
+            _options = options.Value;
         }
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AccessControlRequirement requirement)
         {
             var httpContext = _contextAccessor.HttpContext;
-
+            var accessKey = _options.AccessKeyResolver?.Invoke(httpContext);
             var resourceAccessStrategy = httpContext.RequestServices.GetService<IResourceAccessStrategy>();
-            if (resourceAccessStrategy.IsCanAccess(httpContext.Request.Headers.TryGetValue(_accessKeyHeaderName, out var accessKey) ? accessKey.ToString() : string.Empty))
+            if (resourceAccessStrategy.IsCanAccess(accessKey))
             {
                 context.Succeed(requirement);
             }

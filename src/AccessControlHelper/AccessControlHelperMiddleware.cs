@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Threading.Tasks;
 
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
@@ -39,12 +39,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
         /// <returns>A task that represents the execution of this middleware.</returns>
         public Task Invoke(HttpContext context)
         {
-            var accessKey = string.Empty;
-
-            if (context.Request.Headers.TryGetValue(_option.AccessKeyHeaderName, out var accessKeyVal))
-            {
-                accessKey = accessKeyVal.ToString();
-            }
+            var accessKey = _option.AccessKeyResolver?.Invoke(context);
 
             var accessStrategy = context.RequestServices.GetService<IResourceAccessStrategy>();
             if (accessStrategy.IsCanAccess(accessKey))
