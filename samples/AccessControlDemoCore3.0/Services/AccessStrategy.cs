@@ -15,6 +15,11 @@ namespace AccessControlDemoCore3._0.Services
 
         public bool IsCanAccess(string accessKey)
         {
+            if ("Never".Equals(accessKey, System.StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
             var httpContext = _httpContextAccessor.HttpContext;
 
             return httpContext.User.Identity.IsAuthenticated;

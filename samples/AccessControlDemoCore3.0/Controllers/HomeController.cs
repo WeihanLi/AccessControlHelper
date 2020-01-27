@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AccessControlDemoCore3._0.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using AccessControlDemoCore3._0.Models;
+using System.Diagnostics;
 using WeihanLi.AspNetMvc.AccessControlHelper;
 
 namespace AccessControlDemoCore3._0.Controllers
@@ -22,6 +19,12 @@ namespace AccessControlDemoCore3._0.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        [Authorize(Policy = AccessControlHelperConstants.PolicyName)]
+        public IActionResult Test()
+        {
+            return Content("hahahaha");
         }
 
         [AccessControl]
