@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 namespace AccessControlDemoCore3._0
@@ -25,11 +26,17 @@ namespace AccessControlDemoCore3._0
 
             // services.AddAccessControlHelper<Services.ResourceAccessStrategy, Services.ControlAccessStrategy>();
 
-            services.AddAccessControlHelper()
+            services.AddAccessControlHelper(options =>
+                {
+                    options.UseAsDefaultPolicy = true;
+                    options.AccessKeyResolver = context => context.RequestServices
+                        .GetRequiredService<AccessKeyResolver>()
+                        .GetAccessKey(context.Request.Path);
+                })
                 .AddResourceAccessStrategy<ResourceAccessStrategy>()
                 .AddControlAccessStrategy<ControlAccessStrategy>()
                 ;
-
+            services.TryAddSingleton<AccessKeyResolver>();
             services.AddControllersWithViews();
         }
 

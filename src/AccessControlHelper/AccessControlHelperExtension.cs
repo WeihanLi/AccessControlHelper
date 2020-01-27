@@ -1,31 +1,32 @@
 ﻿using System;
-using WeihanLi.Common;
 
 #if NET45
+using WeihanLi.Common;
+
 namespace WeihanLi.AspNetMvc.AccessControlHelper
 {
     public static class AccessControlHelper
     {
-        public static void RegisterAccessControlHelper<TResourceStragety, TControlStragety>(Func<IServiceProvider> registerFunc)
-            where TResourceStragety : class, IResourceAccessStrategy
-            where TControlStragety : class, IControlAccessStrategy
+        public static void RegisterAccessControlHelper<TResourceStrategy, TControlStrategy>(Func<IServiceProvider> registerFunc)
+            where TResourceStrategy : class, IResourceAccessStrategy
+            where TControlStrategy : class, IControlAccessStrategy
         {
             DependencyResolver.SetDependencyResolver(registerFunc());
         }
 
-        public static void RegisterAccessControlHelper<TResourceStragety, TControlStragety>(Func<Type, object> getServiceFunc)
-            where TResourceStragety : class, IResourceAccessStrategy
-            where TControlStragety : class, IControlAccessStrategy
+        public static void RegisterAccessControlHelper<TResourceStrategy, TControlStrategy>(Func<Type, object> getServiceFunc)
+            where TResourceStrategy : class, IResourceAccessStrategy
+            where TControlStrategy : class, IControlAccessStrategy
         {
             DependencyResolver.SetDependencyResolver(getServiceFunc);
         }
 
-        public static void RegisterAccessControlHelper<TResourceStragety, TControlStragety>(Action<Type, Type> registerTypeAsAction, Func<Type, object> getServiceFunc)
-            where TResourceStragety : class, IResourceAccessStrategy
-            where TControlStragety : class, IControlAccessStrategy
+        public static void RegisterAccessControlHelper<TResourceStrategy, TControlStrategy>(Action<Type, Type> registerTypeAsAction, Func<Type, object> getServiceFunc)
+            where TResourceStrategy : class, IResourceAccessStrategy
+            where TControlStrategy : class, IControlAccessStrategy
         {
-            registerTypeAsAction(typeof(TResourceStragety), typeof(IResourceAccessStrategy));
-            registerTypeAsAction(typeof(TControlStragety), typeof(IControlAccessStrategy));
+            registerTypeAsAction(typeof(TResourceStrategy), typeof(IResourceAccessStrategy));
+            registerTypeAsAction(typeof(TControlStrategy), typeof(IControlAccessStrategy));
 
             DependencyResolver.SetDependencyResolver(getServiceFunc);
         }
@@ -117,18 +118,45 @@ namespace Microsoft.Extensions.DependencyInjection
             return services.AddAccessControlHelper<TResourceAccessStrategy, TControlStrategy>(resourceAccessStrategyLifetime, controlAccessStrategyLifetime);
         }
 
-        public static IAccessControlHelperBuilder AddAccessControlHelper(this IServiceCollection services)
+        public static IAccessControlHelperBuilder AddAccessControlHelper(this IServiceCollection services, bool useAsDefaultPolicy)
         {
             if (services == null)
             {
                 throw new ArgumentNullException(nameof(services));
             }
-            services.AddAuthorization(options => options.AddPolicy(AccessControlHelperConstants.PolicyName, new AuthorizationPolicyBuilder().AddRequirements(new AccessControlRequirement()).Build()));
+
+            if (useAsDefaultPolicy)
+            {
+                services.AddAuthorization(options =>
+                {
+                    var accessControlPolicy = new AuthorizationPolicyBuilder()
+                        .AddRequirements(new AccessControlRequirement())
+                        .Build();
+                    options.AddPolicy(AccessControlHelperConstants.PolicyName, accessControlPolicy);
+                    options.DefaultPolicy = accessControlPolicy;
+                });
+            }
+            else
+            {
+                services.AddAuthorization(options =>
+                {
+                    var accessControlPolicy = new AuthorizationPolicyBuilder()
+                        .AddRequirements(new AccessControlRequirement())
+                        .Build();
+                    options.AddPolicy(AccessControlHelperConstants.PolicyName, accessControlPolicy);
+                });
+            }
+
             services.AddSingleton<IAuthorizationHandler, AccessControlAuthorizationHandler>();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             return new AccessControlHelperBuilder(services);
+        }
+
+        public static IAccessControlHelperBuilder AddAccessControlHelper(this IServiceCollection services)
+        {
+            return AddAccessControlHelper(services, false);
         }
 
         public static IAccessControlHelperBuilder AddAccessControlHelper(this IServiceCollection services, Action<AccessControlOptions> configAction)
@@ -137,11 +165,17 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 throw new ArgumentNullException(nameof(services));
             }
+
+            var useAsDefaultPolicy = false;
             if (configAction != null)
             {
+                var option = new AccessControlOptions();
+                configAction.Invoke(option);
+                useAsDefaultPolicy = option.UseAsDefaultPolicy;
+
                 services.Configure(configAction);
             }
-            return services.AddAccessControlHelper();
+            return services.AddAccessControlHelper(useAsDefaultPolicy);
         }
 
         public static IAccessControlHelperBuilder AddResourceAccessStrategy<TResourceAccessStrategy>(this IAccessControlHelperBuilder builder) where TResourceAccessStrategy : IResourceAccessStrategy

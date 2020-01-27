@@ -1,9 +1,7 @@
 ﻿#if NET45
-using System.Web;
 using System.Web.Mvc;
 #else
 
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 #endif

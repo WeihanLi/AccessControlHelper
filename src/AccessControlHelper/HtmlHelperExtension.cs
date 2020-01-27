@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using WeihanLi.Common;
-using DependencyResolver = WeihanLi.Common.DependencyResolver;
 
 #if NET45
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using WeihanLi.Common;
+using DependencyResolver = WeihanLi.Common.DependencyResolver;
+
 #else
 
 using Microsoft.AspNetCore.Html;
