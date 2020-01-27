@@ -13,7 +13,7 @@
     <RootNamespace>WeihanLi.AspNetMvc.AccessControlHelper</RootNamespace>
     <PackageTags>access control power permission authorize authorization Mvc</PackageTags>
     <PackageReleaseNotes>
-       remove obsolete code
+       add AccessKeyResolver
     </PackageReleaseNotes>
     <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">True</GeneratePackageOnBuild>
   </PropertyGroup>
