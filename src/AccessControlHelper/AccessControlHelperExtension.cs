@@ -118,18 +118,45 @@ namespace Microsoft.Extensions.DependencyInjection
             return services.AddAccessControlHelper<TResourceAccessStrategy, TControlStrategy>(resourceAccessStrategyLifetime, controlAccessStrategyLifetime);
         }
 
-        public static IAccessControlHelperBuilder AddAccessControlHelper(this IServiceCollection services)
+        public static IAccessControlHelperBuilder AddAccessControlHelper(this IServiceCollection services, bool useAsDefaultPolicy)
         {
             if (services == null)
             {
                 throw new ArgumentNullException(nameof(services));
             }
-            services.AddAuthorization(options => options.AddPolicy(AccessControlHelperConstants.PolicyName, new AuthorizationPolicyBuilder().AddRequirements(new AccessControlRequirement()).Build()));
+
+            if (useAsDefaultPolicy)
+            {
+                services.AddAuthorization(options =>
+                {
+                    var accessControlPolicy = new AuthorizationPolicyBuilder()
+                        .AddRequirements(new AccessControlRequirement())
+                        .Build();
+                    options.AddPolicy(AccessControlHelperConstants.PolicyName, accessControlPolicy);
+                    options.DefaultPolicy = accessControlPolicy;
+                });
+            }
+            else
+            {
+                services.AddAuthorization(options =>
+                {
+                    var accessControlPolicy = new AuthorizationPolicyBuilder()
+                        .AddRequirements(new AccessControlRequirement())
+                        .Build();
+                    options.AddPolicy(AccessControlHelperConstants.PolicyName, accessControlPolicy);
+                });
+            }
+
             services.AddSingleton<IAuthorizationHandler, AccessControlAuthorizationHandler>();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             return new AccessControlHelperBuilder(services);
+        }
+
+        public static IAccessControlHelperBuilder AddAccessControlHelper(this IServiceCollection services)
+        {
+            return AddAccessControlHelper(services, false);
         }
 
         public static IAccessControlHelperBuilder AddAccessControlHelper(this IServiceCollection services, Action<AccessControlOptions> configAction)
@@ -138,11 +165,17 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 throw new ArgumentNullException(nameof(services));
             }
+
+            var useAsDefaultPolicy = false;
             if (configAction != null)
             {
+                var option = new AccessControlOptions();
+                configAction.Invoke(option);
+                useAsDefaultPolicy = option.UseAsDefaultPolicy;
+
                 services.Configure(configAction);
             }
-            return services.AddAccessControlHelper();
+            return services.AddAccessControlHelper(useAsDefaultPolicy);
         }
 
         public static IAccessControlHelperBuilder AddResourceAccessStrategy<TResourceAccessStrategy>(this IAccessControlHelperBuilder builder) where TResourceAccessStrategy : IResourceAccessStrategy

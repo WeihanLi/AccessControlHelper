@@ -21,7 +21,8 @@ namespace AccessControlDemoCore3._0.Controllers
             return View();
         }
 
-        [Authorize(Policy = AccessControlHelperConstants.PolicyName)]
+        [Authorize]
+        //[Authorize(Policy = AccessControlHelperConstants.PolicyName)]
         public IActionResult Test()
         {
             return Content("hahahaha");

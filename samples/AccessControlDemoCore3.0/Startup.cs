@@ -28,6 +28,7 @@ namespace AccessControlDemoCore3._0
 
             services.AddAccessControlHelper(options =>
                 {
+                    options.UseAsDefaultPolicy = true;
                     options.AccessKeyResolver = context => context.RequestServices
                         .GetRequiredService<AccessKeyResolver>()
                         .GetAccessKey(context.Request.Path);
