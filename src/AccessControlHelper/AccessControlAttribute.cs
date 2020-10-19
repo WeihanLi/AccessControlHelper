@@ -44,7 +44,7 @@ namespace WeihanLi.AspNetMvc.AccessControlHelper
 
             if (!isDefinedNoControl)
             {
-                IResourceAccessStrategy accessStrategy;
+                IResourceAccessStrategy accessStrategy = null;
 
 #if NET45
                 accessStrategy = DependencyResolver.Current.ResolveService<IResourceAccessStrategy>();
