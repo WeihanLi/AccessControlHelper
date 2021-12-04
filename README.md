@@ -3,6 +3,8 @@
 [![WeihanLi.AspNetMvc.AccessControlHelper](https://img.shields.io/nuget/v/WeihanLi.AspNetMvc.AccessControlHelper.svg)](http://www.nuget.org/packages/WeihanLi.AspNetMvc.AccessControlHelper/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/WeihanLi.AspNetMvc.AccessControlHelper.svg)](http://www.nuget.org/packages/WeihanLi.AspNetMvc.AccessControlHelper/)
 
+> Moved to <https://github.com/WeihanLi/WeihanLi.Web.Extensions/tree/dev/src/WeihanLi.Web.Extensions/AccessControlHelper>, please use `WeihanLi.Web.Extensions` instead
+
 ## [English](README.en.md)
 
 ## Build Status
